@@ -1,0 +1,23 @@
+<script lang="ts">
+	import { AppBar } from "@skeletonlabs/skeleton";
+	import { pb, currentUser } from "$lib/pocketbase";
+	import { goto } from "$app/navigation";
+	async function logout() {
+		pb.authStore.clear();
+		await goto("/");
+	}
+</script>
+
+<AppBar>
+	<svelte:fragment slot="lead">
+		<a href="/"><strong class="text-xl uppercase">ARISTA</strong></a>
+	</svelte:fragment>
+	<svelte:fragment slot="trail">
+		{#if !$currentUser}
+			<a href="/register">Register</a>
+			<a href="/login">Login</a>
+		{:else}
+			<a href="/" on:click={logout}>Logout</a>
+		{/if}
+	</svelte:fragment>
+</AppBar>
