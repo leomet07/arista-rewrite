@@ -13,9 +13,14 @@ const schema = z.object({
 export const load = (async ({ params, locals }) => {
 	// Server API:
 	const form = await superValidate(schema);
+	if (!locals.user) {
+		// If not logged in, return nothing
+		return { db_service_hours: null, form };
+	}
+
 	const service_hours = await locals.pb
 		.collection("service_hours")
-		.getFullList({ sort: "-created" });
+		.getFullList({ sort: "-created", filter: `parent_user.id="${locals.user.id}"` });
 
 	const serialized_service_hours = structuredClone(
 		service_hours as unknown

@@ -9,7 +9,12 @@
 
 <main class="container mx-auto p-8 space-y-8">
 	{#if $currentUser}
-		<form method="POST">
+		<hgroup>
+			<h1 class="h1">Your event credits.</h1>
+			<p class="h5">Input your service hours here.</p>
+		</hgroup>
+
+		<form method="POST" class="card p-4 w-full text-token space-y-4">
 			<input
 				class="input"
 				type="text"
@@ -45,47 +50,23 @@
 			<input type="submit" class="btn variant-filled" value="Create Service Hours" />
 		</form>
 
-		<h1 class="h1">Hello Skeleton</h1>
-		<p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-		<section>
-			<a class="btn variant-filled-primary" href="https://kit.svelte.dev/">SvelteKit</a>
-			<a class="btn variant-filled-secondary" href="https://tailwindcss.com/">Tailwind</a>
-			<a class="btn variant-filled-tertiary" href="https://github.com/">GitHub</a>
-		</section>
-
-		<section>
-			{#each data.db_service_hours as item}
-				<div>
-					<h2>{item.title}</h2>
-					<h3>{item.num_of_hours} hours</h3>
-					<p>id: {item.id}</p>
-					{#if item.description}
-						<p>{item.description}</p>
-					{/if}
-				</div>
-			{/each}
-		</section>
-
-		<!-- Error popup -->
-		<aside class="alert variant-filled-error">
-			<!-- Icon -->
-			<div>(icon)</div>
-			<!-- Message -->
-			<div class="alert-message text">
-				<h3 class="h3">(title)</h3>
-				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum aperiam minus iste maxime
-					ipsam ducimus unde ullam officiis illo, culpa voluptates, tenetur vero architecto
-					voluptatibus provident a dignissimos dolorem inventore!
-				</p>
-			</div>
-			<!-- Actions -->
-			<div class="alert-actions">(buttons)</div>
-		</aside>
+		{#if data.db_service_hours}
+			<section class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
+				{#each data.db_service_hours as item}
+					<div class="card p-4">
+						<h3 class="h3">{item.title}</h3>
+						<p class="font-bold">{item.num_of_hours} hours</p>
+						{#if item.description}
+							<p>{item.description}</p>
+						{/if}
+					</div>
+				{/each}
+			</section>
+		{/if}
 	{:else}
-		<h2>
+		<h3 class="h3">
 			You aren't logged in.
-			<a href="/login" id="login_request">Login please.</a>
-		</h2>
+			<a class="anchor" href="/login">Login please.</a>
+		</h3>
 	{/if}
 </main>
