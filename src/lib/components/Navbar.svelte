@@ -2,6 +2,7 @@
 	import { AppBar } from "@skeletonlabs/skeleton";
 	import { pb, currentUser } from "$lib/pocketbase";
 	import { goto } from "$app/navigation";
+	import { LightSwitch } from "@skeletonlabs/skeleton";
 	async function logout() {
 		pb.authStore.clear();
 		await goto("/");
@@ -19,5 +20,6 @@
 		{:else}
 			<a href="/" on:click={logout}>Logout</a>
 		{/if}
+		<LightSwitch />
 	</svelte:fragment>
 </AppBar>
