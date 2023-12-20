@@ -3,6 +3,8 @@
 	import { pb } from "$lib/pocketbase";
 	import { superForm } from "sveltekit-superforms/client";
 	import type { PageData } from "./$types";
+	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
+
 	export let data: PageData;
 	const { form, errors, constraints } = superForm(data.form);
 </script>
@@ -12,6 +14,8 @@
 		<h1 class="h1">Sign in</h1>
 		<p>Sign in to ARISTA with your Stuy.edu email!</p>
 	</hgroup>
+
+	<ErrorComponent errors={$errors._errors} />
 
 	<form
 		method="POST"

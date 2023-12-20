@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 import { z } from "zod";
-import { superValidate } from "sveltekit-superforms/server";
+import { setError, superValidate } from "sveltekit-superforms/server";
 
 const LoginPageSchema = z.object({
 	email: z.string().email(),
@@ -20,11 +20,9 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection("users").authWithPassword(form.data.email, form.data.password);
-		} catch (e) {
-			console.error("Could not login", JSON.stringify(e));
-			throw e;
+		} catch (error: unknown) {
+			return setError(form, "", "Incorrect email or password.");
 		}
-
 		throw redirect(303, "/");
 	}
 };

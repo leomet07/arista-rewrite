@@ -1,8 +1,9 @@
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
-import { superValidate } from "sveltekit-superforms/server";
+import { superValidate, setError } from "sveltekit-superforms/server";
 import { z } from "zod";
 import type { RecievedUser } from "$lib/db_types";
+import handleError from "$lib/handleError";
 
 const RegisterPageSchema = z
 	.object({
@@ -33,8 +34,19 @@ export const actions: Actions = {
 			// Again, return { form } and things will just work.
 			return fail(400, { form });
 		}
-		await locals.pb.collection<RecievedUser>("users").create(form.data); // create user
-		await locals.pb.collection("users").authWithPassword(form.data.email, form.data.password); // login
+
+		try {
+			await locals.pb.collection("users").getFirstListItem(`email="${form.data.email}"`);
+		} catch (error: unknown) {
+			return setError(form, "", "An account with that email already exists.");
+		}
+
+		try {
+			await locals.pb.collection<RecievedUser>("users").create(form.data); // create user
+			await locals.pb.collection("users").authWithPassword(form.data.email, form.data.password); // login
+		} catch (error: unknown) {
+			return handleError(error, form);
+		}
 		throw redirect(303, "/");
 		// return { form };
 	}
