@@ -9,8 +9,8 @@
 
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
-		<h1>Sign in</h1>
-		<h2>Sign in to ARISTA with your Stuy.edu email!</h2>
+		<h1 class="h1">Sign in</h1>
+		<p>Sign in to ARISTA with your Stuy.edu email!</p>
 	</hgroup>
 
 	<form
@@ -21,6 +21,7 @@
 				await applyAction(result);
 			};
 		}}
+		class="card p-4 w-full text-token space-y-4"
 	>
 		<label for="email">Enter your email:</label>
 		<input
@@ -48,7 +49,7 @@
 
 		<input type="submit" class="btn variant-filled" value="Log in" />
 		<p id="suggest_register">
-			Don't have an account? <a href="/register">Register for one.</a>
+			Don't have an account? <a href="/register" class="anchor">Register for one.</a>
 		</p>
 	</form>
 </main>

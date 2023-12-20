@@ -9,8 +9,8 @@
 
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
-		<h1>Register</h1>
-		<h2>Register to ARISTA with your Stuy.edu email!</h2>
+		<h1 class="h1">Register</h1>
+		<p>Register to ARISTA with your Stuy.edu email!</p>
 	</hgroup>
 	<form
 		method="POST"
@@ -20,6 +20,7 @@
 				await applyAction(result);
 			};
 		}}
+		class="card p-4 w-full text-token space-y-4"
 	>
 		<label for="name">Enter your name:</label>
 		<input
