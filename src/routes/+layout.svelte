@@ -4,6 +4,11 @@
 	import { AppShell } from "@skeletonlabs/skeleton";
 </script>
 
+<svelte:head>
+	<title>Stuyvesant ARISTA</title>
+	<!-- TODO: Add meta description tag <= 160 chars -->
+</svelte:head>
+
 <!-- App Shell -->
 <AppShell>
 	<svelte:fragment slot="header">
