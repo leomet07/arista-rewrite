@@ -37,9 +37,9 @@ export const actions: Actions = {
 
 		try {
 			await locals.pb.collection("users").getFirstListItem(`email="${form.data.email}"`);
-		} catch (error: unknown) {
+			// If it does not error, then email is taken
 			return setError(form, "", "An account with that email already exists.");
-		}
+		} catch (error: unknown) {}
 
 		try {
 			await locals.pb.collection<RecievedUser>("users").create(form.data); // create user
