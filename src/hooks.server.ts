@@ -1,5 +1,5 @@
 import { pb } from "$lib/pocketbase";
-import type { Handle } from "@sveltejs/kit";
+import { redirect, type Handle } from "@sveltejs/kit";
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// before
@@ -14,6 +14,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 	event.locals.pb = pb;
 	event.locals.user = structuredClone(pb.authStore.model);
+
+	if (event.url.pathname.startsWith("/events")) {
+		if (!event.locals.user) { // if not logged in, redirect
+			// TODO: ADD HUNTABYTE-INSPIRED REDIRECT SYSTEM
+			throw redirect(303, "/login");
+		}
+	}
 
 	const response = await resolve(event);
 

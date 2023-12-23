@@ -20,6 +20,7 @@
 			<a href="/register">Register</a>
 			<a href="/login">Login</a>
 		{:else}
+			<a href="/events">Events</a>
 			<a href="/" on:click={logout}>Logout</a>
 		{/if}
 	</svelte:fragment>
