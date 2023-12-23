@@ -1,5 +1,12 @@
-import type { RecordModel } from "pocketbase";
 import { z } from "zod";
+
+type StrictRecordModel = {
+	id: string;
+	created: string;
+	updated: string;
+	collectionId: string;
+	collectionName: string;
+} // Same as pocketbase's record model, without the [key: string] : any
 
 export const ServiceHourSchema = z.object({
 	title: z.string().min(3).max(64),
@@ -26,6 +33,6 @@ export const EventSchema = z.object({
 });
 
 
-export type RecievedServiceHour = z.infer<typeof ServiceHourSchema> & RecordModel;
-
-export type RecievedUser = z.infer<typeof UserSchema> & RecordModel;
+export type RecievedServiceHour = z.infer<typeof ServiceHourSchema> & StrictRecordModel;
+export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
+export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel;
