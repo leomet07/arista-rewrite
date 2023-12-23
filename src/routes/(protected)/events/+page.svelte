@@ -13,11 +13,9 @@
 	<section class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
 		{#each data.events as item}
 			<div class="card p-4">
-				<h3 class="h3">{item.name}</h3>
+				<h3 class="h3 anchor"><a class="ancor" href={`/events/view/${item.id}`}>{item.name}</a></h3>
 				<p class="font-bold">{item.start_time.toDateString()}</p>
-				{#if item.description}
-					<p>{item.description}</p>
-				{/if}
+				<p>{item.description}</p>
 			</div>
 		{/each}
 	</section>
