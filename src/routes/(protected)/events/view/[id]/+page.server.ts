@@ -27,14 +27,14 @@ export const load = (async ({ params, locals }) => {
         ...serialized_event,
         start_time: new Date(serialized_event.start_time),
         end_time: new Date(serialized_event.end_time)
-    }
+    };
 
     let is_current_user_signed_up = serialized_event_with_time.signed_up.includes(locals?.user?.id);
 
     return {
         event: serialized_event_with_time,
         is_current_user_signed_up
-    }
+    };
 }) satisfies PageServerLoad;
 
 export const actions = {
@@ -42,7 +42,7 @@ export const actions = {
         const event_id = params.id;
 
         if (!locals.user) {
-            error(401, "User not logged in.")
+            error(401, "User not logged in.");
         }
 
         const events = await locals.pb
@@ -58,13 +58,13 @@ export const actions = {
         await locals.pb
             .collection<RecievedEvent>("events").update(event_id, {
                 signed_up: [...serialized_event.signed_up, locals.user.id]
-            })
+            });
     },
     event_unsign_up: async ({ request, locals, params }) => {
         const event_id = params.id;
 
         if (!locals.user) {
-            error(401, "User not logged in.")
+            error(401, "User not logged in.");
         }
 
         const events = await locals.pb
@@ -80,6 +80,6 @@ export const actions = {
         await locals.pb
             .collection<RecievedEvent>("events").update(event_id, {
                 signed_up: serialized_event.signed_up.filter((sid) => sid != locals?.user?.id)
-            })
+            });
     },
 };

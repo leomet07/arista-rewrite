@@ -23,8 +23,8 @@ export const load = (async ({ params, locals }) => {
             ...v,
             start_time: new Date(v.start_time),
             end_time: new Date(v.end_time)
-        }
-    })
+        };
+    });
 
     if (events_with_time) {
         return { events: events_with_time };

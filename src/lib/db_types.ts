@@ -6,7 +6,7 @@ type StrictRecordModel = {
 	updated: string;
 	collectionId: string;
 	collectionName: string;
-} // Same as pocketbase's record model, without the [key: string] : any
+}; // Same as pocketbase's record model, without the [key: string] : any
 
 export const ServiceHourSchema = z.object({
 	title: z.string().min(3).max(64),
