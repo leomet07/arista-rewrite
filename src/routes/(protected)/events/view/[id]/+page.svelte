@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
+	import { enhance } from "$app/forms";
 
 	export let data: PageData;
 </script>
@@ -16,12 +17,12 @@
 
 		{#if data.is_current_user_signed_up}
 			<h3 class="h3">You are signed up for this event.</h3>
-			<form method="POST" action="?/event_unsign_up">
-				<input type="submit" class="btn variant-outline-secondary" value="Leave event" />
+			<form method="POST" action="?/event_unsign_up" use:enhance>
+				<button type="submit" class="btn variant-outline-secondary">Leave event</button>
 			</form>
 		{:else}
-			<form method="POST" action="?/event_sign_up">
-				<input type="submit" class="btn variant-filled-secondary" value="Sign Up" />
+			<form method="POST" action="?/event_sign_up" use:enhance>
+				<button type="submit" class="btn variant-filled-secondary">Sign up</button>
 			</form>
 		{/if}
 	</section>
