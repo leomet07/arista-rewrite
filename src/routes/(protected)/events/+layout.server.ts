@@ -1,14 +1,9 @@
-import { z } from "zod";
-import { superValidate } from "sveltekit-superforms/server";
-import { error, fail } from "@sveltejs/kit";
+import { fail } from "@sveltejs/kit";
 import type { RecievedEvent } from "$lib/db_types.js";
-import type { PageServerLoad } from "./$types";
+import type { LayoutServerLoad } from "./$types";
 
 // Get the data, for page load
-export const load = (async ({ params, locals }) => {
-    // Server API:
-    // const form = await superValidate(schema);
-
+export const load: LayoutServerLoad = (async ({ params, locals }) => {
     const events = await locals.pb
         .collection("events")
         .getFullList({ sort: "-created" });
@@ -31,4 +26,4 @@ export const load = (async ({ params, locals }) => {
     }
 
     throw fail(404, {});
-}) satisfies PageServerLoad;
+});

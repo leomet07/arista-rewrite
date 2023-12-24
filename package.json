@@ -12,6 +12,9 @@
     "format": "prettier --write ."
   },
   "devDependencies": {
+    "@event-calendar/core": "^2.5.1",
+    "@event-calendar/day-grid": "^2.5.1",
+    "@event-calendar/list": "^2.5.1",
     "@skeletonlabs/skeleton": "2.6.0",
     "@skeletonlabs/tw-plugin": "0.3.0",
     "@sveltejs/adapter-auto": "^3.0.0",

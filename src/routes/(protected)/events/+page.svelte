@@ -1,9 +1,10 @@
 <script lang="ts">
-	import type { PageData } from "./$types";
 	import { superForm } from "sveltekit-superforms/client";
 	import { currentUser } from "$lib/pocketbase";
 
-	export let data: PageData;
+	import type { LayoutData } from "./$types";
+
+	export let data: LayoutData;
 	// const { form, errors, constraints } = superForm(data.form);
 </script>
 
