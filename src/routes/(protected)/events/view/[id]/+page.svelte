@@ -10,7 +10,15 @@
 		<h3 class="h3">{data.event.description}</h3>
 		<p class="font-bold">Start time: {data.event.start_time.toDateString()}</p>
 		<p class="font-bold">End time: {data.event.end_time.toDateString()}</p>
-		<p class="font-bold">Multiper: {data.event.multiplier}</p>
-		<p class="font-bold">Is out of school: {data.event.is_out_of_school}</p>
+		<p>Multiper: {data.event.multiplier}</p>
+		<p>{data.event.signed_up.length} people are currently signed up.</p>
+		<p>Is out of school: {data.event.is_out_of_school}</p>
+
+		{#if data.is_current_user_signed_up}
+			<h3 class="h3">You are signed up for this event.</h3>
+			<button class="btn variant-outline-secondary">Unsign up</button>
+		{:else}
+			<button class="btn variant-filled-secondary">Sign up</button>
+		{/if}
 	</section>
 </main>
