@@ -15,7 +15,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.pb = pb;
 	event.locals.user = structuredClone(pb.authStore.model);
 
-	if (event.url.pathname.startsWith("/events")) {
+	if (event.url.pathname.startsWith("/events") || event.url.pathname.startsWith("/settings")) {
 		if (!event.locals.user) { // if not logged in, redirect
 			// TODO: ADD HUNTABYTE-INSPIRED REDIRECT SYSTEM
 			throw redirect(303, "/login");
