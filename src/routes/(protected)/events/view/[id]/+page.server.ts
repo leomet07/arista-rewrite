@@ -36,3 +36,50 @@ export const load = (async ({ params, locals }) => {
         is_current_user_signed_up
     }
 }) satisfies PageServerLoad;
+
+export const actions = {
+    event_sign_up: async ({ request, locals, params }) => {
+        const event_id = params.id;
+
+        if (!locals.user) {
+            error(401, "User not logged in.")
+        }
+
+        const events = await locals.pb
+            .collection("events")
+            .getFullList({
+                filter: `id="${event_id}"`,
+            });
+
+        const serialized_event = structuredClone(
+            events[0] as unknown
+        ) as RecievedEvent;
+
+        await locals.pb
+            .collection<RecievedEvent>("events").update(event_id, {
+                signed_up: [...serialized_event.signed_up, locals.user.id]
+            })
+    },
+    event_unsign_up: async ({ request, locals, params }) => {
+        const event_id = params.id;
+
+        if (!locals.user) {
+            error(401, "User not logged in.")
+        }
+
+        const events = await locals.pb
+            .collection("events")
+            .getFullList({
+                filter: `id="${event_id}"`,
+            });
+
+        const serialized_event = structuredClone(
+            events[0] as unknown
+        ) as RecievedEvent;
+
+        await locals.pb
+            .collection<RecievedEvent>("events").update(event_id, {
+                signed_up: serialized_event.signed_up.filter((sid) => sid != locals?.user?.id)
+            })
+    },
+};

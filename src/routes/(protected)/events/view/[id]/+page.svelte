@@ -16,9 +16,13 @@
 
 		{#if data.is_current_user_signed_up}
 			<h3 class="h3">You are signed up for this event.</h3>
-			<button class="btn variant-outline-secondary">Unsign up</button>
+			<form method="POST" action="?/event_unsign_up">
+				<input type="submit" class="btn variant-outline-secondary" value="Leave event" />
+			</form>
 		{:else}
-			<button class="btn variant-filled-secondary">Sign up</button>
+			<form method="POST" action="?/event_sign_up">
+				<input type="submit" class="btn variant-filled-secondary" value="Sign Up" />
+			</form>
 		{/if}
 	</section>
 </main>
