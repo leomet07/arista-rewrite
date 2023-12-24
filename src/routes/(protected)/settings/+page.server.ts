@@ -1,8 +1,7 @@
-import { error, fail, redirect } from "@sveltejs/kit";
+import { error, fail } from "@sveltejs/kit";
 import type { Actions } from "./$types";
-import { superValidate, setError } from "sveltekit-superforms/server";
+import { superValidate } from "sveltekit-superforms/server";
 import { z } from "zod";
-import type { RecievedUser } from "$lib/db_types";
 import handleError from "$lib/handleError";
 
 const RegisterPageSchema = z
@@ -26,7 +25,6 @@ export const load = async () => {
 export const actions: Actions = {
     change_password: async ({ locals, request }) => {
         const form = await superValidate(request, RegisterPageSchema);
-        console.log("POST", form);
 
         if (!locals?.user?.id) {
             error(401, "User not logged in.");
