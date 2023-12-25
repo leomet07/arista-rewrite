@@ -2,11 +2,15 @@
 	import { enhance } from "$app/forms";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";
+	import type { RecievedTutoringRequest } from "$lib/db_types";
 	import { currentUser } from "$lib/pocketbase";
 	import type { PageData } from "./$types";
 	import { superForm } from "sveltekit-superforms/client";
 
 	export let data: PageData;
+	let myTutoringRequests: RecievedTutoringRequest[];
+	$: myTutoringRequests = data.tutoringRequests.filter((v) => v.tutee == $currentUser?.id);
+
 	const formObj = superForm(data.form, { resetForm: true });
 	const { form, errors, constraints } = formObj;
 </script>
@@ -45,9 +49,9 @@
 			<button type="submit" class="btn variant-filled">Request Tutoring</button>
 		</form>
 		<h3 class="h3">Your tutoring requests</h3>
-		{#if data.tutoringRequests.length > 0}
+		{#if myTutoringRequests.length > 0}
 			<section class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
-				{#each data.tutoringRequests as tutoringRequest}
+				{#each myTutoringRequests as tutoringRequest}
 					<div class="card p-4">
 						<h3 class="h3">{tutoringRequest.class}</h3>
 						<p class="font-bold">{tutoringRequest.topic}</p>
@@ -60,5 +64,18 @@
 		{:else}
 			<p>You currently have no tutoring requests.</p>
 		{/if}
+	{:else}
+		<h3 class="h3">Current requests by tutees:</h3>
+		<section class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
+			{#each data.tutoringRequests as tutoringRequest}
+				<div class="card p-4">
+					<h3 class="h3">{tutoringRequest.class}</h3>
+					<p class="font-bold">{tutoringRequest.topic}</p>
+					{#if tutoringRequest.teacher}
+						<p>{tutoringRequest.teacher}</p>
+					{/if}
+				</div>
+			{/each}
+		</section>
 	{/if}
 </main>

@@ -15,10 +15,6 @@ export const load = async ({ locals, request }) => {
         error(401, "User not logged in.");
     }
 
-    if (!locals?.user?.is_tutee) {
-        error(401, "User is not a tutee.");
-    }
-
     const requests = structuredClone(await locals.pb
         .collection("tutoringRequests")
         .getFullList({ sort: "-created" }) as unknown) as RecievedTutoringRequest[];
