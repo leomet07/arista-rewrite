@@ -4,7 +4,7 @@ import { superValidate } from "sveltekit-superforms/server";
 import { z } from "zod";
 import handleError from "$lib/handleError";
 
-const RegisterPageSchema = z
+const SettingsPageSchema = z
     .object({
         password: z.string().min(6).max(64),
         newPassword: z.string().min(6).max(64),
@@ -16,7 +16,7 @@ const RegisterPageSchema = z
     });
 export const load = async () => {
     // Server API:
-    const form = await superValidate(RegisterPageSchema);
+    const form = await superValidate(SettingsPageSchema);
 
     // Unless you throw, always return { form } in load and form actions.
     return { form };
@@ -24,7 +24,7 @@ export const load = async () => {
 
 export const actions: Actions = {
     change_password: async ({ locals, request }) => {
-        const form = await superValidate(request, RegisterPageSchema);
+        const form = await superValidate(request, SettingsPageSchema);
 
         if (!locals?.user?.id) {
             error(401, "User not logged in.");

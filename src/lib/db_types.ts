@@ -31,10 +31,10 @@ export const UserSchema = z.object({
 export const EventSchema = z.object({
 	name: z.string().min(3).max(64),
 	description: z.string().max(4000),
-	start_time: z.date(),
-	end_time: z.date(),
+	start_time: z.coerce.date(),
+	end_time: z.coerce.date(),
 	multiplier: z.number().min(1).max(5).default(1),
-	is_out_of_school: z.boolean(),
+	is_out_of_school: z.boolean().default(true),
 	signed_up: z.string().array()
 });
 
