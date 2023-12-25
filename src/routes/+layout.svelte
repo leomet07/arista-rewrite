@@ -1,13 +1,18 @@
 <script lang="ts">
 	import Navbar from "$lib/components/Navbar.svelte";
 	import "../app.postcss";
-	import { AppShell } from "@skeletonlabs/skeleton";
+	import { AppShell, Modal } from "@skeletonlabs/skeleton";
+	import { initializeStores } from "@skeletonlabs/skeleton";
+
+	initializeStores();
 </script>
 
 <svelte:head>
 	<title>Stuyvesant ARISTA</title>
 	<!-- TODO: Add meta description tag <= 160 chars -->
 </svelte:head>
+
+<Modal />
 
 <!-- App Shell -->
 <AppShell>

@@ -1,11 +1,16 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import { goto } from "$app/navigation";
+	import { goto, invalidateAll } from "$app/navigation";
 	import { superForm } from "sveltekit-superforms/client";
 	import { pb, currentUser } from "$lib/pocketbase";
-	import { enhance } from "$app/forms";
+	import { enhance, deserialize, applyAction } from "$app/forms";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";
+	import { type ModalSettings } from "@skeletonlabs/skeleton";
+	import { getModalStore } from "@skeletonlabs/skeleton";
+	import type { ActionResult } from "@sveltejs/kit";
+
+	const modalStore = getModalStore();
 
 	async function logout() {
 		pb.authStore.clear();
@@ -15,6 +20,37 @@
 	export let data: PageData;
 	const formObj = superForm(data.form);
 	const { form, errors, constraints } = formObj;
+
+	async function handleDeleteAccount(
+		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
+	) {
+		const confirmDelete: ModalSettings = {
+			type: "confirm",
+			title: "Delete account",
+			body: "Are you sure you want to delete your account?",
+			response: async (r: boolean) => {
+				if (r) {
+					const data = new FormData();
+					console.log("Deleting account", event.currentTarget);
+					// @ts-ignore
+					const response = await fetch("/settings?/delete_account", {
+						method: "POST",
+						body: data
+					});
+
+					const result: ActionResult = deserialize(await response.text());
+
+					if (result.type === "success") {
+						// rerun all `load` functions, following the successful update
+						await invalidateAll();
+					}
+					logout();
+					applyAction(result);
+				}
+			}
+		};
+		modalStore.trigger(confirmDelete);
+	}
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -62,6 +98,10 @@
 			</form>
 		</section>
 		<a href="/" on:click={logout} class="btn variant-outline-primary">Logout</a>
+		<br />
+		<form method="POST" on:submit|preventDefault={handleDeleteAccount} action="?/delete_account">
+			<button type="submit" class="btn variant-filled-error">Delete My Account</button>
+		</form>
 	{:else}
 		<h2 class="h2">You must be logged in to view this page.</h2>
 	{/if}

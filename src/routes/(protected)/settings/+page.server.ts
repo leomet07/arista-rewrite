@@ -1,4 +1,4 @@
-import { error, fail } from "@sveltejs/kit";
+import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 import { superValidate } from "sveltekit-superforms/server";
 import { z } from "zod";
@@ -45,5 +45,21 @@ export const actions: Actions = {
             return handleError(error, form);
         }
         return { form };
-    }
+    },
+    delete_account: async ({ locals, request }) => {
+        const form = await superValidate(request, SettingsPageSchema);
+
+        if (!locals?.user?.id) {
+            error(401, "User not logged in.");
+        }
+
+        try {
+            await locals.pb.collection("users").delete(locals.user.id);
+            locals.pb.authStore.clear();
+        } catch (error: any) {
+            return handleError(error, form);
+        }
+        throw redirect(303, "/");
+    },
+
 };
