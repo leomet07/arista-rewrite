@@ -29,7 +29,7 @@
 		<section>
 			{#if data.credits}
 				<div class="card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
-					<span class="font-bold">Events</span>
+					<span class="font-bold w-16">Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<ProgressBar
 						label="Events Credits Bar"
 						value={calculateCredits(data.credits, "events")}
@@ -40,7 +40,7 @@
 					</p>
 				</div>
 				<div class="mt-3 card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
-					<span class="font-bold">Tutoring</span>
+					<span class="font-bold w-16">Tutoring</span>
 					<ProgressBar
 						label="Tutoring Credits Bar"
 						value={calculateCredits(data.credits, "tutoring")}
