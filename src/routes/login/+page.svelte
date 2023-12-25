@@ -4,9 +4,11 @@
 	import { superForm } from "sveltekit-superforms/client";
 	import type { PageData } from "./$types";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
+	import InputField from "$lib/components/InputField.svelte";
 
 	export let data: PageData;
-	const { form, errors, constraints } = superForm(data.form);
+	const formObj = superForm(data.form);
+	const { form, errors, constraints } = formObj;
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -27,29 +29,15 @@
 		}}
 		class="card p-4 w-full text-token space-y-4"
 	>
-		<label for="email">Enter your email:</label>
-		<input
-			class="input"
-			type="email"
-			name="email"
+		<InputField
+			form={formObj}
+			field="email"
+			label="Enter your email:"
 			placeholder="email@stuy.edu"
-			aria-invalid={$errors.email ? "true" : undefined}
-			bind:value={$form.email}
-			{...$constraints.email}
+			type="email"
 		/>
-		{#if $errors.email}<span class="invalid">{$errors.email}</span>{/if}
 
-		<label for="password">Enter your password:</label>
-		<input
-			class="input"
-			type="password"
-			name="password"
-			placeholder=""
-			aria-invalid={$errors.password ? "true" : undefined}
-			bind:value={$form.password}
-			{...$constraints.password}
-		/>
-		{#if $errors.password}<span class="invalid">{$errors.password}</span>{/if}
+		<InputField form={formObj} field="password" label="Enter your password:" type="password" />
 
 		<input type="submit" class="btn variant-filled" value="Log in" />
 		<p id="suggest_register">

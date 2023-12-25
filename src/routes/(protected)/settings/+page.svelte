@@ -5,6 +5,7 @@
 	import { pb, currentUser } from "$lib/pocketbase";
 	import { enhance } from "$app/forms";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
+	import InputField from "$lib/components/InputField.svelte";
 
 	async function logout() {
 		pb.authStore.clear();
@@ -12,7 +13,8 @@
 	}
 
 	export let data: PageData;
-	const { form, errors, constraints } = superForm(data.form);
+	const formObj = superForm(data.form);
+	const { form, errors, constraints } = formObj;
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -35,38 +37,25 @@
 			>
 				<ErrorComponent errors={$errors._errors} />
 				<h3 class="h3">Change password</h3>
-				<label for="password">Enter your current password:</label>
-				<input
-					class="input"
-					type="password"
-					name="password"
-					aria-invalid={$errors.password ? "true" : undefined}
-					bind:value={$form.password}
-					{...$constraints.password}
-				/>
-				{#if $errors.password}<span class="invalid">{$errors.password}</span>{/if}
 
-				<label for="newPassword">Enter your new password:</label>
-				<input
-					class="input"
+				<InputField
+					form={formObj}
+					field="password"
+					label="Enter your current password:"
 					type="password"
-					name="newPassword"
-					aria-invalid={$errors.newPassword ? "true" : undefined}
-					bind:value={$form.newPassword}
-					{...$constraints.newPassword}
 				/>
-				{#if $errors.newPassword}<span class="invalid">{$errors.newPassword}</span>{/if}
-				<label for="newPasswordConfirm">Confirm your new password:</label>
-				<input
-					class="input"
+				<InputField
+					form={formObj}
+					field="newPassword"
+					label="Enter your new password:"
 					type="password"
-					name="newPasswordConfirm"
-					aria-invalid={$errors.newPasswordConfirm ? "true" : undefined}
-					bind:value={$form.newPasswordConfirm}
-					{...$constraints.newPasswordConfirm}
 				/>
-				{#if $errors.newPasswordConfirm}<span class="invalid">{$errors.newPasswordConfirm}</span
-					>{/if}
+				<InputField
+					form={formObj}
+					field="newPasswordConfirm"
+					label="Confirm your new password:"
+					type="password"
+				/>
 
 				<button type="submit" class="btn variant-filled">Change password</button>
 			</form>
