@@ -40,6 +40,14 @@ export const CreditSchema = z.object({
 	tutoringSession: z.string()
 });
 
+export const TutoringRequestSchema = z.object({
+	class: z.string().min(2).max(64),
+	teacher: z.string().min(2).max(64),
+	topic: z.string().min(2).max(64),
+	tutee: z.string().min(2).max(64)
+});
+
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
 export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel;
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
+export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
