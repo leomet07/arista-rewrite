@@ -13,11 +13,13 @@
 
 	export let data: LayoutData;
 
+	// Svelte Calendar Component:
+	// https://github.com/vkurko/calendar
 	let plugins = [DayGrid, ListView];
 	let options = {
 		view: "dayGridMonth",
 		headerToolbar: {
-			start: "prev,next today",
+			start: "prev,next",
 			center: "title",
 			end: "dayGridMonth,listMonth"
 		},
