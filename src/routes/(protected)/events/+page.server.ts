@@ -25,14 +25,11 @@ export const actions: Actions = {
         }
 
         try {
-            console.log("Creating: ", { ...form.data, signed_up: [locals.user.id] });
             const createdEvent = structuredClone(
                 await locals.pb
                     .collection("events")
                     .create({ ...form.data, signed_up: [locals.user.id], event_owner: locals.user.id })
             ) as RecievedEvent;
-            console.log("Created event:");
-            console.log(createdEvent);
         } catch (error: unknown) {
             console.error(error);
             return handleError(error, form);

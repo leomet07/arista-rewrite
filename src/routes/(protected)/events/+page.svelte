@@ -16,6 +16,7 @@
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import { enhance } from "$app/forms";
 	import EventsCalendar from "$lib/components/EventsCalendar.svelte";
+	import { browser } from "$app/environment";
 </script>
 
 <main class="container mx-auto py-8 px-2 space-y-8">
@@ -59,13 +60,15 @@
 				{#if $errors.description}<span class="invalid">{$errors.description}</span>{/if}
 
 				<label for="start_time">Choose a start time for this event</label>
-				<DateInput
-					id="start_time"
-					bind:value={$form.start_time}
-					dynamicPositioning
-					timePrecision="minute"
-					format="yyyy-MM-dd HH:mm"
-				/>
+				{#if browser}
+					<DateInput
+						id="start_time"
+						bind:value={$form.start_time}
+						dynamicPositioning
+						timePrecision="minute"
+						format="yyyy-MM-dd HH:mm"
+					/>
+				{/if}
 				{#if $errors.start_time}<span class="invalid">{$errors.start_time}</span>{/if}
 				<!-- Bind to invisible date input so it can be submitted via form -->
 				<input
@@ -76,13 +79,15 @@
 				/>
 
 				<label for="end_time">Choose an end time for this event</label>
-				<DateInput
-					id="end_time"
-					bind:value={$form.end_time}
-					dynamicPositioning
-					timePrecision="minute"
-					format="yyyy-MM-dd HH:mm"
-				/>
+				{#if browser}
+					<DateInput
+						id="end_time"
+						bind:value={$form.end_time}
+						dynamicPositioning
+						timePrecision="minute"
+						format="yyyy-MM-dd HH:mm"
+					/>
+				{/if}
 				{#if $errors.end_time}<span class="invalid">{$errors.end_time}</span>{/if}
 				<!-- Bind to invisible date input so it can be submitted via form -->
 				<input name="end_time" type="data" bind:value={$form.end_time} style="display : none;" />

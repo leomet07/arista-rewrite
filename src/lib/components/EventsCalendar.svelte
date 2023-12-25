@@ -14,7 +14,7 @@
 	// Svelte Calendar Component:
 	// https://github.com/vkurko/calendar
 	let plugins = [DayGrid, ListView];
-	let options = {
+	$: options = {
 		view: "dayGridMonth",
 		headerToolbar: {
 			start: "prev,next",
