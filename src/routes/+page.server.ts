@@ -4,7 +4,7 @@ import type { RecievedCredit } from "$lib/db_types";
 
 // Get the data, for page load
 export const load = (async ({ params, locals }) => {
-	if (!locals.user) {
+	if (!locals.user || locals.user.is_tutee) {
 		return;
 	}
 	const credits = structuredClone(await locals.pb.collection("credits").getFullList() as unknown) as RecievedCredit[];

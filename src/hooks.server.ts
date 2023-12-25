@@ -24,6 +24,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	}
 
+	if ((event.url.pathname.startsWith("/events")) && event.locals.user && event.locals.user.is_tutee) {
+		// Redirection inspired by https://www.youtube.com/watch?v=ieECVME5ZLU
+		const fromUrl = event.url.pathname + event.url.search;
+		const message = "Tutees cannot access that page.";
+		throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
+	}
+
 	const response = await resolve(event);
 
 	// after

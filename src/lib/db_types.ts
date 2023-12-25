@@ -18,7 +18,8 @@ export const UserSchema = z.object({
 	four_digit_id: z.number().min(0).max(10000),
 	homeroom: z.string().max(4),
 	committees: CommitteesSchema.array().max(5),
-	osis: z.number().min(0).max(999999999)
+	osis: z.number().min(0).max(999999999),
+	is_tutee: z.boolean().default(false)
 });
 
 export const EventSchema = z.object({

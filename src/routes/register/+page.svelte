@@ -5,6 +5,7 @@
 	import type { PageData } from "./$types";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";
+	import { SlideToggle } from "@skeletonlabs/skeleton";
 
 	export let data: PageData;
 	const formObj = superForm(data.form);
@@ -73,6 +74,15 @@
 			label="Enter the password again:"
 			type="password"
 		/>
+
+		<label for="is_tutee">I'm here to be tutored.</label>
+		<SlideToggle
+			name="is_tutee"
+			bind:checked={$form.is_tutee}
+			active="bg-primary-500 dark:bg-primary-500"
+			{...$constraints.is_tutee}
+		></SlideToggle>
+		<br />
 
 		<input type="submit" class="btn variant-filled" value="Register" />
 	</form>

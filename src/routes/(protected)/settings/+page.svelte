@@ -27,6 +27,7 @@
 			<p>Four Digit Id: {$currentUser.four_digit_id}</p>
 			<p>Homeroom: {$currentUser.homeroom}</p>
 			<p>Committees: {JSON.stringify($currentUser.committees)}</p>
+			<p>Is tutee?: {$currentUser.is_tutee}</p>
 		</section>
 		<section>
 			<form

@@ -14,6 +14,7 @@ const RegisterPageSchema = z
 		four_digit_id: z.coerce.number().min(0).max(10000),
 		osis: z.coerce.number().min(0).max(999999999),
 		homeroom: z.string().max(4),
+		is_tutee: z.boolean().default(false)
 	})
 	.refine((data) => data.password === data.passwordConfirm, {
 		message: "Passwords don't match",
