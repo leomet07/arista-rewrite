@@ -1,68 +1,57 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import { superForm } from "sveltekit-superforms/client";
 	import { currentUser } from "$lib/pocketbase";
+	import { ProgressBar } from "@skeletonlabs/skeleton";
+	import type { RecievedCredit } from "$lib/db_types";
 
 	export let data: PageData;
-	const { form, errors, constraints } = superForm(data.form);
+
+	let eventsCreditsNeeded = 21;
+	let tutoringCreditsNeeded = 7;
+	function calculateCredits(credits: RecievedCredit[], type: "events" | "tutoring"): number {
+		let total = 0;
+		for (const credit of credits) {
+			if ((type == "events" && credit.event) || (type == "tutoring" && credit?.tutoringSession)) {
+				total += credit.credits;
+			}
+		}
+		return total;
+	}
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
 	{#if $currentUser}
 		<hgroup>
-			<h1 class="h1">Your event credits.</h1>
-			<p class="h5">Input your service hours here.</p>
+			<h1 class="h1">Your credits.</h1>
+			<p class="h5">View your progress and the ARISTA service requirements here.</p>
 		</hgroup>
 
-		<form method="POST" class="card p-4 w-full text-token space-y-4">
-			<input
-				class="input"
-				type="text"
-				name="title"
-				placeholder="Enter a title..."
-				aria-invalid={$errors.title ? "true" : undefined}
-				bind:value={$form.title}
-				{...$constraints.title}
-			/>
-			{#if $errors.title}<span class="invalid">{$errors.title}</span>{/if}
-			<br />
-			<input
-				class="input"
-				type="text"
-				name="description"
-				placeholder="Enter a description..."
-				aria-invalid={$errors.description ? "true" : undefined}
-				bind:value={$form.description}
-				{...$constraints.description}
-			/>
-			{#if $errors.description}<span class="invalid">{$errors.description}</span>{/if}
-			<br />
-			<input
-				class="input"
-				type="number"
-				name="num_of_hours"
-				aria-invalid={$errors.num_of_hours ? "true" : undefined}
-				bind:value={$form.num_of_hours}
-				{...$constraints.num_of_hours}
-			/>
-			{#if $errors.num_of_hours}<span class="invalid">{$errors.num_of_hours}</span>{/if}
-			<br />
-			<input type="submit" class="btn variant-filled" value="Create Service Hours" />
-		</form>
-
-		{#if data.db_service_hours}
-			<section class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
-				{#each data.db_service_hours as item}
-					<div class="card p-4">
-						<h3 class="h3">{item.title}</h3>
-						<p class="font-bold">{item.num_of_hours} hours</p>
-						{#if item.description}
-							<p>{item.description}</p>
-						{/if}
-					</div>
-				{/each}
-			</section>
-		{/if}
+		<section>
+			{#if data.credits}
+				<div class="card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
+					<span class="font-bold">Events</span>
+					<ProgressBar
+						label="Events Credits Bar"
+						value={calculateCredits(data.credits, "events")}
+						max={eventsCreditsNeeded}
+					/>
+					<p class="text-right w-fit whitespace-nowrap">
+						{calculateCredits(data.credits, "events")} / {eventsCreditsNeeded}
+					</p>
+				</div>
+				<div class="mt-3 card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
+					<span class="font-bold">Tutoring</span>
+					<ProgressBar
+						label="Tutoring Credits Bar"
+						value={calculateCredits(data.credits, "tutoring")}
+						max={eventsCreditsNeeded}
+					/>
+					<p class="text-right w-fit whitespace-nowrap">
+						{calculateCredits(data.credits, "tutoring")} / {tutoringCreditsNeeded}
+					</p>
+				</div>
+			{/if}
+		</section>
 	{:else}
 		<h3 class="h3">
 			You aren't logged in.

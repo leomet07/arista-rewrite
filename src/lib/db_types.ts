@@ -8,14 +8,6 @@ type StrictRecordModel = {
 	collectionName: string;
 }; // Same as pocketbase's record model, without the [key: string] : any
 
-export const ServiceHourSchema = z.object({
-	title: z.string().min(3).max(64),
-	description: z.string().max(4000).optional(),
-	num_of_hours: z.preprocess(
-		(a) => parseInt(z.string().parse(a), 10),
-		z.number().min(0.5).max(1000)
-	)
-});
 
 export const CommitteesSchema = z.union([z.literal("web"), z.literal("admin"), z.literal("events"), z.literal("operations")]);
 
@@ -42,10 +34,10 @@ export const EventSchema = z.object({
 export const CreditSchema = z.object({
 	credits: z.number().min(0.5),
 	user: z.string(),
-	event: z.string()
+	event: z.string(),
+	tutoringSession: z.string()
 });
 
-export type RecievedServiceHour = z.infer<typeof ServiceHourSchema> & StrictRecordModel;
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
 export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel;
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
