@@ -87,6 +87,7 @@
 					form={formObj}
 					field="multiplier"
 					label="Choose a credits multiplier (default is 1.0):"
+					inputmode="numeric"
 				/>
 
 				<label for="is_out_of_school">Is this event taking place out of school?</label>
