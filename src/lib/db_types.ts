@@ -25,7 +25,7 @@ export const EventSchema = z.object({
 	description: z.string().max(4000),
 	start_time: z.coerce.date(),
 	end_time: z.coerce.date(),
-	multiplier: z.number().min(1).max(5).default(1),
+	multiplier: z.number().min(1).max(5).step(0.5).default(1),
 	is_out_of_school: z.boolean().default(true),
 	signed_up: z.string().array(),
 	isComplete: z.boolean().default(false)

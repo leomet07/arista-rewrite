@@ -8,15 +8,17 @@
 	import { currentUser } from "$lib/pocketbase";
 
 	export let data: PageData;
-	const { form, errors, constraints } = superForm(data.form, {
+	const formObj = superForm(data.form, {
 		resetForm: true
 	});
+	const { form, errors, constraints } = formObj;
 
 	import { DateInput } from "date-picker-svelte";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import { enhance } from "$app/forms";
 	import EventsCalendar from "$lib/components/EventsCalendar.svelte";
 	import { browser } from "$app/environment";
+	import InputField from "$lib/components/InputField.svelte";
 </script>
 
 <main class="container mx-auto py-8 px-2 space-y-8">
@@ -35,29 +37,18 @@
 				<h2 class="h2">Create an Event</h2>
 				<ErrorComponent errors={$errors._errors} />
 
-				<label for="name">Enter the event's title:</label>
-				<input
-					class="input"
-					type="text"
-					name="name"
+				<InputField
+					form={formObj}
+					field="name"
+					label="Enter the event's title:"
 					placeholder="Blood drive, PS100 Fall Festival, Board games with the Elderly"
-					aria-invalid={$errors.name ? "true" : undefined}
-					bind:value={$form.name}
-					{...$constraints.name}
 				/>
-				{#if $errors.name}<span class="invalid">{$errors.name}</span>{/if}
-
-				<label for="description">Enter the event's description:</label>
-				<input
-					class="input"
-					type="text"
-					name="description"
+				<InputField
+					form={formObj}
+					field="description"
+					label="Enter the event's title:"
 					placeholder="Helping people, Saving the world, Assisting the Red Cross, etc"
-					aria-invalid={$errors.description ? "true" : undefined}
-					bind:value={$form.description}
-					{...$constraints.description}
 				/>
-				{#if $errors.description}<span class="invalid">{$errors.description}</span>{/if}
 
 				<label for="start_time">Choose a start time for this event</label>
 				{#if browser}
@@ -92,19 +83,11 @@
 				<!-- Bind to invisible date input so it can be submitted via form -->
 				<input name="end_time" type="data" bind:value={$form.end_time} style="display : none;" />
 
-				<label for="multiplier">Choose a credits multiplier (default is 1.0):</label>
-				<input
-					class="input"
-					type="number"
-					inputmode="numeric"
-					name="multiplier"
-					placeholder=""
-					aria-invalid={$errors.multiplier ? "true" : undefined}
-					bind:value={$form.multiplier}
-					step="0.5"
-					{...$constraints.multiplier}
+				<InputField
+					form={formObj}
+					field="multiplier"
+					label="Choose a credits multiplier (default is 1.0):"
 				/>
-				{#if $errors.multiplier}<span class="invalid">{$errors.multiplier}</span>{/if}
 
 				<label for="is_out_of_school">Is this event taking place out of school?</label>
 				<SlideToggle
