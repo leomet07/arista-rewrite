@@ -7,3 +7,26 @@ html,
 body {
 	@apply h-full overflow-hidden;
 }
+
+/* Calendar NEXT/PREV buttons (adding this dupe so existing css isn't purged) */
+/*! purgecss start ignore */
+.ec-icon {
+	display: inline-block;
+	width: 1em;
+}
+.ec-icon.ec-prev:after, .ec-icon.ec-next:after {
+	content: "";
+	position: relative;
+	width: 0.5em;
+	height: 0.5em;
+	border-top: 2px solid currentcolor;
+	border-right: 2px solid currentcolor;
+	display: inline-block;
+}
+.ec-icon.ec-prev:after {
+	transform: rotate(-135deg) translate(-2px, 2px);
+}
+.ec-icon.ec-next:after {
+	transform: rotate(45deg) translate(-2px, 2px);
+}
+/*! purgecss end ignore */
