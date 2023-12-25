@@ -10,6 +10,8 @@
 	import DayGrid from "@event-calendar/day-grid";
 	// @ts-ignore
 	import ListView from "@event-calendar/list";
+	import { isOnCommittee } from "$lib/isOnCommittee";
+	import { currentUser } from "$lib/pocketbase";
 
 	export let data: LayoutData;
 
@@ -62,4 +64,12 @@
 	<div class={!$modeCurrent ? "ec-dark" : ""}>
 		<Calendar {plugins} {options} />
 	</div>
+
+	<section>
+		{#if isOnCommittee($currentUser, "events")}
+			<form action="" class="card p-4 w-full text-token space-y-4">
+				<h2 class="h2">Create an Event</h2>
+			</form>
+		{/if}
+	</section>
 </main>

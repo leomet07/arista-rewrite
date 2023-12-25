@@ -17,10 +17,15 @@ export const ServiceHourSchema = z.object({
 	)
 });
 
+export const CommitteesSchema = z.union([z.literal("web"), z.literal("admin"), z.literal("events"), z.literal("operations")]);
+
 export const UserSchema = z.object({
 	email: z.string().email(),
 	name: z.string().min(3).max(48),
-	avatar: z.string().optional()
+	avatar: z.string().optional(),
+	four_digit_id: z.number().min(0).max(10000),
+	homeroom: z.string().max(4),
+	committees: CommitteesSchema.array().max(5)
 });
 
 export const EventSchema = z.object({
