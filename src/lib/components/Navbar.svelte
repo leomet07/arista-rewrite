@@ -20,6 +20,7 @@
 	<svelte:fragment slot="default">
 		{#if $currentUser}
 			<a href="/events">Events</a>
+			<a class="ml-2" href="/tutoring">Tutoring</a>
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="trail">

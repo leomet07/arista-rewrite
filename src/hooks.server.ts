@@ -15,10 +15,12 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.pb = pb;
 	event.locals.user = structuredClone(pb.authStore.model);
 
-	if (event.url.pathname.startsWith("/events") || event.url.pathname.startsWith("/settings")) {
+	if (event.url.pathname.startsWith("/events") || event.url.pathname.startsWith("/settings") || event.url.pathname.startsWith("/tutoring")) {
 		if (!event.locals.user) { // if not logged in, redirect
-			// TODO: ADD HUNTABYTE-INSPIRED REDIRECT SYSTEM
-			throw redirect(303, "/login");
+			// Redirection inspired by https://www.youtube.com/watch?v=ieECVME5ZLU
+			const fromUrl = event.url.pathname + event.url.search;
+			const message = "You must be logged in to access that page.";
+			throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
 		}
 	}
 

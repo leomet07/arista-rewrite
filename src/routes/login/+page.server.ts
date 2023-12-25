@@ -15,7 +15,7 @@ export const load = async () => {
 };
 
 export const actions: Actions = {
-	default: async ({ locals, request }) => {
+	default: async ({ locals, request, url }) => {
 		const form = await superValidate(request, LoginPageSchema);
 
 		try {
@@ -23,6 +23,13 @@ export const actions: Actions = {
 		} catch (error: unknown) {
 			return setError(form, "", "Incorrect email or password.");
 		}
-		throw redirect(303, "/");
+
+		const redirectTo = url.searchParams.get("redirectTo");
+		if (redirectTo) {
+			// always have slash in front so no malicous URL inserted
+			throw redirect(303, "/" + redirectTo.slice(1));
+		} else {
+			throw redirect(303, "/");
+		}
 	}
 };

@@ -5,6 +5,10 @@
 	import type { PageData } from "./$types";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";
+	import { page } from "$app/stores";
+
+	let message: string;
+	$: message = $page.url.searchParams.get("message") ?? "";
 
 	export let data: PageData;
 	const formObj = superForm(data.form);
@@ -17,6 +21,11 @@
 		<p>Sign in to ARISTA with your Stuy.edu email!</p>
 	</hgroup>
 
+	{#if message}
+		<aside class="alert variant-filled-warning mb-4">
+			<b>{message}</b>
+		</aside>
+	{/if}
 	<ErrorComponent errors={$errors._errors} />
 
 	<form
