@@ -10,7 +10,9 @@ const RegisterPageSchema = z
 		email: z.string().email(),
 		name: z.string().min(3).max(48),
 		password: z.string().min(6).max(64),
-		passwordConfirm: z.string().min(6).max(64)
+		passwordConfirm: z.string().min(6).max(64),
+		four_digit_id: z.number().min(0).max(10000),
+		homeroom: z.string().max(4)
 	})
 	.refine((data) => data.password === data.passwordConfirm, {
 		message: "Passwords don't match",
@@ -39,7 +41,7 @@ export const actions: Actions = {
 			await locals.pb.collection("users").getFirstListItem(`email="${form.data.email}"`);
 			// If it does not error, then email is taken
 			return setError(form, "", "An account with that email already exists.");
-		} catch (error: unknown) {}
+		} catch (error: unknown) { }
 
 		try {
 			await locals.pb.collection<RecievedUser>("users").create(form.data); // create user

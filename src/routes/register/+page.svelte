@@ -30,6 +30,18 @@
 		class="card p-4 w-full text-token space-y-4"
 	>
 		<InputField form={formObj} field="name" label="Enter your name:" placeholder="John Doe" />
+		<InputField form={formObj} field="homeroom" label="Enter your homeroom:" placeholder="3JJ" />
+
+		<InputField
+			form={formObj}
+			field="four_digit_id"
+			label="Enter your four digit ID:"
+			placeholder="2222"
+		/>
+		<span>
+			(If you are a Stuyvesant student and don't have a four digit ID, learn how to get one
+			<a class="anchor" href="/four_digit_id_help">here</a>.)
+		</span>
 
 		<InputField
 			form={formObj}
