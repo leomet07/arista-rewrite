@@ -1,27 +1,19 @@
 import { error } from "@sveltejs/kit";
-import type { RecievedEvent } from "$lib/db_types.js";
+import type { RecievedEvent, RecievedUser } from "$lib/db_types.js";
 import type { PageServerLoad } from "./$types";
+import { isOnCommittee } from "$lib/isOnCommittee";
+import { determinteEventCredits } from "$lib/determinteCredits";
 
 // Get the data, for page load
 export const load = (async ({ params, locals }) => {
     const id = params.id;
 
-    const events = await locals.pb
-        .collection("events")
-        .getFullList({
-            filter: `id="${id}"`,
-            // expand: "signed_up" 
-            // expand will only include data from our user (bc view perms on db table), but it isn't even needed
-        });
-
-    if (events.length == 0) {
-        error(404, "Event not found.");
-    }
+    const event = await locals.pb
+        .collection("events").getOne(id, { requestKey: null });
 
     const serialized_event = structuredClone(
-        events[0] as unknown
+        event as unknown
     ) as RecievedEvent;
-
 
     const serialized_event_with_time = {
         ...serialized_event,
@@ -80,6 +72,51 @@ export const actions = {
         await locals.pb
             .collection<RecievedEvent>("events").update(event_id, {
                 signed_up: serialized_event.signed_up.filter((sid) => sid != locals?.user?.id)
+            });
+    },
+    mark_event_as_completed: async ({ request, locals, params }) => {
+        const event_id = params.id;
+
+        if (!locals.user) {
+            error(401, "User not logged in.");
+        }
+
+        if (!isOnCommittee(locals.user as RecievedUser, "events")) {
+            error(401, "User is not a member of the events committee.");
+        }
+        // Give credits
+        const events = await locals.pb
+            .collection("events")
+            .getFullList({
+                filter: `id="${event_id}"`,
+            });
+
+        let serialized_event = structuredClone(
+            events[0] as unknown
+        ) as RecievedEvent;
+
+        serialized_event = {
+            ...serialized_event,
+            start_time: new Date(serialized_event.start_time),
+            end_time: new Date(serialized_event.end_time)
+        };
+
+        console.log(serialized_event.end_time);
+        console.log(serialized_event.start_time);
+
+        const credits = determinteEventCredits(serialized_event);
+
+        const promises = serialized_event.signed_up.map((v) => locals.pb.collection("credits").create({
+            credits,
+            event: event_id,
+            user: v
+        }));
+
+        await Promise.all(promises);
+
+        await locals.pb
+            .collection<RecievedEvent>("events").update(event_id, {
+                isComplete: true
             });
     },
 };
