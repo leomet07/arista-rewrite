@@ -17,7 +17,7 @@ export const load = async ({ locals, request }) => {
 
     const requests = structuredClone(await locals.pb
         .collection("tutoringRequests")
-        .getFullList({ sort: "-created" }) as unknown) as RecievedTutoringRequest[];
+        .getFullList({ sort: "-created", filter: "isClaimed=false" }) as unknown) as RecievedTutoringRequest[];
 
     return { form, tutoringRequests: requests }; // Unless you throw, always return { form } in load and form actions.
 };
