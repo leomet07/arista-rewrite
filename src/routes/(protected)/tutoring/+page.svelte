@@ -63,6 +63,7 @@
 						<p class="font-bold">{tutoringRequest.topic}</p>
 						<p>{tutoringRequest.teacher}</p>
 						<p>{tutoringRequest.general_time}</p>
+						<p>Is Claimed? {tutoringRequest.isClaimed}</p>
 					</div>
 				{/each}
 			</section>
@@ -78,6 +79,13 @@
 					<p class="font-bold">{tutoringRequest.topic}</p>
 					<p>{tutoringRequest.teacher}</p>
 					<p>{tutoringRequest.general_time}</p>
+					<form
+						method="POST"
+						action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
+						use:enhance
+					>
+						<button type="submit" class="mt-2 btn variant-filled">Claim Request</button>
+					</form>
 				</div>
 			{/each}
 		</section>

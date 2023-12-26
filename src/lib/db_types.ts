@@ -45,10 +45,20 @@ export const TutoringRequestSchema = z.object({
 	teacher: z.string().min(2).max(64),
 	topic: z.string().min(2).max(64),
 	tutee: z.string().min(2).max(64),
-	general_time: z.string().min(2).max(512)
+	general_time: z.string().min(2).max(512),
+	isClaimed: z.boolean().default(false)
+});
+
+export const TutoringSessionSchema = z.object({
+	tutee: z.string().min(2).max(64),
+	tutor: z.string().min(2).max(64),
+	tutoringRequest: z.string().min(2).max(64),
+	isComplete: z.boolean().default(false),
+	dateCompleted: z.date().optional()
 });
 
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
 export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel;
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
 export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
+export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & StrictRecordModel;
