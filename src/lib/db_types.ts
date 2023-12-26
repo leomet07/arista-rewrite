@@ -44,7 +44,8 @@ export const TutoringRequestSchema = z.object({
 	class: z.string().min(2).max(64),
 	teacher: z.string().min(2).max(64),
 	topic: z.string().min(2).max(64),
-	tutee: z.string().min(2).max(64)
+	tutee: z.string().min(2).max(64),
+	general_time: z.string().min(2).max(512)
 });
 
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;

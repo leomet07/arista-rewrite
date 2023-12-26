@@ -46,6 +46,12 @@
 				label="What do you need help with?"
 				placeholder="AP Unit 7, Vocabulary practice, Racket homework..."
 			/>
+			<InputField
+				form={formObj}
+				field="general_time"
+				label="What time(s) are you generally free?"
+				placeholder="After school on Tuesdays, Period 6, Sundays..."
+			/>
 			<button type="submit" class="btn variant-filled">Request Tutoring</button>
 		</form>
 		<h3 class="h3">Your tutoring requests</h3>
@@ -55,9 +61,8 @@
 					<div class="card p-4">
 						<h3 class="h3">{tutoringRequest.class}</h3>
 						<p class="font-bold">{tutoringRequest.topic}</p>
-						{#if tutoringRequest.teacher}
-							<p>{tutoringRequest.teacher}</p>
-						{/if}
+						<p>{tutoringRequest.teacher}</p>
+						<p>{tutoringRequest.general_time}</p>
 					</div>
 				{/each}
 			</section>
@@ -71,9 +76,8 @@
 				<div class="card p-4">
 					<h3 class="h3">{tutoringRequest.class}</h3>
 					<p class="font-bold">{tutoringRequest.topic}</p>
-					{#if tutoringRequest.teacher}
-						<p>{tutoringRequest.teacher}</p>
-					{/if}
+					<p>{tutoringRequest.teacher}</p>
+					<p>{tutoringRequest.general_time}</p>
 				</div>
 			{/each}
 		</section>
