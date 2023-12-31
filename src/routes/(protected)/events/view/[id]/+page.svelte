@@ -19,18 +19,18 @@
 		<p>Is out of school: {data.event.is_out_of_school}</p>
 		<p>Is complete?: {data.event.isComplete}</p>
 
-		{#if data.is_current_user_signed_up}
-			<h3 class="h3">You are signed up for this event.</h3>
-			<form method="POST" action="?/event_unsign_up" use:enhance>
-				<button type="submit" class="btn variant-outline-secondary">Leave event</button>
-			</form>
-		{:else}
-			<form method="POST" action="?/event_sign_up" use:enhance>
-				<button type="submit" class="btn variant-filled-secondary">Sign up</button>
-			</form>
-		{/if}
-
 		{#if isOnCommittee($currentUser, "events") && !data.event.isComplete}
+			{#if data.is_current_user_signed_up}
+				<h3 class="h3">You are signed up for this event.</h3>
+				<form method="POST" action="?/event_unsign_up" use:enhance>
+					<button type="submit" class="btn variant-outline-secondary">Leave event</button>
+				</form>
+			{:else}
+				<form method="POST" action="?/event_sign_up" use:enhance>
+					<button type="submit" class="btn variant-filled-secondary">Sign up</button>
+				</form>
+			{/if}
+
 			<form class="mt-3" method="POST" action="?/mark_event_as_completed" use:enhance>
 				<p>This will give every participant {determinteEventCredits(data.event)} credits.</p>
 				<button type="submit" class="btn variant-filled-secondary">

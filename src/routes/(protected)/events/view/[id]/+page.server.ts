@@ -38,6 +38,10 @@ export const actions = {
 
 		const serialized_event = structuredClone(event as unknown) as RecievedEvent;
 
+		if (serialized_event.isComplete) {
+			error(401, "Can't sign up for an already completed event.");
+		}
+
 		await locals.pb.collection<RecievedEvent>("events").update(event_id, {
 			signed_up: [...serialized_event.signed_up, locals.user.id]
 		});
@@ -52,6 +56,10 @@ export const actions = {
 		const event = await locals.pb.collection("events").getOne(event_id);
 
 		const serialized_event = structuredClone(event as unknown) as RecievedEvent;
+
+		if (serialized_event.isComplete) {
+			error(401, "Can't unsign up from an already completed event.");
+		}
 
 		await locals.pb.collection<RecievedEvent>("events").update(event_id, {
 			signed_up: serialized_event.signed_up.filter((sid) => sid != locals?.user?.id)
