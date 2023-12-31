@@ -8,8 +8,12 @@ type StrictRecordModel = {
 	collectionName: string;
 }; // Same as pocketbase's record model, without the [key: string] : any
 
-
-export const CommitteesSchema = z.union([z.literal("web"), z.literal("admin"), z.literal("events"), z.literal("operations")]);
+export const CommitteesSchema = z.union([
+	z.literal("web"),
+	z.literal("admin"),
+	z.literal("events"),
+	z.literal("operations")
+]);
 
 export const UserSchema = z.object({
 	email: z.string().email(),
@@ -62,3 +66,11 @@ export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel;
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
 export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
 export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & StrictRecordModel;
+
+export type ExpandedTutoringSession = {
+	tutee_name?: string;
+	tutor_name?: string;
+	expand: {
+		tutoringRequest: RecievedTutoringRequest;
+	};
+} & RecievedTutoringSession;

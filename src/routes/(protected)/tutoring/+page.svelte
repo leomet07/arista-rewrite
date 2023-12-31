@@ -71,6 +71,24 @@
 			<p>You currently have no tutoring requests.</p>
 		{/if}
 	{:else}
+		<!-- Tutor View -->
+		<h3 class="h3">Current sessions:</h3>
+		<section class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
+			{#each data.tutoringSessions as tutoringSession}
+				<div class="card p-4">
+					<h3 class="h3">
+						{tutoringSession.expand.tutoringRequest.class} with {tutoringSession.tutee_name}
+					</h3>
+					<p class="font-bold">
+						{tutoringSession.expand.tutoringRequest.topic} with
+						{tutoringSession.expand.tutoringRequest.teacher}
+					</p>
+
+					<p>{tutoringSession.expand.tutoringRequest.general_time}</p>
+				</div>
+			{/each}
+		</section>
+
 		<h3 class="h3">Current requests by tutees:</h3>
 		<section class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
 			{#each data.tutoringRequests as tutoringRequest}
