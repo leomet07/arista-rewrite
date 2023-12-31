@@ -37,13 +37,16 @@ export const load = async ({ locals, request }) => {
 	const names = (await locals.pb.collection("publicUsers").getFullList()) as {
 		id: string;
 		name: string;
+		email: string;
 	}[];
 
 	const expanded_sessions: ExpandedTutoringSession[] = sessions.map((session) => {
 		const tutor_name = names.find((j) => j.id === session.tutor)?.name;
+		const tutor_email = names.find((j) => j.id === session.tutor)?.email;
 		const tutee_name = names.find((j) => j.id === session.tutee)?.name;
+		const tutee_email = names.find((j) => j.id === session.tutee)?.email;
 
-		return { ...session, tutor_name, tutee_name };
+		return { ...session, tutor_name, tutee_name, tutor_email, tutee_email };
 	});
 
 	return { form, tutoringRequests: requests, tutoringSessions: expanded_sessions }; // Unless you throw, always return { form } in load and form actions.

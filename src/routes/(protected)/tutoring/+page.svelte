@@ -77,13 +77,16 @@
 			{#each data.tutoringSessions as tutoringSession}
 				<div class="card p-4">
 					<h3 class="h3">
-						{tutoringSession.expand.tutoringRequest.class} with {tutoringSession.tutee_name}
+						Tutee: {tutoringSession.tutee_name}
 					</h3>
+					<p>Tutee email: {tutoringSession.tutee_email}</p>
 					<p class="font-bold">
+						Class: {tutoringSession.expand.tutoringRequest.class}
+					</p>
+					<p>
 						{tutoringSession.expand.tutoringRequest.topic} with
 						{tutoringSession.expand.tutoringRequest.teacher}
 					</p>
-
 					<p>{tutoringSession.expand.tutoringRequest.general_time}</p>
 				</div>
 			{/each}

@@ -69,7 +69,9 @@ export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & St
 
 export type ExpandedTutoringSession = {
 	tutee_name?: string;
+	tutee_email?: string;
 	tutor_name?: string;
+	tutor_email?: string;
 	expand: {
 		tutoringRequest: RecievedTutoringRequest;
 	};
