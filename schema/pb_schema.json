@@ -192,92 +192,6 @@
     }
   },
   {
-    "id": "vnxh7t0zw2pk0o6",
-    "name": "tutoringSessions",
-    "type": "base",
-    "system": false,
-    "schema": [
-      {
-        "system": false,
-        "id": "mcqqqama",
-        "name": "tutee",
-        "type": "relation",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": null
-        }
-      },
-      {
-        "system": false,
-        "id": "ntqfesud",
-        "name": "isComplete",
-        "type": "bool",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {}
-      },
-      {
-        "system": false,
-        "id": "6ea9ewwl",
-        "name": "tutor",
-        "type": "relation",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": null
-        }
-      },
-      {
-        "system": false,
-        "id": "eu2fbaiq",
-        "name": "dateCompleted",
-        "type": "date",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": "",
-          "max": ""
-        }
-      },
-      {
-        "system": false,
-        "id": "n1t1goxe",
-        "name": "tutoringRequest",
-        "type": "relation",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "collectionId": "g1ofaafeuq7ssws",
-          "cascadeDelete": true,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": null
-        }
-      }
-    ],
-    "indexes": [],
-    "listRule": "@request.auth.id != \"\" && @request.auth.id = tutor.id",
-    "viewRule": "@request.auth.id != \"\" && @request.auth.id = tutor.id",
-    "createRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {}
-  },
-  {
     "id": "g1ofaafeuq7ssws",
     "name": "tutoringRequests",
     "type": "base",
@@ -552,5 +466,91 @@
     "options": {
       "query": "SELECT id, name,email from users"
     }
+  },
+  {
+    "id": "vnxh7t0zw2pk0o6",
+    "name": "tutoringSessions",
+    "type": "base",
+    "system": false,
+    "schema": [
+      {
+        "system": false,
+        "id": "mcqqqama",
+        "name": "tutee",
+        "type": "relation",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": null
+        }
+      },
+      {
+        "system": false,
+        "id": "ntqfesud",
+        "name": "isComplete",
+        "type": "bool",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {}
+      },
+      {
+        "system": false,
+        "id": "6ea9ewwl",
+        "name": "tutor",
+        "type": "relation",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "collectionId": "_pb_users_auth_",
+          "cascadeDelete": false,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": null
+        }
+      },
+      {
+        "system": false,
+        "id": "eu2fbaiq",
+        "name": "dateCompleted",
+        "type": "date",
+        "required": false,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "min": "",
+          "max": ""
+        }
+      },
+      {
+        "system": false,
+        "id": "n1t1goxe",
+        "name": "tutoringRequest",
+        "type": "relation",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "collectionId": "g1ofaafeuq7ssws",
+          "cascadeDelete": true,
+          "minSelect": null,
+          "maxSelect": 1,
+          "displayFields": null
+        }
+      }
+    ],
+    "indexes": [],
+    "listRule": "@request.auth.id != \"\" && (@request.auth.id = tutor.id || @request.auth.id = tutee.id)",
+    "viewRule": "@request.auth.id != \"\" && (@request.auth.id = tutor.id || @request.auth.id = tutee.id)",
+    "createRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {}
   }
 ]
