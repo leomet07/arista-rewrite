@@ -78,23 +78,27 @@ export const actions = {
 			end_time: new Date(serialized_event.end_time)
 		};
 
-		console.log(serialized_event.end_time);
-		console.log(serialized_event.start_time);
-
 		const credits = determinteEventCredits(serialized_event);
 
 		const promises = serialized_event.signed_up.map((v) =>
-			locals.pb.collection("credits").create({
-				credits,
-				event: event_id,
-				user: v
-			})
+			locals.pb.collection("credits").create(
+				{
+					credits,
+					event: event_id,
+					user: v
+				},
+				{ requestKey: null } // requestKey is null here to avoid cancelled requests when successive requests are ran
+			)
 		);
 
 		await Promise.all(promises);
 
-		await locals.pb.collection<RecievedEvent>("events").update(event_id, {
-			isComplete: true
-		});
+		await locals.pb.collection<RecievedEvent>("events").update(
+			event_id,
+			{
+				isComplete: true
+			},
+			{ requestKey: null }
+		);
 	}
 };

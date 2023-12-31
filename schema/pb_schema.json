@@ -278,6 +278,37 @@
     "options": {}
   },
   {
+    "id": "r74rlqomit2ywtm",
+    "name": "publicUsers",
+    "type": "view",
+    "system": false,
+    "schema": [
+      {
+        "system": false,
+        "id": "atjd0ikf",
+        "name": "name",
+        "type": "text",
+        "required": true,
+        "presentable": false,
+        "unique": false,
+        "options": {
+          "min": null,
+          "max": null,
+          "pattern": ""
+        }
+      }
+    ],
+    "indexes": [],
+    "listRule": "@request.auth.id != \"\" && (@request.auth.id ?= @collection.tutoringSessions.tutee.id || @request.auth.id ?= @collection.tutoringSessions.tutor.id) && (id ?= @collection.tutoringSessions.tutee.id || id ?= @collection.tutoringSessions.tutor.id)",
+    "viewRule": "@request.auth.id != \"\" && (@request.auth.id ?= @collection.tutoringSessions.tutee.id || @request.auth.id ?= @collection.tutoringSessions.tutor.id) && (id ?= @collection.tutoringSessions.tutee.id || id ?= @collection.tutoringSessions.tutor.id)",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null,
+    "options": {
+      "query": "SELECT id, name from users"
+    }
+  },
+  {
     "id": "g1ofaafeuq7ssws",
     "name": "tutoringRequests",
     "type": "base",
@@ -370,7 +401,7 @@
     "listRule": "@request.auth.id != \"\" ",
     "viewRule": "@request.auth.id != \"\" ",
     "createRule": "@request.auth.id != \"\" && @request.auth.is_tutee = true",
-    "updateRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false && @request.data.isClaimed:isset = true",
+    "updateRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false && @request.data.isClaimed:isset = true && @request.data.tutee:isset = false && @request.data.topic:isset = false && @request.data.class:isset = false && @request.data.teacher:isset = false && @request.data.general_time:isset = false  && @request.data.id:isset = false ",
     "deleteRule": "@request.auth.id != \"\" && @request.auth.id = tutee.id",
     "options": {}
   },
@@ -505,39 +536,8 @@
     "listRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
     "viewRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
     "createRule": "@request.auth.id != \"\" && (@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") && @request.auth.is_tutee = false\n// check if either admin or events committee",
-    "updateRule": "@request.auth.id != \"\" && @request.data.signed_up:isset = true && @request.auth.is_tutee = false",
+    "updateRule": "@request.auth.id != \"\"&& @request.auth.is_tutee = false && (@request.data.signed_up:isset = true || ((@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") && @request.data.isComplete:isset = true ) ) && @request.data.name:isset = false && @request.data.description:isset = false && @request.data.start_time:isset = false && @request.data.end_time:isset = false && @request.data.event_owner:isset = false && @request.data.is_out_of_school:isset = false",
     "deleteRule": "@request.auth.id != \"\" && (@request.auth.id = event_owner.id || @request.auth.committees ?~ \"admin\") && @request.auth.is_tutee = false",
     "options": {}
-  },
-  {
-    "id": "r74rlqomit2ywtm",
-    "name": "publicUsers",
-    "type": "view",
-    "system": false,
-    "schema": [
-      {
-        "system": false,
-        "id": "atjd0ikf",
-        "name": "name",
-        "type": "text",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": null,
-          "max": null,
-          "pattern": ""
-        }
-      }
-    ],
-    "indexes": [],
-    "listRule": "@request.auth.id != \"\" && (@request.auth.id ?= @collection.tutoringSessions.tutee.id || @request.auth.id ?= @collection.tutoringSessions.tutor.id) && (id ?= @collection.tutoringSessions.tutee.id || id ?= @collection.tutoringSessions.tutor.id)",
-    "viewRule": "@request.auth.id != \"\" && (@request.auth.id ?= @collection.tutoringSessions.tutee.id || @request.auth.id ?= @collection.tutoringSessions.tutor.id) && (id ?= @collection.tutoringSessions.tutee.id || id ?= @collection.tutoringSessions.tutor.id)",
-    "createRule": null,
-    "updateRule": null,
-    "deleteRule": null,
-    "options": {
-      "query": "SELECT id, name from users"
-    }
   }
 ]
