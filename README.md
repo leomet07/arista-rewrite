@@ -1,4 +1,4 @@
-# create-skeleton-app
+# ARISTA website
 
 Everything you need to build a Svelte project, powered by [`create-skeleton-app`](https://github.com/skeletonlabs/skeleton/tree/dev/packages/create-skeleton-app).
 
