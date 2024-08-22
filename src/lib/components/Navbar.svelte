@@ -2,6 +2,7 @@
 	import { AppBar } from "@skeletonlabs/skeleton";
 	import { pb, currentUser } from "$lib/pocketbase";
 	import { LightSwitch, Avatar } from "@skeletonlabs/skeleton";
+	import { isOnCommittee } from "$lib/isOnCommittee";
 
 	function generateInitials(user: any | null) {
 		return !user?.name
@@ -25,10 +26,13 @@
 				<a href="/events">Events</a>
 				<a class="ml-2" href="/tutoring">Tutor</a>
 			{/if}
+			{#if isOnCommittee($currentUser, "admin")}
+				<a class="ml-2" href="/admin">Admin</a>
+			{/if}
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
-		<LightSwitch />
+		<!-- <LightSwitch /> -->
 		{#if !$currentUser}
 			<a href="/register">Register</a>
 			<a href="/login">Login</a>

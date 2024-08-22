@@ -2,21 +2,12 @@
 	import type { PageData } from "./$types";
 	import { currentUser } from "$lib/pocketbase";
 	import { ProgressBar } from "@skeletonlabs/skeleton";
-	import type { RecievedCredit } from "$lib/db_types";
+	import calculateCredits from "$lib/calculateCredits";
 
 	export let data: PageData;
 
 	let eventsCreditsNeeded = 21;
 	let tutoringCreditsNeeded = 7;
-	function calculateCredits(credits: RecievedCredit[], type: "events" | "tutoring"): number {
-		let total = 0;
-		for (const credit of credits) {
-			if ((type == "events" && credit.event) || (type == "tutoring" && credit?.tutoringSession)) {
-				total += credit.credits;
-			}
-		}
-		return total;
-	}
 </script>
 
 <main class="container mx-auto p-8 space-y-8">

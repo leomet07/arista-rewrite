@@ -5,7 +5,8 @@ import {
 	TutoringRequestSchema,
 	type RecievedTutoringRequest,
 	type RecievedTutoringSession,
-	type ExpandedTutoringSession
+	type ExpandedTutoringSession,
+	type RecievedPublicUserData
 } from "$lib/db_types";
 import handleError from "$lib/handleError";
 import { z } from "zod";
@@ -35,11 +36,7 @@ export const load = async ({ locals, request }) => {
 
 	// only gets rows where tutor or tutee is matching an active session for this user
 	// use a viewCollection as to not leak ALL user's names
-	const names = (await locals.pb.collection("publicUsers").getFullList()) as {
-		id: string;
-		name: string;
-		email: string;
-	}[];
+	const names = (await locals.pb.collection("publicUsers").getFullList()) as unknown as RecievedPublicUserData[];
 
 	const expanded_sessions: ExpandedTutoringSession[] = sessions.map((session) => {
 		const tutor_name = names.find((j) => j.id === session.tutor)?.name;

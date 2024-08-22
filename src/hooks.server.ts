@@ -1,5 +1,8 @@
+import type { RecievedUser } from "$lib/db_types";
+import { isOnCommittee } from "$lib/isOnCommittee";
 import { pb } from "$lib/pocketbase";
 import { redirect, type Handle } from "@sveltejs/kit";
+import type { AuthModel } from "pocketbase";
 
 export const handle: Handle = async ({ event, resolve }) => {
 	// before
@@ -28,6 +31,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// Redirection inspired by https://www.youtube.com/watch?v=ieECVME5ZLU
 		const fromUrl = event.url.pathname + event.url.search;
 		const message = "Tutees cannot access that page.";
+		throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
+	}
+
+	// Forbid non-admins from entering admin routes
+	if ((event.url.pathname.startsWith("/admin")) && event.locals.user && !isOnCommittee(event.locals.user as RecievedUser, "admin")) {
+		const fromUrl = event.url.pathname + event.url.search;
+		const message = "Non-admins cannot access that page.";
 		throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
 	}
 
