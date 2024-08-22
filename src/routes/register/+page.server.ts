@@ -1,7 +1,8 @@
 import { fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
-import { superValidate, setError } from "sveltekit-superforms/server";
+import { superValidate, setError } from "sveltekit-superforms";
 import { z } from "zod";
+import { zod } from 'sveltekit-superforms/adapters';
 import type { RecievedUser } from "$lib/db_types";
 import handleError from "$lib/handleError";
 
@@ -22,7 +23,7 @@ const RegisterPageSchema = z
 	});
 export const load = async () => {
 	// Server API:
-	const form = await superValidate(RegisterPageSchema);
+	const form = await superValidate(zod(RegisterPageSchema));
 
 	// Unless you throw, always return { form } in load and form actions.
 	return { form };
@@ -30,7 +31,7 @@ export const load = async () => {
 
 export const actions: Actions = {
 	default: async ({ locals, request }) => {
-		const form = await superValidate(request, RegisterPageSchema);
+		const form = await superValidate(request, zod(RegisterPageSchema));
 		console.log("POST", form);
 
 		// Convenient validation check:

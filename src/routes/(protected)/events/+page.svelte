@@ -1,16 +1,14 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import "@event-calendar/core/index.css";
-	import { superForm } from "sveltekit-superforms/client";
+	import { superForm } from "sveltekit-superforms";
 	import type { RecievedEvent } from "$lib/db_types";
 	import { SlideToggle } from "@skeletonlabs/skeleton";
 	import { isOnCommittee } from "$lib/isOnCommittee";
 	import { currentUser } from "$lib/pocketbase";
 
 	export let data: PageData;
-	const formObj = superForm(data.form, {
-		resetForm: true
-	});
+	const formObj = superForm(data.form);
 	const { form, errors, constraints } = formObj;
 
 	import { DateInput } from "date-picker-svelte";

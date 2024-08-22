@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import { goto, invalidateAll } from "$app/navigation";
-	import { superForm } from "sveltekit-superforms/client";
+	import { superForm } from "sveltekit-superforms";
 	import { pb, currentUser } from "$lib/pocketbase";
 	import { enhance, deserialize, applyAction } from "$app/forms";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";

@@ -1,7 +1,8 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
-import { superValidate } from "sveltekit-superforms/server";
+import { superValidate } from "sveltekit-superforms";
 import { z } from "zod";
+import { zod } from 'sveltekit-superforms/adapters';
 import handleError from "$lib/handleError";
 
 const SettingsPageSchema = z
@@ -16,7 +17,7 @@ const SettingsPageSchema = z
     });
 export const load = async () => {
     // Server API:
-    const form = await superValidate(SettingsPageSchema);
+    const form = await superValidate(zod(SettingsPageSchema));
 
     // Unless you throw, always return { form } in load and form actions.
     return { form };
@@ -24,7 +25,7 @@ export const load = async () => {
 
 export const actions: Actions = {
     change_password: async ({ locals, request }) => {
-        const form = await superValidate(request, SettingsPageSchema);
+        const form = await superValidate(request, zod(SettingsPageSchema));
 
         if (!locals?.user?.id) {
             error(401, "User not logged in.");
@@ -47,7 +48,7 @@ export const actions: Actions = {
         return { form };
     },
     delete_account: async ({ locals, request }) => {
-        const form = await superValidate(request, SettingsPageSchema);
+        const form = await superValidate(request, zod(SettingsPageSchema));
 
         if (!locals?.user?.id) {
             error(401, "User not logged in.");

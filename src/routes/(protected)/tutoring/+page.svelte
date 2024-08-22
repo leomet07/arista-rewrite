@@ -5,7 +5,7 @@
 	import type { RecievedTutoringRequest } from "$lib/db_types";
 	import { currentUser } from "$lib/pocketbase";
 	import type { PageData } from "./$types";
-	import { superForm } from "sveltekit-superforms/client";
+	import { superForm } from "sveltekit-superforms";
 
 	export let data: PageData;
 	let myTutoringRequests: RecievedTutoringRequest[];

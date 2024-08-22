@@ -1,16 +1,21 @@
 <!-- https://superforms.rocks/components#using-the-componentized-field-in-awesome-ways -->
 <script lang="ts" context="module">
 	import type { AnyZodObject } from "zod";
-	type T = AnyZodObject;
+	import type { Infer } from "sveltekit-superforms";
+	type T = Infer<AnyZodObject>;
 </script>
 
-<script lang="ts" generics="T extends AnyZodObject">
+<script lang="ts" generics="T extends Infer<AnyZodObject>">
 	import type { z } from "zod";
-	import type { ZodValidation, FormPathLeaves } from "sveltekit-superforms";
-	import { formFieldProxy, type SuperForm } from "sveltekit-superforms/client";
+	import {
+		formFieldProxy,
+		type FormFieldProxy,
+		type SuperForm,
+		type FormPathLeaves
+	} from "sveltekit-superforms";
 
-	export let form: SuperForm<ZodValidation<T>, unknown>;
-	export let field: FormPathLeaves<z.infer<T>>;
+	export let form: SuperForm<T, any>;
+	export let field: FormPathLeaves<T>;
 	export let label: string = "";
 	export let placeholder: string = "";
 	export let type: string = "text";
@@ -24,7 +29,10 @@
 		| "numeric"
 		| "decimal" = "text";
 
-	const { value, errors, constraints } = formFieldProxy(form, field);
+	const { value, errors, constraints } = formFieldProxy(
+		form,
+		field
+	) satisfies FormFieldProxy<string>;
 </script>
 
 <label>

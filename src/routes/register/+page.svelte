@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { applyAction, enhance } from "$app/forms";
 	import { pb } from "$lib/pocketbase";
-	import { superForm } from "sveltekit-superforms/client";
+	import { superForm } from "sveltekit-superforms";
 	import type { PageData } from "./$types";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";

@@ -1,6 +1,6 @@
 import { error, fail, redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
-import { setError, superValidate } from "sveltekit-superforms/server";
+import { setError, superValidate } from "sveltekit-superforms";
 import {
 	TutoringRequestSchema,
 	type RecievedTutoringRequest,
@@ -9,12 +9,13 @@ import {
 } from "$lib/db_types";
 import handleError from "$lib/handleError";
 import { z } from "zod";
+import { zod } from 'sveltekit-superforms/adapters';
 
 let RequestTutoringSchema = TutoringRequestSchema.omit({ tutee: true }); // don't include tutee in form;
 
 export const load = async ({ locals, request }) => {
 	// Server API:
-	const form = await superValidate(RequestTutoringSchema);
+	const form = await superValidate(zod(RequestTutoringSchema));
 
 	if (!locals?.user?.id) {
 		error(401, "User not logged in.");
@@ -54,7 +55,7 @@ export const load = async ({ locals, request }) => {
 
 export const actions: Actions = {
 	request_tutoring: async ({ locals, request }) => {
-		const form = await superValidate(request, RequestTutoringSchema);
+		const form = await superValidate(request, zod(RequestTutoringSchema));
 
 		if (!locals?.user?.id) {
 			error(401, "User not logged in.");
