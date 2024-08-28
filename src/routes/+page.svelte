@@ -11,6 +11,9 @@
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
+	<aside class="alert variant-filled-warning">
+		<b>This website is still a work in progress, but you are free to use it early. Report any issues to <span class="font-mono underline">stuyaristanycweb "at" gmail "dot" com</span> .</b>
+	</aside>
 	{#if $currentUser}
 		{#if $currentUser.is_tutee}
 			<hgroup>
