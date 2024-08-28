@@ -24,7 +24,7 @@
 			</hgroup>
 
 			<section>
-				{#if data.credits}
+				{#if data.credits !== undefined}
 					<div class="card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
 						<span class="font-bold w-16">Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 						<ProgressBar
