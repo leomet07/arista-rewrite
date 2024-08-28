@@ -29,6 +29,7 @@ export const UserSchema = z.object({
 export const EventSchema = z.object({
 	name: z.string().min(3).max(64),
 	description: z.string().max(4000),
+	location: z.string().max(256),
 	start_time: z.coerce.date(),
 	end_time: z.coerce.date(),
 	multiplier: z.number().min(1).max(5).step(0.5).default(1),

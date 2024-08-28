@@ -43,8 +43,14 @@
 				/>
 				<InputField
 					form={formObj}
+					field="location"
+					label="Enter the event's location:"
+					placeholder="Stuyvesant High School, PS100, Prospect Park, etc"
+				/>
+				<InputField
+					form={formObj}
 					field="description"
-					label="Enter the event's title:"
+					label="Enter the event's description:"
 					placeholder="Helping people, Saving the world, Assisting the Red Cross, etc"
 				/>
 

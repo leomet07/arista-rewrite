@@ -4,6 +4,7 @@
 	import { isOnCommittee } from "$lib/isOnCommittee";
 	import { currentUser } from "$lib/pocketbase";
 	import { determinteEventCredits } from "$lib/determinteCredits";
+	import { format } from "date-fns";
 
 	export let data: PageData;
 </script>
@@ -12,12 +13,20 @@
 	<section>
 		<h1 class="h1">{data.event.name}</h1>
 		<h3 class="h3">{data.event.description}</h3>
-		<p class="font-bold">Start time: {data.event.start_time.toDateString()}</p>
-		<p class="font-bold">End time: {data.event.end_time.toDateString()}</p>
-		<p>Multiper: {data.event.multiplier}</p>
-		<p>{data.event.signed_up.length} people are currently signed up.</p>
-		<p>Is out of school: {data.event.is_out_of_school}</p>
-		<p>Is complete?: {data.event.isComplete}</p>
+		<p>Located at: {data.event.location}</p>
+		<p class="">
+			{format(data.event.start_time, "MM/dd/yyyy hh:mm a")} to {format(
+				data.event.end_time,
+				"MM/dd/yyyy hh:mm a"
+			)}
+		</p>
+		<div class="mt-3">
+			<p>Worth {determinteEventCredits(data.event)} credits</p>
+			<p>Multiper: {data.event.multiplier}</p>
+			<p>{data.event.signed_up.length} people are currently signed up.</p>
+			<p>Is out of school: {data.event.is_out_of_school}</p>
+			<p>Is complete?: {data.event.isComplete}</p>
+		</div>
 
 		{#if isOnCommittee($currentUser, "events") && !data.event.isComplete}
 			{#if data.is_current_user_signed_up}
