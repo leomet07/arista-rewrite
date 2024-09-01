@@ -36,6 +36,9 @@
 	<section>
 		<h1 class="h1">{data.event.name}</h1>
 		<h3 class="h3">{data.event.description}</h3>
+		{#if data.event.isComplete}
+			<aside class="alert variant-filled-success mt-2 mb-4">This event is already complete.</aside>
+		{/if}
 		<p>Located at: {data.event.location}</p>
 		<p class="">
 			{format(data.event.start_time, "MM/dd/yyyy hh:mm a")} to {format(
@@ -50,15 +53,17 @@
 			<p>Is out of school: {data.event.is_out_of_school}</p>
 			<p>Is complete?: {data.event.isComplete}</p>
 		</div>
-		{#if data.is_current_user_signed_up}
-			<h3 class="h3">You are signed up for this event.</h3>
-			<form method="POST" action="?/event_unsign_up" use:enhance>
-				<button type="submit" class="btn variant-outline-secondary">Leave event</button>
-			</form>
-		{:else}
-			<form method="POST" action="?/event_sign_up" use:enhance>
-				<button type="submit" class="btn variant-filled-secondary">Sign up</button>
-			</form>
+		{#if !data.event.isComplete}
+			{#if data.is_current_user_signed_up}
+				<h3 class="h3">You are signed up for this event.</h3>
+				<form method="POST" action="?/event_unsign_up" use:enhance>
+					<button type="submit" class="btn variant-outline-secondary">Leave event</button>
+				</form>
+			{:else}
+				<form method="POST" action="?/event_sign_up" use:enhance>
+					<button type="submit" class="btn variant-filled-secondary">Sign up</button>
+				</form>
+			{/if}
 		{/if}
 
 		{#if isOnCommittee($currentUser, "events") && !data.event.isComplete}
