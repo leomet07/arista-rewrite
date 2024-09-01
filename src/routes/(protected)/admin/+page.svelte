@@ -33,12 +33,12 @@
 				<tr>
 					<th>Name</th>
 					<th>Email</th>
-					<th>Homeroom</th>
 					<th>Is-Tutee</th>
-					<th>4-digit ID</th>
-					<th>Committees</th>
 					<th>Events Credits</th>
 					<th>Tutoring Credits</th>
+					<th>Committees</th>
+					<th>Homeroom</th>
+					<th>OSIS</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -46,14 +46,14 @@
 					<tr>
 						<td>{row.name}</td>
 						<td>{row.email}</td>
-						<td>{row.homeroom}</td>
 						<td>
 							{row.is_tutee}
 						</td>
-						<td>{row.four_digit_id}</td>
-						<td>{row.committees.join(", ")}</td>
 						<td>{calculateCredits(row.credits, "events")}</td>
 						<td>{calculateCredits(row.credits, "tutoring")}</td>
+						<td>{row.committees.join(", ") || "none"}</td>
+						<td>{row.homeroom}</td>
+						<td>{row.osis}</td>
 					</tr>
 				{/each}
 			</tbody>
