@@ -31,26 +31,26 @@
 		class="card p-4 w-full text-token space-y-4"
 	>
 		<InputField form={formObj} field="name" label="Enter your name:" placeholder="John Doe" />
+
+		<label for="is_tutee">
+			I'm not an ARISTA member and I'm here to be tutored.
+			<br />
+			<SlideToggle
+				name="is_tutee"
+				bind:checked={$form.is_tutee}
+				active="bg-primary-500 dark:bg-primary-500"
+				{...$constraints.is_tutee}
+			></SlideToggle>
+		</label>
+
 		<InputField form={formObj} field="homeroom" label="Enter your homeroom:" placeholder="3JJ" />
 		<InputField
 			form={formObj}
 			field="osis"
 			label="Enter your osis:"
 			inputmode="numeric"
-			placeholder="222224444"
+			placeholder="123456789"
 		/>
-
-		<InputField
-			form={formObj}
-			field="four_digit_id"
-			label="Enter your four digit ID:"
-			placeholder="2222"
-			inputmode="numeric"
-		/>
-		<span>
-			(If you are a Stuyvesant student and don't have a four digit ID, learn how to get one
-			<a class="anchor" href="/four_digit_id_help">here</a>.)
-		</span>
 
 		<InputField
 			form={formObj}
@@ -74,15 +74,6 @@
 			label="Enter the password again:"
 			type="password"
 		/>
-
-		<label for="is_tutee">I'm here to be tutored.</label>
-		<SlideToggle
-			name="is_tutee"
-			bind:checked={$form.is_tutee}
-			active="bg-primary-500 dark:bg-primary-500"
-			{...$constraints.is_tutee}
-		></SlideToggle>
-		<br />
 
 		<input type="submit" class="btn variant-filled" value="Register" />
 	</form>

@@ -12,8 +12,7 @@ const RegisterPageSchema = z
 		name: z.string().min(3).max(48),
 		password: z.string().min(6).max(64),
 		passwordConfirm: z.string().min(6).max(64),
-		four_digit_id: z.coerce.number().min(0).max(10000),
-		osis: z.coerce.number().min(0).max(999999999),
+		osis: z.number().min(1).max(999999999).default('' as unknown as number), // cursed use of empty string to prevent zero
 		homeroom: z.string().max(4),
 		is_tutee: z.boolean().optional().default(false)
 	})
