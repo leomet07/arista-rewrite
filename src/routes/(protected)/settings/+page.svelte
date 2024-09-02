@@ -14,7 +14,9 @@
 
 	async function logout() {
 		pb.authStore.clear();
-		await goto("/");
+		setTimeout(async () => {
+			await goto("/"); // needs this to be on the next JIT cycle so that cookies clear properly
+		}, 500);
 	}
 
 	export let data: PageData;
