@@ -33,7 +33,7 @@
 				use:enhance
 			>
 				<h2 class="h2">Create an Event</h2>
-				<ErrorComponent errors={$errors._errors} />
+				<ErrorComponent errors={$errors} />
 
 				<InputField
 					form={formObj}

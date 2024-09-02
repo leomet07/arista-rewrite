@@ -26,7 +26,7 @@
 			<b>{message}</b>
 		</aside>
 	{/if}
-	<ErrorComponent errors={$errors._errors} />
+	<ErrorComponent errors={$errors} />
 
 	<form
 		method="POST"

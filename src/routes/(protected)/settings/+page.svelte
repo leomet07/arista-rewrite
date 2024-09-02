@@ -74,7 +74,7 @@
 				class="card p-4 w-full text-token space-y-4"
 				use:enhance
 			>
-				<ErrorComponent errors={$errors._errors} />
+				<ErrorComponent errors={$errors} />
 				<h3 class="h3">Change password</h3>
 
 				<InputField

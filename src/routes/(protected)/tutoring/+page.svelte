@@ -65,7 +65,7 @@
 			action="?/request_tutoring"
 			use:enhance
 		>
-			<ErrorComponent errors={$errors._errors} />
+			<ErrorComponent errors={$errors} />
 
 			<h3 class="h3">Request tutoring</h3>
 

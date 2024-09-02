@@ -6,6 +6,7 @@
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";
 	import { SlideToggle } from "@skeletonlabs/skeleton";
+	import SuperDebug from "sveltekit-superforms";
 
 	export let data: PageData;
 	const formObj = superForm(data.form);
@@ -13,12 +14,13 @@
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
+	<!-- <SuperDebug data={{ $form, $errors }} /> -->
 	<hgroup>
 		<h1 class="h1">Register</h1>
 		<p>Register to ARISTA with your Stuy.edu email!</p>
 	</hgroup>
 
-	<ErrorComponent errors={$errors._errors} />
+	<ErrorComponent errors={$errors} />
 
 	<form
 		method="POST"
