@@ -14,7 +14,8 @@ body {
 	display: inline-block;
 	width: 1em;
 }
-.ec-icon.ec-prev:after, .ec-icon.ec-next:after {
+.ec-icon.ec-prev:after,
+.ec-icon.ec-next:after {
 	content: "";
 	position: relative;
 	width: 0.5em;
@@ -30,3 +31,14 @@ body {
 	transform: rotate(45deg) translate(-2px, 2px);
 }
 /*! purgecss end ignore */
+
+/* Default setting: */
+.dark [data-theme="wintry"] {
+	background-image: none !important;
+	--color-surface-900: 20 28 46;
+	--theme-font-family-base: Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif", "Sitka Small",
+		serif;
+	font-weight: normal;
+	--theme-font-family-heading: Rockwell, "Rockwell Nova", "Roboto Slab", "DejaVu Serif",
+		"Sitka Small", serif;
+}

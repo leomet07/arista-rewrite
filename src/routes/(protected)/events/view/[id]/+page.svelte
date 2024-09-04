@@ -35,7 +35,7 @@
 <main class="container mx-auto p-8 space-y-8">
 	<section>
 		<h1 class="h1">{data.event.name}</h1>
-		<h3 class="h3">{data.event.description}</h3>
+		<p class=" font-normal mt-2">{data.event.description}</p>
 		{#if data.event.isComplete}
 			<aside class="alert variant-filled-success mt-2 mb-4">This event is already complete.</aside>
 		{/if}
@@ -51,7 +51,7 @@
 			<p>Multiper: {data.event.multiplier}</p>
 			<p>{data.event.signed_up.length} people are currently signed up.</p>
 			<p>Is out of school: {data.event.is_out_of_school}</p>
-			<p>Is complete?: {data.event.isComplete}</p>
+			<p>Is complete: {data.event.isComplete}</p>
 		</div>
 		{#if !data.event.isComplete}
 			{#if data.is_current_user_signed_up}
