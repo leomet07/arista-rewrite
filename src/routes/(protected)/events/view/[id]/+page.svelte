@@ -47,11 +47,12 @@
 			)}
 		</p>
 		<div class="mt-3">
-			<p>Worth {determinteEventCredits(data.event)} credits</p>
-			<p>Multiper: {data.event.multiplier}</p>
+			<p>
+				Worth {determinteEventCredits(data.event)} credits, after applying a multiplier of
+				{data.event.multiplier}x
+			</p>
 			<p>{data.event.signed_up.length} people are currently signed up.</p>
 			<p>Is out of school: {data.event.is_out_of_school}</p>
-			<p>Is complete: {data.event.isComplete}</p>
 		</div>
 		{#if !data.event.isComplete}
 			{#if data.is_current_user_signed_up}
@@ -71,16 +72,16 @@
 				<hgroup>
 					<h3 class="h3">For Events Committee:</h3>
 					<p>
-						This event should give <span class="font-bold underline">
-							{determinteEventCredits(data.event)} credits
-						</span>, barring any commutes or latenesses.
+						This event should give
+						<span class="font-bold underline"> {determinteEventCredits(data.event)} credits</span>,
+						barring any commutes or latenesses.
 					</p>
 				</hgroup>
 				{#if data.event.expand}
 					{#each data.event.expand.signed_up as signed_up_user}
 						<div class="card p-4">
 							<p><b>{signed_up_user.name}</b></p>
-							<p>{signed_up_user.osis}</p>
+							<p>{signed_up_user.email}</p>
 							{#if data.credited_user_ids.includes(signed_up_user.id)}
 								<p>This user has already been credited.</p>
 							{:else}

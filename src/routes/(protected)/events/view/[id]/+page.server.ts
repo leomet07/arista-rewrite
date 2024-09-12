@@ -3,12 +3,16 @@ import type { ExpandedEvent, RecievedCredit, RecievedEvent, RecievedUser } from 
 import type { PageServerLoad } from "./$types";
 import { isOnCommittee } from "$lib/isOnCommittee";
 import { determinteEventCredits } from "$lib/determinteCredits";
+import mergeUsersWithEmails from "$lib/mergeUsersWithEmails";
 
 // Get the data, for page load
 export const load = (async ({ params, locals }) => {
 	const event_id = params.id;
 
 	const event = await locals.pb.collection("events").getOne(event_id, { requestKey: null, expand: "signed_up" });
+	if (event?.expand?.signed_up) {
+		event.expand.signed_up = await mergeUsersWithEmails(event.expand.signed_up, locals.pb);
+	}
 
 	const serialized_event = structuredClone(event as unknown) as ExpandedEvent;
 	const serialized_event_with_time = {
