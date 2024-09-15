@@ -59,7 +59,8 @@ export const TutoringSessionSchema = z.object({
 	tutor: z.string().min(2).max(64),
 	tutoringRequest: z.string().min(2).max(64),
 	isComplete: z.boolean().default(false),
-	dateCompleted: z.date().optional()
+	dateCompleted: z.date().optional(),
+	durationInHours: z.coerce.number().min(0.5).max(10).optional()
 });
 
 export const PublicUserDataSchema = UserSchema.pick({ email: true, name: true });

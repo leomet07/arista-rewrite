@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from "$app/forms";
+	import { invalidateAll } from "$app/navigation";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";
 	import type { RecievedTutoringRequest } from "$lib/db_types";
@@ -10,6 +11,22 @@
 	export let data: PageData;
 	let myTutoringRequests: RecievedTutoringRequest[];
 	$: myTutoringRequests = data.tutoringRequests.filter((v) => v.tutee == $currentUser?.id);
+
+	async function finishTutoringSession(event: Event) {
+		const formEl = event.target as HTMLFormElement;
+		const data = new FormData(formEl);
+
+		const response = await fetch(formEl.action, {
+			method: "POST",
+			body: JSON.stringify({
+				duration: data.get("duration")
+			})
+		});
+		const responseData = await response.json(); // { success: true, errors: {} } object
+
+		formEl.reset(); // reset form
+		await invalidateAll(); // rerun `load` function for the page
+	}
 
 	const formObj = superForm(data.form, { resetForm: true });
 	const { form, errors, constraints } = formObj;
@@ -52,6 +69,23 @@
 							{tutoringSession.expand.tutoringRequest.teacher}
 						</p>
 						<p>{tutoringSession.expand.tutoringRequest.general_time}</p>
+						{#if $currentUser?.is_tutee}
+							<form
+								method="POST"
+								class="mt-2 card p-2"
+								action={"?/finish_tutoring_session&id=" + tutoringSession.id}
+								on:submit|preventDefault={(e) => finishTutoringSession(e)}
+								use:enhance
+							>
+								<label for="duration">
+									Enter the duration of your session, in hours:
+									<input class="input p-2" name="duration" type="numeric" />
+								</label>
+								<button type="submit" class="mt-2 btn variant-filled"
+									>Finish Tutoring Session</button
+								>
+							</form>
+						{/if}
 					</div>
 				{/each}
 			</div>

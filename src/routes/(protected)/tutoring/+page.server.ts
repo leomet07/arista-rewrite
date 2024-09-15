@@ -6,7 +6,8 @@ import {
 	type RecievedTutoringRequest,
 	type RecievedTutoringSession,
 	type ExpandedTutoringSession,
-	type RecievedPublicUserData
+	type RecievedPublicUserData,
+	TutoringSessionSchema
 } from "$lib/db_types";
 import handleError from "$lib/handleError";
 import { z } from "zod";
@@ -31,7 +32,7 @@ export const load = async ({ locals, request }) => {
 	const sessions = structuredClone(
 		(await locals.pb
 			.collection("tutoringSessions")
-			.getFullList({ sort: "-created", expand: "tutoringRequest" })) as unknown
+			.getFullList({ sort: "-created", expand: "tutoringRequest", filter: "isComplete=false" })) as unknown
 	) as ExpandedTutoringSession[];
 
 	// only gets rows where tutor or tutee is matching an active session for this user
@@ -110,6 +111,36 @@ export const actions: Actions = {
 			await locals.pb
 				.collection("tutoringRequests")
 				.update(tutoring_request_id, { isClaimed: true });
+		} catch (error: unknown) {
+			console.error(error);
+		}
+	},
+	finish_tutoring_session: async ({ locals, request, params, url }) => {
+		console.log(request, params, url);
+		if (!locals?.user?.id) {
+			error(401, "User not logged in.");
+		}
+
+		if (!locals?.user?.is_tutee) {
+			error(401, "A non-tutee cannot finish a request.");
+		}
+
+		const searchParams = url.searchParams;
+		const tutoring_session_id = searchParams.get("id");
+		if (!tutoring_session_id) {
+			error(400, "A tutoring session ID must be passed in as a parameter to finish it.");
+		}
+
+		try {
+			// get the tutoring request
+			const tutoringSession = structuredClone(
+				(await locals.pb.collection("tutoringSessions").getOne(tutoring_session_id)) as unknown
+			) as RecievedTutoringSession;
+
+			const body = await request.json(); // TODO: FIX THIS
+			TutoringSessionSchema.pick({ durationInHours: true }).parse(body);
+			await locals.pb.collection("tutoringSessions").update(tutoring_session_id, { isComplete: true, dateCompleted: new Date().toISOString(), durationInHours: body.duration });
+			return {};
 		} catch (error: unknown) {
 			console.error(error);
 		}
