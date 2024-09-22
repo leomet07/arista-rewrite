@@ -1,4 +1,4 @@
-import { error } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import { EventSchema, type ExpandedEvent, type RecievedCredit, type RecievedEvent, type RecievedUser } from "$lib/db_types.js";
 import type { PageServerLoad } from "./$types";
 import { isOnCommittee } from "$lib/isOnCommittee";
@@ -6,7 +6,7 @@ import { determinteEventCredits } from "$lib/determinteCredits";
 import mergeUsersWithEmails from "$lib/mergeUsersWithEmails";
 import { fail, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
-import handleError from "$lib/handleError";
+import handleError, { handleGenericError } from "$lib/handleError";
 
 // Get the data, for page load
 export const load = (async ({ params, locals }) => {
@@ -151,5 +151,29 @@ export const actions = {
 			console.error(error);
 			return handleError(error, form);
 		}
+	},
+	delete_event: async ({ request, locals, params }) => {
+		const event_id = params.id;
+
+		if (!locals.user) {
+			error(401, "User not logged in.");
+		}
+
+		if (!isOnCommittee(locals.user as RecievedUser, "events")) {
+			error(401, "User is not a member of the events committee.");
+		}
+
+		try {
+			const event = structuredClone(await locals.pb.collection("events").getOne(event_id)) as RecievedEvent;
+			if (String(event.event_owner) !== String(locals.user.id)) {
+				error(401, "User must be the event creator to delete it.");
+			}
+
+			await locals.pb.collection("events").delete(event_id);
+		} catch (error: unknown) {
+			console.error(error);
+			handleGenericError(error);
+		}
+		throw redirect(303, "/events");
 	}
 };

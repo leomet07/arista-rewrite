@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
-	import { enhance } from "$app/forms";
+	import { enhance, deserialize, applyAction } from "$app/forms";
 	import { isOnCommittee } from "$lib/isOnCommittee";
 	import { currentUser } from "$lib/pocketbase";
 	import { determinteEventCredits } from "$lib/determinteCredits";
@@ -8,7 +8,12 @@
 	import { invalidateAll } from "$app/navigation";
 	import { superForm } from "sveltekit-superforms";
 	import EventEditor from "$lib/components/EventEditor.svelte";
+	import { getModalStore } from "@skeletonlabs/skeleton";
+	import type { ActionResult } from "@sveltejs/kit";
 
+	import { type ModalSettings } from "@skeletonlabs/skeleton";
+
+	const modalStore = getModalStore();
 	export let data: PageData;
 
 	async function giveCredits(event: Event, user_id: string) {
@@ -37,6 +42,36 @@
 		invalidateAll: "force",
 		resetForm: false
 	});
+
+	async function handleDeleteEvent(
+		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
+	) {
+		const confirmDelete: ModalSettings = {
+			type: "confirm",
+			title: "Delete event",
+			body: "Are you sure you want to delete the event?",
+			response: async (r: boolean) => {
+				if (r) {
+					const fdata = new FormData();
+					console.log("Deleting event", event.currentTarget);
+					// @ts-ignore
+					const response = await fetch(`/events/view/${data.event.id}?/delete_event`, {
+						method: "POST",
+						body: fdata
+					});
+
+					const result: ActionResult = deserialize(await response.text());
+
+					if (result.type === "success") {
+						// rerun all `load` functions, following the successful update
+						await invalidateAll();
+					}
+					applyAction(result);
+				}
+			}
+		};
+		modalStore.trigger(confirmDelete);
+	}
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -123,6 +158,16 @@
 			<form method="POST" action="?/update_event" class="card mt-4 p-4 w-full text-token space-y-4">
 				<EventEditor {formObj} promptText="Update" />
 			</form>
+			{#if $currentUser?.id === data.event.event_owner || isOnCommittee($currentUser, "admin")}
+				<form
+					class="mt-4"
+					method="POST"
+					on:submit|preventDefault={handleDeleteEvent}
+					action="?/delete_event"
+				>
+					<button type="submit" class="btn variant-filled-error">Delete Event</button>
+				</form>
+			{/if}
 		{/if}
 	</section>
 </main>

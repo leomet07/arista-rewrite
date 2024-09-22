@@ -66,7 +66,7 @@ export const TutoringSessionSchema = z.object({
 export const PublicUserDataSchema = UserSchema.pick({ email: true, name: true });
 
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
-export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel & { signed_up: string[]; };
+export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel & { signed_up: string[]; event_owner: string; };
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
 export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
 export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & StrictRecordModel;
