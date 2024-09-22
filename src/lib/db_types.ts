@@ -34,7 +34,7 @@ export const EventSchema = z.object({
 	end_time: z.coerce.date(),
 	multiplier: z.number().min(1).max(5).step(0.5).default(1),
 	is_out_of_school: z.boolean().default(true),
-	signed_up: z.string().array(),
+	// signed_up: z.string().array(),
 	isComplete: z.boolean().default(false)
 });
 
@@ -66,7 +66,7 @@ export const TutoringSessionSchema = z.object({
 export const PublicUserDataSchema = UserSchema.pick({ email: true, name: true });
 
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
-export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel;
+export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel & { signed_up: string[]; };
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
 export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
 export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & StrictRecordModel;

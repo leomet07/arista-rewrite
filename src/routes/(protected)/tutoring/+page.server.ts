@@ -137,7 +137,7 @@ export const actions: Actions = {
 				(await locals.pb.collection("tutoringSessions").getOne(tutoring_session_id)) as unknown
 			) as RecievedTutoringSession;
 
-			const body = await request.json(); // TODO: FIX THIS
+			const body = await request.json(); // TODO: FIX THIS, can still allow strings/characters somehow?
 			TutoringSessionSchema.pick({ durationInHours: true }).parse(body);
 			await locals.pb.collection("tutoringSessions").update(tutoring_session_id, { isComplete: true, dateCompleted: new Date().toISOString(), durationInHours: body.duration });
 			return {};

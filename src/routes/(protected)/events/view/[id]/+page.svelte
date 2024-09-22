@@ -6,6 +6,8 @@
 	import { determinteEventCredits } from "$lib/determinteCredits";
 	import { format } from "date-fns";
 	import { invalidateAll } from "$app/navigation";
+	import { superForm } from "sveltekit-superforms";
+	import EventEditor from "$lib/components/EventEditor.svelte";
 
 	export let data: PageData;
 
@@ -30,6 +32,11 @@
 		// rerun `load` function for the page
 		await invalidateAll();
 	}
+
+	const formObj = superForm(data.update_form, {
+		invalidateAll: "force",
+		resetForm: false
+	});
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -112,6 +119,10 @@
 					</button>
 				</form>
 			</div>
+
+			<form method="POST" action="?/update_event" class="card mt-4 p-4 w-full text-token space-y-4">
+				<EventEditor {formObj} promptText="Update" />
+			</form>
 		{/if}
 	</section>
 </main>

@@ -1,9 +1,12 @@
 import { error } from "@sveltejs/kit";
-import type { ExpandedEvent, RecievedCredit, RecievedEvent, RecievedUser } from "$lib/db_types.js";
+import { EventSchema, type ExpandedEvent, type RecievedCredit, type RecievedEvent, type RecievedUser } from "$lib/db_types.js";
 import type { PageServerLoad } from "./$types";
 import { isOnCommittee } from "$lib/isOnCommittee";
 import { determinteEventCredits } from "$lib/determinteCredits";
 import mergeUsersWithEmails from "$lib/mergeUsersWithEmails";
+import { fail, superValidate } from "sveltekit-superforms";
+import { zod } from "sveltekit-superforms/adapters";
+import handleError from "$lib/handleError";
 
 // Get the data, for page load
 export const load = (async ({ params, locals }) => {
@@ -28,10 +31,14 @@ export const load = (async ({ params, locals }) => {
 	const credited_users = await locals.pb.collection("credits").getFullList({ filter: filterstr }) as RecievedCredit[];
 	const credited_user_ids = credited_users.map(v => v.user);
 
+	// Server API:
+	const update_form = await superValidate(serialized_event_with_time, zod(EventSchema));
+
 	return {
 		event: serialized_event_with_time,
 		is_current_user_signed_up,
-		credited_user_ids
+		credited_user_ids,
+		update_form: update_form
 	};
 }) satisfies PageServerLoad;
 
@@ -118,5 +125,31 @@ export const actions = {
 			},
 			{ requestKey: null }
 		);
+	},
+	update_event: async ({ request, locals, params }) => {
+		const event_id = params.id;
+
+		if (!locals.user) {
+			error(401, "User not logged in.");
+		}
+
+		if (!isOnCommittee(locals.user as RecievedUser, "events")) {
+			error(401, "User is not a member of the events committee.");
+		}
+
+		const form = await superValidate(request, zod(EventSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
+
+		try {
+			console.log("Updating event: ", form.data);
+			const updated_event = await locals.pb.collection("events").update(event_id, form.data);
+
+			return { update_form: form }; // i am struggling to have superform update, so use:enhance is turned off in the form
+		} catch (error: unknown) {
+			console.error(error);
+			return handleError(error, form);
+		}
 	}
 };
