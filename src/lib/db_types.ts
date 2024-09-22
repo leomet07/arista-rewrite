@@ -40,9 +40,9 @@ export const EventSchema = z.object({
 
 export const CreditSchema = z.object({
 	credits: z.number().min(0.5),
-	user: z.string(),
-	event: z.string(),
-	tutoringSession: z.string()
+	user: z.string(), // id of user
+	event: z.string(), // id of event
+	session: z.string() // id of session
 });
 
 export const TutoringRequestSchema = z.object({
