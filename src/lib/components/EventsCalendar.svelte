@@ -57,3 +57,8 @@
 <div class={!$modeCurrent ? "ec-dark" : ""}>
 	<Calendar {plugins} {options} />
 </div>
+
+<style>
+	
+
+</style>
