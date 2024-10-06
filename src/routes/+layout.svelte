@@ -9,7 +9,7 @@
 
 <svelte:head>
 	<title>Stuyvesant ARISTA</title>
-	<!-- TODO: Add meta description tag <= 160 chars -->
+	<meta name="description" content="ARISTA, an honor society, promotes scholarship, leadership, character, and service through school volunteering, external partnerships, and student tutoring." />
 </svelte:head>
 
 <Modal />
