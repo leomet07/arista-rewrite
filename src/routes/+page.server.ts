@@ -1,14 +1,15 @@
 import { error, fail } from "@sveltejs/kit";
 import type { PageServerLoad } from "./$types";
-import type { RecievedCredit } from "$lib/db_types";
+import type { RecievedCredit, RecievedStrike } from "$lib/db_types";
 
 // Get the data, for page load
 export const load = (async ({ params, locals }) => {
 	if (!locals.user || locals.user.is_tutee) {
 		return;
 	}
-	const credits = structuredClone(await locals.pb.collection("credits").getFullList({ "filter": `user="${locals.user.id}"` }) as unknown) as RecievedCredit[];
+	const credits = structuredClone(await locals.pb.collection("credits").getFullList({ "filter": `user="${locals.user.id}"`, requestKey: null }) as unknown) as RecievedCredit[];
+	const strikes = structuredClone(await locals.pb.collection("strikes").getFullList({ "filter": `strikedUser="${locals.user.id}"`, requestKey: null }) as unknown) as RecievedStrike[];
 
-	return { credits };
+	return { credits, strikes };
 
 }) satisfies PageServerLoad;

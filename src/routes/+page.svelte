@@ -3,6 +3,7 @@
 	import { currentUser } from "$lib/pocketbase";
 	import { ProgressBar } from "@skeletonlabs/skeleton";
 	import calculateCredits from "$lib/calculateCredits";
+	import StrikesDisplay from "$lib/components/StrikesDisplay.svelte";
 
 	export let data: PageData;
 
@@ -12,7 +13,10 @@
 
 <main class="container mx-auto p-8 space-y-8">
 	<aside class="alert variant-filled-warning">
-		<b>This website is still a work in progress, but you are free to use it early. Report any issues to <span class="font-mono underline">stuyaristanycweb "at" gmail "dot" com</span> .</b>
+		<b
+			>This website is still a work in progress, but you are free to use it early. Report any issues
+			to <span class="font-mono underline">stuyaristanycweb "at" gmail "dot" com</span> .</b
+		>
 	</aside>
 	{#if $currentUser}
 		{#if $currentUser.is_tutee}
@@ -52,6 +56,9 @@
 					</div>
 				{/if}
 			</section>
+			{#if data.strikes !== undefined}
+				<StrikesDisplay strikes={data.strikes} />
+			{/if}
 		{/if}
 	{:else}
 		<h3 class="h3">
