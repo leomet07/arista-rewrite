@@ -1,5 +1,5 @@
 import { error, redirect } from "@sveltejs/kit";
-import { EventSchema, type ExpandedEvent, type RecievedCredit, type RecievedEvent, type RecievedUser } from "$lib/db_types.js";
+import { EventSchema, StrikeSchema, type ExpandedEvent, type RecievedCredit, type RecievedEvent, type RecievedUser } from "$lib/db_types.js";
 import type { PageServerLoad } from "./$types";
 import { isOnCommittee } from "$lib/isOnCommittee";
 import { z } from "zod";
@@ -8,16 +8,11 @@ import { superValidate, setError } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import handleError from "$lib/handleError";
 
-const StrikeUserSchema = z
-    .object({
-        reason: z.string().min(1).max(256),
-        weight: z.number().positive().default(1)
-    });
 
 
 // Get the data, for page load
 export const load = (async ({ params, locals }) => {
-    const form = await superValidate(zod(StrikeUserSchema));
+    const form = await superValidate(zod(StrikeSchema));
     const user_id = params.id;
 
     // Unless you throw, always return { form } in load and form actions.
@@ -50,7 +45,7 @@ export const load = (async ({ params, locals }) => {
 
 export const actions = {
     strike_user: async ({ request, locals, params }) => {
-        const form = await superValidate(request, zod(StrikeUserSchema));
+        const form = await superValidate(request, zod(StrikeSchema));
         const user_id = params.id;
 
         // Unless you throw, always return { form } in load and form actions.

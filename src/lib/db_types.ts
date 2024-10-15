@@ -45,6 +45,12 @@ export const CreditSchema = z.object({
 	session: z.string() // id of session
 });
 
+export const StrikeSchema = z.object({
+	strikedUser: z.string(),
+	reason: z.string().min(1).max(256),
+	weight: z.number().positive().default(1)
+});
+
 export const TutoringRequestSchema = z.object({
 	class: z.string().min(2).max(64),
 	teacher: z.string().min(2).max(64),
@@ -68,6 +74,7 @@ export const PublicUserDataSchema = UserSchema.pick({ email: true, name: true })
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
 export type RecievedEvent = z.infer<typeof EventSchema> & StrictRecordModel & { signed_up: string[]; event_owner: string; };
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
+export type RecievedStrike = z.infer<typeof StrikeSchema> & StrictRecordModel;
 export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
 export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & StrictRecordModel;
 export type RecievedPublicUserData = z.infer<typeof PublicUserDataSchema> & StrictRecordModel;

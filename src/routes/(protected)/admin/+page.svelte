@@ -1,5 +1,6 @@
 <script lang="ts">
 	import calculateCredits from "$lib/calculateCredits";
+	import calculateTotalStrikeWeight from "$lib/calculateTotalStrikeWeight";
 	import { determinteEventCredits } from "$lib/determinteCredits";
 	import type { PageData } from "./$types";
 	import { Paginator } from "@skeletonlabs/skeleton";
@@ -36,6 +37,7 @@
 					<th>Is-Tutee</th>
 					<th>Events Credits</th>
 					<th>Tutoring Credits</th>
+					<th>Total Strike Weight</th>
 					<th>Committees</th>
 					<th>Homeroom</th>
 					<th>OSIS</th>
@@ -51,6 +53,7 @@
 						</td>
 						<td>{calculateCredits(row.credits, "events")}</td>
 						<td>{calculateCredits(row.credits, "tutoring")}</td>
+						<td>{calculateTotalStrikeWeight(row.strikes)}</td>
 						<td>{row.committees.join(", ") || "none"}</td>
 						<td>{row.homeroom}</td>
 						<td>{row.osis}</td>
