@@ -48,7 +48,7 @@ export const CreditSchema = z.object({
 export const StrikeSchema = z.object({
 	strikedUser: z.string(),
 	reason: z.string().min(1).max(256),
-	weight: z.number().positive().default(1)
+	weight: z.number().default(1)
 });
 
 export const TutoringRequestSchema = z.object({
