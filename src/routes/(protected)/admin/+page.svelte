@@ -25,6 +25,7 @@
 		<h1 class="h1">Admin Panel</h1>
 		<p>Members with is_tutee of FALSE are ARISTA members.</p>
 		<p>Members with is_tutee of TRUE are NOT ARISTA members.</p>
+		<p>Click on a user's name to view more information and strike them.</p>
 	</hgroup>
 
 	<div class="table-container">
@@ -46,7 +47,7 @@
 			<tbody>
 				{#each paginatedUsers as row, i}
 					<tr>
-						<td>{row.name}</td>
+						<td><a class="underline" href={"/admin/view_user/" + row.id}>{row.name}</a></td>
 						<td>{row.email}</td>
 						<td>
 							{row.is_tutee}
