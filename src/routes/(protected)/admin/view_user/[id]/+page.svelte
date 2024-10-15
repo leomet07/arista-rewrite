@@ -36,5 +36,4 @@
 		<InputField label="Weight: (as a positive, rational number)" field="weight" form={formObj} />
 		<button type="submit" class="btn variant-filled-secondary">Strike User</button>
 	</form>
-	<pre>{JSON.stringify(full_user, null, 4)}</pre>
 </main>
