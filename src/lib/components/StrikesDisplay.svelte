@@ -6,7 +6,9 @@
 </script>
 
 <section class="card p-4 w-full text-token space-y-4">
-	<h4>Total Strikes: {calculateTotalStrikeWeight(strikes)}</h4>
+	<h4>
+		Total Strikes: {Math.round((calculateTotalStrikeWeight(strikes) + Number.EPSILON) * 100) / 100}
+	</h4>
 
 	{#each strikes as strike, index}
 		<div class="card p-4 w-full">
