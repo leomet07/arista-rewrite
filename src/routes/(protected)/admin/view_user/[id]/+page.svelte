@@ -2,15 +2,18 @@
 	import type { PageData } from "./$types";
 	import { page } from "$app/stores";
 	import { enhance } from "$app/forms";
-	import { superForm } from "sveltekit-superforms";
+	import { superForm, formFieldProxy } from "sveltekit-superforms";
 	import InputField from "$lib/components/InputField.svelte";
 	import calculateTotalStrikeWeight from "$lib/calculateTotalStrikeWeight";
+	import { CodeBlock, RadioGroup, RadioItem } from "@skeletonlabs/skeleton";
 	import StrikesDisplay from "$lib/components/StrikesDisplay.svelte";
 
 	let user_id = $page.params.id;
 	export let data: PageData;
-	const formObj = superForm(data.form);
-	const { form, errors, constraints } = formObj;
+	const strikeFormObj = superForm(data.strikeForm);
+	const creditFormObj = superForm(data.creditForm);
+
+	const creditFormType = formFieldProxy(creditFormObj, "type").value;
 
 	$: full_user = data.users.filter((v) => v.id === user_id)[0];
 </script>
@@ -31,9 +34,41 @@
 			label="Reason: "
 			placeholder="Skipping an event, not attending a mandatory meeting..."
 			field="reason"
-			form={formObj}
+			form={strikeFormObj}
 		/>
-		<InputField label="Weight: (as a positive, rational number)" field="weight" form={formObj} />
+		<InputField
+			label="Weight: (as a positive, rational number)"
+			field="weight"
+			form={strikeFormObj}
+		/>
 		<button type="submit" class="btn variant-filled-secondary">Strike User</button>
+	</form>
+	<form
+		class="card p-4 w-full text-token space-y-4"
+		method="POST"
+		action="?/credit_user"
+		use:enhance
+	>
+		<h3 class="h3">Credit {full_user.name} for:</h3>
+		<InputField
+			label="Enter the # of credits: "
+			placeholder="1"
+			field="credits"
+			form={creditFormObj}
+		/>
+		<InputField
+			label="What is this manual crediting for? Please provide an explanation."
+			placeholder="Tutee mistyped credit, last minute addition to event, etc..."
+			field="manualExplanation"
+			form={creditFormObj}
+		/>
+		<div>
+			<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
+				<RadioItem bind:group={$creditFormType} name="type" value="event">event</RadioItem>
+				<RadioItem bind:group={$creditFormType} name="type" value="tutoring">tutoring</RadioItem>
+			</RadioGroup>
+		</div>
+
+		<button type="submit" class="btn variant-filled-secondary">Credit User</button>
 	</form>
 </main>
