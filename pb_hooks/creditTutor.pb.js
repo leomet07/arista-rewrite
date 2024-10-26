@@ -15,6 +15,7 @@ onRecordAfterUpdateRequest(async (e) => {
         newCreditRecord.set("user", tutor_id);
         newCreditRecord.set("event", null);
         newCreditRecord.set("session", e.record.get("id")); // tutoring session id
+        newCreditRecord.set("type", "tutoring");
 
         $app.dao().saveRecord(newCreditRecord);
     }

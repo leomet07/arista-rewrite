@@ -42,7 +42,8 @@ export const CreditSchema = z.object({
 	credits: z.number().min(0.5),
 	user: z.string(), // id of user
 	event: z.string(), // id of event
-	session: z.string() // id of session
+	session: z.string(), // id of session,
+	type: z.string()
 });
 
 export const StrikeSchema = z.object({

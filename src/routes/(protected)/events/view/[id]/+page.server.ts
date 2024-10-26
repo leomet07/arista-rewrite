@@ -101,7 +101,8 @@ export const actions = {
 				credits: credits,
 				user_id: user_id,
 				event: event_id,
-				user: user_id
+				user: user_id,
+				type: "event"
 			},
 			{ requestKey: null } // requestKey is null here to avoid cancelled requests when successive requests are ran
 		);

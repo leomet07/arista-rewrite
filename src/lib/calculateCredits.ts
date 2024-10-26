@@ -6,7 +6,7 @@ export default function calculateCredits(credits: RecievedCredit[] | undefined, 
         return 0;
     }
     for (const credit of credits) {
-        if ((type == "events" && credit.event) || (type == "tutoring" && credit?.session)) {
+        if ((type == "events" && credit.type == "event") || (type == "tutoring" && credit.type == "tutoring")) {
             total += credit.credits;
         }
     }
