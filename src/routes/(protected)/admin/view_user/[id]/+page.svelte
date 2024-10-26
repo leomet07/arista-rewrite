@@ -22,27 +22,6 @@
 	<h2 class="h2">Viewing {full_user.name}</h2>
 	<h3 class="h3">Email: {full_user.email}</h3>
 	<StrikesDisplay strikes={full_user.strikes} />
-
-	<form
-		class="card p-4 w-full text-token space-y-4"
-		method="POST"
-		action="?/strike_user"
-		use:enhance
-	>
-		<h3 class="h3">Strike {full_user.name} for:</h3>
-		<InputField
-			label="Reason: "
-			placeholder="Skipping an event, not attending a mandatory meeting..."
-			field="reason"
-			form={strikeFormObj}
-		/>
-		<InputField
-			label="Weight: (as a positive, rational number)"
-			field="weight"
-			form={strikeFormObj}
-		/>
-		<button type="submit" class="btn variant-filled-secondary">Strike User</button>
-	</form>
 	<form
 		class="card p-4 w-full text-token space-y-4"
 		method="POST"
@@ -70,5 +49,25 @@
 		</div>
 
 		<button type="submit" class="btn variant-filled-secondary">Credit User</button>
+	</form>
+	<form
+		class="card p-4 w-full text-token space-y-4"
+		method="POST"
+		action="?/strike_user"
+		use:enhance
+	>
+		<h3 class="h3">Strike {full_user.name} for:</h3>
+		<InputField
+			label="Reason: "
+			placeholder="Skipping an event, not attending a mandatory meeting..."
+			field="reason"
+			form={strikeFormObj}
+		/>
+		<InputField
+			label="Weight: (as a positive, rational number)"
+			field="weight"
+			form={strikeFormObj}
+		/>
+		<button type="submit" class="btn variant-filled-secondary">Strike User</button>
 	</form>
 </main>
