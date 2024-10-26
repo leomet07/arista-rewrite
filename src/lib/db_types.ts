@@ -43,7 +43,7 @@ export const CreditSchema = z.object({
 	user: z.string(), // id of user
 	event: z.string(), // id of event
 	session: z.string(), // id of session,
-	type: z.string()
+	type: z.union([z.literal("event"), z.literal("tutoring")])
 });
 
 export const StrikeSchema = z.object({
