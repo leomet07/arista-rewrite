@@ -14,7 +14,7 @@ export function calculateCredits(credits: RecievedCredit[] | undefined, type: Cr
     return total;
 }
 
-export function calculateRequiredCredits(user: RecievedUser, type: CreditType): number {
+export function calculateRequiredCredits(user: any, type: CreditType): number {
     if (user.is_tutee) {
         throw new Error("Cannot calculate required credits for a user who is not an ARISTA member.");
     }
@@ -46,7 +46,8 @@ export function calculateRequiredCredits(user: RecievedUser, type: CreditType): 
             other: 0
         };
     } else {
-        throw new Error("Cannot calculate credits for an ARISTA member who isn't a current sophomore/junior/senior");
+        return "Error : Cannot calculate credits for an ARISTA member who isn't a current sophomore/junior/senior" as any as number;
+        // throw new Error("Cannot calculate credits for an ARISTA member who isn't a current sophomore/junior/senior");
     }
     return creditMap[type];
 };

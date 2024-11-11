@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { calculateCredits } from "$lib/calculateCredits";
+	import { calculateCredits, calculateRequiredCredits } from "$lib/calculateCredits";
 	import calculateTotalStrikeWeight from "$lib/calculateTotalStrikeWeight";
 	import { determinteEventCredits } from "$lib/determinteCredits";
 	import type { PageData } from "./$types";
@@ -54,9 +54,21 @@
 						<td>
 							{row.is_tutee}
 						</td>
-						<td>{calculateCredits(row.credits, "event")}</td>
-						<td>{calculateCredits(row.credits, "tutoring")}</td>
-						<td>{calculateCredits(row.credits, "other")}</td>
+						<td>
+							{calculateCredits(row.credits, "event")} / {row.is_tutee
+								? "NONE"
+								: calculateRequiredCredits(row, "event")}
+						</td>
+						<td>
+							{calculateCredits(row.credits, "tutoring")} / {row.is_tutee
+								? "NONE"
+								: calculateRequiredCredits(row, "tutoring")}
+						</td>
+						<td>
+							{calculateCredits(row.credits, "other")} / {row.is_tutee
+								? "NONE"
+								: calculateRequiredCredits(row, "other")}
+						</td>
 						<td>{calculateTotalStrikeWeight(row.strikes)}</td>
 						<td>{row.committees.join(", ") || "none"}</td>
 						<td>{row.homeroom}</td>
