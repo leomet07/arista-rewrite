@@ -45,6 +45,7 @@
 			<RadioGroup active="variant-filled-primary" hover="hover:variant-soft-primary">
 				<RadioItem bind:group={$creditFormType} name="type" value="event">event</RadioItem>
 				<RadioItem bind:group={$creditFormType} name="type" value="tutoring">tutoring</RadioItem>
+				<RadioItem bind:group={$creditFormType} name="type" value="other">other</RadioItem>
 			</RadioGroup>
 		</div>
 
