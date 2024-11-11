@@ -2,7 +2,7 @@
 	import type { PageData } from "./$types";
 	import { currentUser } from "$lib/pocketbase";
 	import { ProgressBar } from "@skeletonlabs/skeleton";
-	import calculateCredits from "$lib/calculateCredits";
+	import { calculateCredits, calculateRequiredCredits } from "$lib/calculateCredits";
 	import StrikesDisplay from "$lib/components/StrikesDisplay.svelte";
 
 	export let data: PageData;
@@ -32,10 +32,13 @@
 						<ProgressBar
 							label="Events Credits Bar"
 							value={calculateCredits(data.credits, "event")}
-							max={eventsCreditsNeeded}
+							max={calculateRequiredCredits($currentUser, "event")}
 						/>
 						<p class="text-right w-fit whitespace-nowrap">
-							{calculateCredits(data.credits, "event")} / {eventsCreditsNeeded}
+							{calculateCredits(data.credits, "event")} / {calculateRequiredCredits(
+								$currentUser,
+								"event"
+							)}
 						</p>
 					</div>
 					<div class="mt-3 card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
@@ -43,10 +46,13 @@
 						<ProgressBar
 							label="Tutoring Credits Bar"
 							value={calculateCredits(data.credits, "tutoring")}
-							max={tutoringCredWitsNeeded}
+							max={calculateRequiredCredits($currentUser, "tutoring")}
 						/>
 						<p class="text-right w-fit whitespace-nowrap">
-							{calculateCredits(data.credits, "tutoring")} / {tutoringCreditsNeeded}
+							{calculateCredits(data.credits, "tutoring")} / {calculateRequiredCredits(
+								$currentUser,
+								"tutoring"
+							)}
 						</p>
 					</div>
 					<div class="mt-3 card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
@@ -54,10 +60,13 @@
 						<ProgressBar
 							label="Other Credits Bar"
 							value={calculateCredits(data.credits, "other")}
-							max={otherCreditsNeeded}
+							max={calculateRequiredCredits($currentUser, "other")}
 						/>
 						<p class="text-right w-fit whitespace-nowrap">
-							{calculateCredits(data.credits, "other")} / {otherCreditsNeeded}
+							{calculateCredits(data.credits, "other")} / {calculateRequiredCredits(
+								$currentUser,
+								"other"
+							)}
 						</p>
 					</div>
 				{/if}

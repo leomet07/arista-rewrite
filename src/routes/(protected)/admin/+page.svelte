@@ -1,5 +1,5 @@
 <script lang="ts">
-	import calculateCredits from "$lib/calculateCredits";
+	import { calculateCredits } from "$lib/calculateCredits";
 	import calculateTotalStrikeWeight from "$lib/calculateTotalStrikeWeight";
 	import { determinteEventCredits } from "$lib/determinteCredits";
 	import type { PageData } from "./$types";
@@ -42,6 +42,7 @@
 					<th>Total Strike Weight</th>
 					<th>Committees</th>
 					<th>Homeroom</th>
+					<th>Graduation Year</th>
 					<th>OSIS</th>
 				</tr>
 			</thead>
@@ -59,6 +60,7 @@
 						<td>{calculateTotalStrikeWeight(row.strikes)}</td>
 						<td>{row.committees.join(", ") || "none"}</td>
 						<td>{row.homeroom}</td>
+						<td>{row.graduationYear}</td>
 						<td>{row.osis}</td>
 					</tr>
 				{/each}

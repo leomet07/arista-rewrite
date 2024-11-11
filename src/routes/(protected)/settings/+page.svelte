@@ -69,6 +69,7 @@
 			<h2 class="h2">Profile</h2>
 			<p>Name: {$currentUser.name}</p>
 			<p>Email: {$currentUser.email}</p>
+			<p>Graduation Year: {$currentUser.graduationYear}</p>
 			<p>Osis: {$currentUser.osis}</p>
 			<p>Homeroom: {$currentUser.homeroom}</p>
 			<p>Committees: {JSON.stringify($currentUser.committees)}</p>
