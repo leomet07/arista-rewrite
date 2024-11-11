@@ -8,7 +8,8 @@
 	export let data: PageData;
 
 	let eventsCreditsNeeded = 21;
-	let tutoringCreditsNeeded = 7;
+	let tutoringCreditsNeeded = 3;
+	let otherCreditsNeeded = 4;
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -30,11 +31,11 @@
 						<span class="font-bold w-16">Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
 						<ProgressBar
 							label="Events Credits Bar"
-							value={calculateCredits(data.credits, "events")}
+							value={calculateCredits(data.credits, "event")}
 							max={eventsCreditsNeeded}
 						/>
 						<p class="text-right w-fit whitespace-nowrap">
-							{calculateCredits(data.credits, "events")} / {eventsCreditsNeeded}
+							{calculateCredits(data.credits, "event")} / {eventsCreditsNeeded}
 						</p>
 					</div>
 					<div class="mt-3 card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
@@ -42,10 +43,21 @@
 						<ProgressBar
 							label="Tutoring Credits Bar"
 							value={calculateCredits(data.credits, "tutoring")}
-							max={eventsCreditsNeeded}
+							max={tutoringCreditsNeeded}
 						/>
 						<p class="text-right w-fit whitespace-nowrap">
 							{calculateCredits(data.credits, "tutoring")} / {tutoringCreditsNeeded}
+						</p>
+					</div>
+					<div class="mt-3 card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
+						<span class="font-bold w-16">Other</span>
+						<ProgressBar
+							label="Other Credits Bar"
+							value={calculateCredits(data.credits, "other")}
+							max={otherCreditsNeeded}
+						/>
+						<p class="text-right w-fit whitespace-nowrap">
+							{calculateCredits(data.credits, "other")} / {otherCreditsNeeded}
 						</p>
 					</div>
 				{/if}

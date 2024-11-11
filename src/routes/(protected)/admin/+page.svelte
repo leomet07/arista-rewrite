@@ -38,6 +38,7 @@
 					<th>Is-Tutee</th>
 					<th>Events Credits</th>
 					<th>Tutoring Credits</th>
+					<th>Other Credits</th>
 					<th>Total Strike Weight</th>
 					<th>Committees</th>
 					<th>Homeroom</th>
@@ -52,8 +53,9 @@
 						<td>
 							{row.is_tutee}
 						</td>
-						<td>{calculateCredits(row.credits, "events")}</td>
+						<td>{calculateCredits(row.credits, "event")}</td>
 						<td>{calculateCredits(row.credits, "tutoring")}</td>
+						<td>{calculateCredits(row.credits, "other")}</td>
 						<td>{calculateTotalStrikeWeight(row.strikes)}</td>
 						<td>{row.committees.join(", ") || "none"}</td>
 						<td>{row.homeroom}</td>
