@@ -124,8 +124,8 @@
 			<InputField
 				form={formObj}
 				field="general_time"
-				label="What time(s) are you generally free?"
-				placeholder="After school on Tuesdays, Period 6, Sundays..."
+				label="What time(s) are you generally free? (Weekends/ via Zoom are allowed)"
+				placeholder="Weekends on Zoom, After school on Tuesdays, Period 6..."
 			/>
 			<button type="submit" class="btn variant-filled">Request Tutoring</button>
 		</form>
