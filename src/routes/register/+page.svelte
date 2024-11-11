@@ -35,17 +35,28 @@
 		<InputField form={formObj} field="name" label="Enter your name:" placeholder="John Doe" />
 
 		<label for="is_tutee">
-			I'm not an ARISTA member and I'm here to be tutored.
+			Please select whether you are looking to be tutored <b>or</b> are an active ARISTA member.
 			<br />
 			<SlideToggle
 				name="is_tutee"
 				bind:checked={$form.is_tutee}
 				active="bg-primary-500 dark:bg-primary-500"
 				{...$constraints.is_tutee}
-			></SlideToggle>
+			>
+				{$form.is_tutee
+					? "I'm not an ARISTA member and I'm here to be tutored."
+					: "I am an accepted ARISTA member."}
+			</SlideToggle>
 		</label>
 
 		<InputField form={formObj} field="homeroom" label="Enter your homeroom:" placeholder="3JJ" />
+		<InputField
+			form={formObj}
+			field="graduationYear"
+			label="Enter your graduation year:"
+			inputmode="numeric"
+			placeholder={String(new Date().getFullYear() + 3)}
+		/>
 		<InputField
 			form={formObj}
 			field="osis"

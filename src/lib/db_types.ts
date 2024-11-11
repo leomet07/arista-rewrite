@@ -19,11 +19,11 @@ export const UserSchema = z.object({
 	email: z.string().email(),
 	name: z.string().min(3).max(48),
 	avatar: z.string().optional(),
-	four_digit_id: z.number().min(0).max(10000).optional(),
+	graduationYear: z.number().min(2023).max(2999),
+	osis: z.number().min(1).max(999999999),
 	homeroom: z.string().max(4),
 	committees: CommitteesSchema.array().max(5),
-	osis: z.number().min(0).max(999999999),
-	is_tutee: z.boolean().default(false)
+	is_tutee: z.boolean().default(true)
 });
 
 export const EventSchema = z.object({

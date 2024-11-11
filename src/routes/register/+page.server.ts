@@ -3,26 +3,18 @@ import type { Actions } from "./$types";
 import { superValidate, setError } from "sveltekit-superforms";
 import { z } from "zod";
 import { zod } from "sveltekit-superforms/adapters";
-import type { RecievedUser } from "$lib/db_types";
+import { UserSchema, type RecievedUser } from "$lib/db_types";
 import handleError from "$lib/handleError";
 
-const RegisterPageSchema = z
-	.object({
-		email: z.string().email(),
-		name: z.string().min(3).max(48),
-		password: z.string().min(6).max(64),
-		passwordConfirm: z.string().min(6).max(64),
-		osis: z
-			.number()
-			.min(1)
-			.max(999999999)
-			.default("" as unknown as number), // cursed use of empty string to prevent zero
-		homeroom: z.string().max(4),
-		is_tutee: z.boolean().optional().default(false)
-	})
-	.refine((data) => data.password === data.passwordConfirm, {
-		message: "Passwords don't match"
-	});
+const RegisterPageSchema = UserSchema.merge(z.object({
+	graduationYear: z.number().min(2023).max(2999).default("" as unknown as number),
+	osis: z.number().min(1).max(999999999).default("" as unknown as number),
+	password: z.string().min(6).max(64),
+	passwordConfirm: z.string().min(6).max(64)
+})).omit({ committees: true }).refine((data) => data.password === data.passwordConfirm, {
+	message: "Passwords don't match"
+});
+
 export const load = async () => {
 	// Server API:
 	const form = await superValidate(zod(RegisterPageSchema));
@@ -42,11 +34,13 @@ export const actions: Actions = {
 			return fail(400, { form });
 		}
 
+		console.log("Trying to create user: ", JSON.stringify(form.data, null, 2));
+
 		try {
 			await locals.pb.collection("users").getFirstListItem(`email="${form.data.email}"`);
 			// If it does not error, then email is taken
 			return setError(form, "", "An account with that email already exists.");
-		} catch (error: unknown) {}
+		} catch (error: unknown) { }
 
 		try {
 			await locals.pb.collection<RecievedUser>("users").create(form.data); // create user

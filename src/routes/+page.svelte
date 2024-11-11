@@ -43,7 +43,7 @@
 						<ProgressBar
 							label="Tutoring Credits Bar"
 							value={calculateCredits(data.credits, "tutoring")}
-							max={tutoringCreditsNeeded}
+							max={tutoringCredWitsNeeded}
 						/>
 						<p class="text-right w-fit whitespace-nowrap">
 							{calculateCredits(data.credits, "tutoring")} / {tutoringCreditsNeeded}
