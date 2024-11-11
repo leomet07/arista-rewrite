@@ -1,15 +1,10 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import { currentUser } from "$lib/pocketbase";
-	import { ProgressBar } from "@skeletonlabs/skeleton";
-	import { calculateCredits, calculateRequiredCredits } from "$lib/calculateCredits";
 	import StrikesDisplay from "$lib/components/StrikesDisplay.svelte";
+	import CreditsDisplay from "$lib/components/CreditsDisplay.svelte";
 
 	export let data: PageData;
-
-	let eventsCreditsNeeded = 21;
-	let tutoringCreditsNeeded = 3;
-	let otherCreditsNeeded = 4;
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -25,52 +20,9 @@
 				<p class="h5">View your progress and the ARISTA service requirements here.</p>
 			</hgroup>
 
-			<section>
-				{#if data.credits !== undefined}
-					<div class="card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
-						<span class="font-bold w-16">Events&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-						<ProgressBar
-							label="Events Credits Bar"
-							value={calculateCredits(data.credits, "event")}
-							max={calculateRequiredCredits($currentUser, "event")}
-						/>
-						<p class="text-right w-fit whitespace-nowrap">
-							{calculateCredits(data.credits, "event")} / {calculateRequiredCredits(
-								$currentUser,
-								"event"
-							)}
-						</p>
-					</div>
-					<div class="mt-3 card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
-						<span class="font-bold w-16">Tutoring</span>
-						<ProgressBar
-							label="Tutoring Credits Bar"
-							value={calculateCredits(data.credits, "tutoring")}
-							max={calculateRequiredCredits($currentUser, "tutoring")}
-						/>
-						<p class="text-right w-fit whitespace-nowrap">
-							{calculateCredits(data.credits, "tutoring")} / {calculateRequiredCredits(
-								$currentUser,
-								"tutoring"
-							)}
-						</p>
-					</div>
-					<div class="mt-3 card p-4 w-full flex items-center justify-between gap-5 flex-shrink-0">
-						<span class="font-bold w-16">Other</span>
-						<ProgressBar
-							label="Other Credits Bar"
-							value={calculateCredits(data.credits, "other")}
-							max={calculateRequiredCredits($currentUser, "other")}
-						/>
-						<p class="text-right w-fit whitespace-nowrap">
-							{calculateCredits(data.credits, "other")} / {calculateRequiredCredits(
-								$currentUser,
-								"other"
-							)}
-						</p>
-					</div>
-				{/if}
-			</section>
+			{#if data.credits !== undefined}
+				<CreditsDisplay credits={data.credits} />
+			{/if}
 			{#if data.strikes !== undefined}
 				<StrikesDisplay strikes={data.strikes} />
 			{/if}

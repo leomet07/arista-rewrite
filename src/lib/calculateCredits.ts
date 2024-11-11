@@ -1,7 +1,6 @@
 import type { RecievedCredit, RecievedUser } from "$lib/db_types";
-type CreditType = "event" | "tutoring" | "other";
 
-export function calculateCredits(credits: RecievedCredit[] | undefined, type: CreditType): number {
+export function calculateCredits(credits: RecievedCredit[] | undefined, type: RecievedCredit["type"]): number {
     let total = 0;
     if (!credits) {
         return 0;
@@ -14,11 +13,11 @@ export function calculateCredits(credits: RecievedCredit[] | undefined, type: Cr
     return total;
 }
 
-export function calculateRequiredCredits(user: any, type: CreditType): number {
+export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]): number {
     if (user.is_tutee) {
         throw new Error("Cannot calculate required credits for a user who is not an ARISTA member.");
     }
-    let creditMap: Record<CreditType, number> = {
+    let creditMap: Record<RecievedCredit["type"], number> = {
         event: 0,
         tutoring: 0,
         other: 0
