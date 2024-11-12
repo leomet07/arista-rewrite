@@ -15,7 +15,7 @@ export const load: LayoutServerLoad = (async ({ params, locals }) => {
 
     const users_with_emails = await mergeUsersWithEmails(serialized_users, locals.pb);
 
-    const credits = structuredClone(await locals.pb.collection("credits").getFullList({ expand: "event,session" }) as unknown) as ExpandedCredit[];
+    const credits = structuredClone(await locals.pb.collection("credits").getFullList({ expand: "event,session,session.tutoringRequest" }) as unknown) as ExpandedCredit[];
     const strikes = structuredClone(await locals.pb.collection("strikes").getFullList() as unknown) as RecievedStrike[];
 
     const serialized_users_with_emails = users_with_emails.map(useri => {

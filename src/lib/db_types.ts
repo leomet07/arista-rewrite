@@ -83,7 +83,7 @@ export type RecievedPublicUserData = z.infer<typeof PublicUserDataSchema> & Stri
 
 export type ExpandedCredit = {
 	expand?: {
-		session?: RecievedTutoringSession;
+		session?: ExpandedTutoringSession;
 		event?: RecievedEvent;
 	};
 } & RecievedCredit;

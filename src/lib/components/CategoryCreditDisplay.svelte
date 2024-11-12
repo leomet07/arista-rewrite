@@ -44,12 +44,16 @@
 								{/if}
 								{#if credit.type == "tutoring"}
 									<p class="font-bold">
+										{credit.expand?.session?.expand.tutoringRequest.topic} for {credit.expand
+											?.session?.expand.tutoringRequest.class}
+									</p>
+									<p>
 										Tutoring request completed on {format(
 											String(credit.expand?.session?.dateCompleted),
 											"MM/dd/yyyy hh:mm a"
 										)}
 									</p>
-									<p class="font-bold">
+									<p>
 										Duration in hours: {credit.expand?.session?.durationInHours}
 									</p>
 								{/if}
