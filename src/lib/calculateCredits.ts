@@ -1,6 +1,6 @@
-import type { RecievedCredit, RecievedUser } from "$lib/db_types";
+import type { RecievedCredit, ExpandedCredit, RecievedUser } from "$lib/db_types";
 
-export function calculateCredits(credits: RecievedCredit[] | undefined, type: RecievedCredit["type"]): number {
+export function calculateCredits(credits: RecievedCredit[] | ExpandedCredit[] | undefined, type: RecievedCredit["type"]): number {
     let total = 0;
     if (!credits) {
         return 0;

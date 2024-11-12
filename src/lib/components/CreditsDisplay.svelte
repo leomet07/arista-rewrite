@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { RecievedCredit } from "$lib/db_types";
+	import type { ExpandedCredit } from "$lib/db_types";
 	import CategoryCreditDisplay from "$lib/components/CategoryCreditDisplay.svelte";
 
-	export let credits: RecievedCredit[];
+	export let credits: ExpandedCredit[];
 </script>
 
 <section>

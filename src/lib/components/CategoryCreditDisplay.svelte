@@ -1,11 +1,12 @@
 <script lang="ts">
 	import { ProgressBar } from "@skeletonlabs/skeleton";
 	import { calculateCredits, calculateRequiredCredits } from "$lib/calculateCredits";
-	import type { RecievedCredit } from "$lib/db_types";
+	import type { ExpandedCredit, RecievedCredit } from "$lib/db_types";
 	import { currentUser } from "$lib/pocketbase";
 	import { TreeView, TreeViewItem } from "@skeletonlabs/skeleton";
+	import { format } from "date-fns";
 
-	export let credits: RecievedCredit[];
+	export let credits: ExpandedCredit[];
 	export let type: RecievedCredit["type"];
 </script>
 
@@ -33,10 +34,24 @@
 								<p class="font-bold">{credit.manualExplanation}</p>
 							{:else}
 								{#if credit.type == "event"}
-									<p class="font-bold">ID: {credit.event}</p>
+									<p class="font-bold">{credit.expand?.event?.name}</p>
+									<p class="font-bold">
+										{format(String(credit.expand?.event?.start_time), "MM/dd/yyyy hh:mm a")} to {format(
+											String(credit.expand?.event?.end_time),
+											"MM/dd/yyyy hh:mm a"
+										)}
+									</p>
 								{/if}
 								{#if credit.type == "tutoring"}
-									<p class="font-bold">ID: {credit.session}</p>
+									<p class="font-bold">
+										Tutoring request completed on {format(
+											String(credit.expand?.session?.dateCompleted),
+											"MM/dd/yyyy hh:mm a"
+										)}
+									</p>
+									<p class="font-bold">
+										Duration in hours: {credit.expand?.session?.durationInHours}
+									</p>
 								{/if}
 							{/if}
 

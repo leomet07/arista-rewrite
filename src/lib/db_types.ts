@@ -81,6 +81,13 @@ export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & St
 export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & StrictRecordModel;
 export type RecievedPublicUserData = z.infer<typeof PublicUserDataSchema> & StrictRecordModel;
 
+export type ExpandedCredit = {
+	expand?: {
+		session?: RecievedTutoringSession;
+		event?: RecievedEvent;
+	};
+} & RecievedCredit;
+
 export type ExpandedEvent = {
 	expand?: {
 		signed_up: RecievedUser[];
