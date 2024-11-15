@@ -57,6 +57,7 @@
 		id="end_time"
 		bind:value={$form.end_time}
 		dynamicPositioning
+		max={new Date("2029-01-01 00:00:00")}
 		timePrecision="minute"
 		format="yyyy-MM-dd HH:mm"
 	/>
