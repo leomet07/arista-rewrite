@@ -25,6 +25,8 @@ export const actions: Actions = {
         }
 
         try {
+            form.data.start_time.setSeconds(0); // remove any issues with seconds causing credits to be inaccurate
+            form.data.end_time.setSeconds(0);  // remove any issues with seconds causing credits to be inaccurate
             const createdEvent = structuredClone(
                 await locals.pb
                     .collection("events")
