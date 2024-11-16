@@ -145,6 +145,8 @@ export const actions = {
 
 		try {
 			console.log("Updating event: ", form.data);
+			form.data.end_time.setSeconds(0);  // remove any issues with seconds causing credits to be inaccurate
+			form.data.start_time.setSeconds(0); // remove any issues with seconds causing credits to be inaccurate
 			const updated_event = await locals.pb.collection("events").update(event_id, form.data);
 
 			return { update_form: form }; // i am struggling to have superform update, so use:enhance is turned off in the form

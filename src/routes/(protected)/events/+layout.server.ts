@@ -6,7 +6,7 @@ import type { LayoutServerLoad } from "./$types";
 export const load: LayoutServerLoad = (async ({ params, locals }) => {
     const events = await locals.pb
         .collection("events")
-        .getFullList({ sort: "-created" });
+        .getFullList({ sort: "-created", requestKey: null });
 
 
     const serialized_events = structuredClone(
