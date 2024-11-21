@@ -79,32 +79,39 @@
 		<h1 class="h1">{data.event.name}</h1>
 		<p class=" font-normal mt-2">{data.event.description}</p>
 		{#if data.event.isComplete}
-			<aside class="alert variant-filled-success mt-2 mb-4">This event is already complete.</aside>
+			<br>
+			<aside class="alert variant-filled-success mt-2 mb-4"><b>This event is already complete.</b></aside>
 		{/if}
-		<p>Located at: {data.event.location}</p>
+		<br>
+		<p><b>Located at:</b> {data.event.location}</p>
 		<p class="">
-			{format(data.event.start_time, "MM/dd/yyyy hh:mm a")} to {format(
+			<b>Scheduled Time:</b> {format(data.event.start_time, "MM/dd/yyyy hh:mm a")} to {format(
 				data.event.end_time,
 				"MM/dd/yyyy hh:mm a"
 			)}
 		</p>
 		<div class="mt-3">
 			<p>
-				Worth {determinteEventCredits(data.event)} credits, after applying a multiplier of
-				{data.event.multiplier}x
+				Worth {determinteEventCredits(data.event)} {determinteEventCredits(data.event) === 1 ? "credit" : "credits"}, after applying a multiplier of
+				{data.event.multiplier}x.
 			</p>
-			<p>{data.event.signed_up.length} people are currently signed up.</p>
-			<p>Is out of school: {data.event.is_out_of_school}</p>
+			<p>
+				{data.event.signed_up.length} 
+				{data.event.signed_up.length === 1 ? "person is" : "people are"} currently signed up.
+			</p>
+			<p>This event is {data.event.is_out_of_school ? "" : "not"} out of school.</p>
 		</div>
+		<br>
 		{#if !data.event.isComplete}
 			{#if data.is_current_user_signed_up}
 				<h3 class="h3">You are signed up for this event.</h3>
+				<br>
 				<form method="POST" action="?/event_unsign_up" use:enhance>
-					<button type="submit" class="btn variant-outline-secondary">Leave event</button>
+					<button type="submit" class="btn variant-outline-secondary">Leave Event</button>
 				</form>
 			{:else}
 				<form method="POST" action="?/event_sign_up" use:enhance>
-					<button type="submit" class="btn variant-filled-secondary">Sign up</button>
+					<button type="submit" class="btn variant-filled-secondary">Sign Up</button>
 				</form>
 			{/if}
 		{/if}
@@ -115,7 +122,7 @@
 					<h3 class="h3">For Events Committee:</h3>
 					<p>
 						This event should give
-						<span class="font-bold underline"> {determinteEventCredits(data.event)} credits</span>,
+						<span class="font-bold underline"> {determinteEventCredits(data.event) === 1 ? "credit" : "credits"}</span>,
 						barring any commutes or latenesses.
 					</p>
 				</hgroup>
@@ -171,3 +178,19 @@
 		{/if}
 	</section>
 </main>
+
+<style>
+
+	h1, h3, p{
+		text-align: center;
+	}
+	
+	button {
+    	margin:0 auto;
+    	display:block;
+		padding: 32px 16px;
+		border-radius: 25%;
+	}
+
+
+</style>
