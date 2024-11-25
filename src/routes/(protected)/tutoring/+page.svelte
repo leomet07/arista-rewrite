@@ -28,8 +28,10 @@
 		await invalidateAll(); // rerun `load` function for the page
 	}
 
-	const formObj = superForm(data.form, { resetForm: true });
-	const { form, errors, constraints } = formObj;
+	const requestTutoringFormObj = superForm(data.requestTutoringForm, { resetForm: true });
+	const { errors: requestTutoringFormErrors } = requestTutoringFormObj;
+	const finishTutoringFormObj = superForm(data.finishTutoringSessionForm, { resetForm: true });
+	const { errors: finishTutoringFormErrors } = finishTutoringFormObj;
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -74,13 +76,18 @@
 								method="POST"
 								class="mt-2 card p-2"
 								action={"?/finish_tutoring_session&id=" + tutoringSession.id}
-								on:submit|preventDefault={(e) => finishTutoringSession(e)}
 								use:enhance
 							>
-								<label for="duration">
-									Enter the duration of your session, in hours:
-									<input class="input p-2" name="duration" type="numeric" />
-								</label>
+								<ErrorComponent errors={$finishTutoringFormErrors} />
+
+								<InputField
+									form={finishTutoringFormObj}
+									field="durationInHours"
+									label="Enter the duration of your session, in hours (ie: 1, 4, 1.5, etc):"
+									placeholder="1"
+									inputmode="numeric"
+								/>
+
 								<button type="submit" class="mt-2 btn variant-filled"
 									>Finish Tutoring Session</button
 								>
@@ -99,30 +106,30 @@
 			action="?/request_tutoring"
 			use:enhance
 		>
-			<ErrorComponent errors={$errors} />
+			<ErrorComponent errors={$requestTutoringFormErrors} />
 
 			<h3 class="h3">Request tutoring</h3>
 
 			<InputField
-				form={formObj}
+				form={requestTutoringFormObj}
 				field="class"
 				label="What class do you need help with?"
 				placeholder="Geometry, Foundation of Lit., Intro to CS..."
 			/>
 			<InputField
-				form={formObj}
+				form={requestTutoringFormObj}
 				field="teacher"
 				label="Who teaches your period?"
 				placeholder="Mr. Doe, Ms. Smith, Mr. Yu..."
 			/>
 			<InputField
-				form={formObj}
+				form={requestTutoringFormObj}
 				field="topic"
 				label="What do you need help with?"
 				placeholder="AP Unit 7, Vocabulary practice, Racket homework..."
 			/>
 			<InputField
-				form={formObj}
+				form={requestTutoringFormObj}
 				field="general_time"
 				label="What time(s) are you generally free? (Weekends/ via Zoom are allowed)"
 				placeholder="Weekends on Zoom, After school on Tuesdays, Period 6..."

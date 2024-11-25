@@ -14,10 +14,14 @@ import { z } from "zod";
 import { zod } from 'sveltekit-superforms/adapters';
 
 let RequestTutoringSchema = TutoringRequestSchema.omit({ tutee: true }); // don't include tutee in form;
+let FinishTutoringSessionSchema = z.object({
+	durationInHours: z.string().refine(v => { let n = Number(v); return !isNaN(n) && v?.length > 0; }, { message: "Invalid number. Please enter something similar to: 1, 2, 3, etc." })
+});
 
 export const load = async ({ locals, request }) => {
 	// Server API:
-	const form = await superValidate(zod(RequestTutoringSchema));
+	const requestTutoringForm = await superValidate(zod(RequestTutoringSchema));
+	const finishTutoringSessionForm = await superValidate(zod(FinishTutoringSessionSchema));
 
 	if (!locals?.user?.id) {
 		error(401, "User not logged in.");
@@ -26,13 +30,13 @@ export const load = async ({ locals, request }) => {
 	const requests = structuredClone(
 		(await locals.pb
 			.collection("tutoringRequests")
-			.getFullList({ sort: "-created", filter: "isClaimed=false" })) as unknown
+			.getFullList({ sort: "-created", filter: "isClaimed=false", requestKey: null })) as unknown
 	) as RecievedTutoringRequest[];
 
 	const sessions = structuredClone(
 		(await locals.pb
 			.collection("tutoringSessions")
-			.getFullList({ sort: "-created", expand: "tutoringRequest", filter: "isComplete=false" })) as unknown
+			.getFullList({ sort: "-created", expand: "tutoringRequest", filter: "isComplete=false", requestKey: null })) as unknown
 	) as ExpandedTutoringSession[];
 
 	// only gets rows where tutor or tutee is matching an active session for this user
@@ -48,12 +52,12 @@ export const load = async ({ locals, request }) => {
 		return { ...session, tutor_name, tutee_name, tutor_email, tutee_email };
 	});
 
-	return { form, tutoringRequests: requests, tutoringSessions: expanded_sessions }; // Unless you throw, always return { form } in load and form actions.
+	return { requestTutoringForm, finishTutoringSessionForm, tutoringRequests: requests, tutoringSessions: expanded_sessions }; // Unless you throw, always return { form } in load and form actions.
 };
 
 export const actions: Actions = {
 	request_tutoring: async ({ locals, request }) => {
-		const form = await superValidate(request, zod(RequestTutoringSchema));
+		const requestTutoringForm = await superValidate(request, zod(RequestTutoringSchema));
 
 		if (!locals?.user?.id) {
 			error(401, "User not logged in.");
@@ -62,20 +66,20 @@ export const actions: Actions = {
 		if (!locals?.user?.is_tutee) {
 			error(401, "User is not a tutee.");
 		}
-		if (!form.valid) {
-			return fail(400, { form });
+		if (!requestTutoringForm.valid) {
+			return fail(400, { requestTutoringForm });
 		}
 
 		try {
 			await locals.pb
 				.collection("tutoringRequests")
-				.create({ ...form.data, tutee: locals.user.id });
+				.create({ ...requestTutoringForm.data, tutee: locals.user.id });
 		} catch (error: unknown) {
 			console.error(error);
-			return handleError(error, form);
+			return handleError(error, requestTutoringForm);
 		}
 
-		return { form };
+		return { requestTutoringForm };
 	},
 	claim_tutoring_request: async ({ locals, request, params, url }) => {
 		console.log(request, params, url);
@@ -116,7 +120,6 @@ export const actions: Actions = {
 		}
 	},
 	finish_tutoring_session: async ({ locals, request, params, url }) => {
-		console.log(request, params, url);
 		if (!locals?.user?.id) {
 			error(401, "User not logged in.");
 		}
@@ -124,6 +127,14 @@ export const actions: Actions = {
 		if (!locals?.user?.is_tutee) {
 			error(401, "A non-tutee cannot finish a request.");
 		}
+
+		const finishTutoringForm = await superValidate(request, zod(FinishTutoringSessionSchema));
+
+		if (!finishTutoringForm.valid) {
+			return fail(400, { finishTutoringForm });
+		}
+
+		console.log("Tutoring form is valid: ", finishTutoringForm.data);
 
 		const searchParams = url.searchParams;
 		const tutoring_session_id = searchParams.get("id");
@@ -137,12 +148,19 @@ export const actions: Actions = {
 				(await locals.pb.collection("tutoringSessions").getOne(tutoring_session_id)) as unknown
 			) as RecievedTutoringSession;
 
-			const body = await request.json(); // TODO: FIX THIS, can still allow strings/characters somehow?
-			TutoringSessionSchema.pick({ durationInHours: true }).parse(body);
-			await locals.pb.collection("tutoringSessions").update(tutoring_session_id, { isComplete: true, dateCompleted: new Date().toISOString(), durationInHours: body.duration });
-			return {};
+			const durationInHours = Number(finishTutoringForm.data.durationInHours);
+			if (Number.isNaN(durationInHours)) {
+				error(400, "Duration in hours of a tutoring session cannot be NaN");
+			}
+			if (durationInHours > 10 || durationInHours <= 0) {
+				// checking range here because using the pocketbase schema above is weird
+				error(400, "Duration in hours of a tutoring session cannot be <= 0 or > 10");
+			}
+
+			await locals.pb.collection("tutoringSessions").update(tutoring_session_id, { isComplete: true, dateCompleted: new Date().toISOString(), durationInHours: finishTutoringForm.data.durationInHours });
 		} catch (error: unknown) {
 			console.error(error);
 		}
+		return { finishTutoringForm };
 	}
 };
