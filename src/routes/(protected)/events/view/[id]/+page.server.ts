@@ -2,7 +2,6 @@ import { error, redirect } from "@sveltejs/kit";
 import { EventSchema, type ExpandedEvent, type RecievedCredit, type RecievedEvent, type RecievedUser } from "$lib/db_types.js";
 import type { PageServerLoad } from "./$types";
 import { isOnCommittee } from "$lib/isOnCommittee";
-import { determinteEventCredits } from "$lib/determinteCredits";
 import mergeUsersWithEmails from "$lib/mergeUsersWithEmails";
 import { fail, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";

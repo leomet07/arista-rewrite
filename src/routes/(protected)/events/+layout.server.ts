@@ -7,6 +7,7 @@ export const load: LayoutServerLoad = (async ({ params, locals }) => {
     const events = await locals.pb
         .collection("events")
         .getFullList({ sort: "-created", requestKey: null });
+    // TODO: either fetch all (not just max of 500) events or just events for this/last year
 
 
     const serialized_events = structuredClone(

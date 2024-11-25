@@ -3,7 +3,7 @@
 	import { enhance, deserialize, applyAction } from "$app/forms";
 	import { isOnCommittee } from "$lib/isOnCommittee";
 	import { currentUser } from "$lib/pocketbase";
-	import { determinteEventCredits } from "$lib/determinteCredits";
+	import { calculateEventCredits } from "$lib/calculateCredits";
 	import { format } from "date-fns";
 	import { invalidateAll } from "$app/navigation";
 	import { superForm } from "sveltekit-superforms";
@@ -90,7 +90,7 @@
 		</p>
 		<div class="mt-3">
 			<p>
-				Worth {determinteEventCredits(data.event)} credits, after applying a multiplier of
+				Worth {calculateEventCredits(data.event)} credits, after applying a multiplier of
 				{data.event.multiplier}x
 			</p>
 			<p>{data.event.signed_up.length} people are currently signed up.</p>
@@ -115,7 +115,7 @@
 					<h3 class="h3">For Events Committee:</h3>
 					<p>
 						This event should give
-						<span class="font-bold underline"> {determinteEventCredits(data.event)} credits</span>,
+						<span class="font-bold underline"> {calculateEventCredits(data.event)} credits</span>,
 						barring any commutes or latenesses.
 					</p>
 				</hgroup>
@@ -139,7 +139,7 @@
 											class="input p-2"
 											name="credits"
 											type="numeric"
-											value={determinteEventCredits(data.event)}
+											value={calculateEventCredits(data.event)}
 										/>
 									</label>
 									<button type="submit" class="btn variant-outline-tertiary h-fit">Credit</button>

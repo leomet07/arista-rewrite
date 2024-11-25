@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { calculateCredits, calculateRequiredCredits } from "$lib/calculateCredits";
 	import calculateTotalStrikeWeight from "$lib/calculateTotalStrikeWeight";
-	import { determinteEventCredits } from "$lib/determinteCredits";
 	import type { PageData } from "./$types";
 	import { Paginator } from "@skeletonlabs/skeleton";
 	import type { PaginationSettings } from "@skeletonlabs/skeleton";

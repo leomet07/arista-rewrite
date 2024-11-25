@@ -1,4 +1,4 @@
-import type { RecievedCredit, ExpandedCredit, RecievedUser } from "$lib/db_types";
+import type { RecievedCredit, ExpandedCredit, RecievedEvent } from "$lib/db_types";
 
 export function calculateCredits(credits: RecievedCredit[] | ExpandedCredit[] | undefined, type: RecievedCredit["type"]): number {
     let total = 0;
@@ -50,3 +50,15 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
     }
     return creditMap[type];
 };
+
+export function calculateEventCredits(event: RecievedEvent): number {
+    const end_time = new Date(event.end_time.valueOf());
+    const start_time = new Date(event.start_time.valueOf());
+    end_time.setSeconds(0); // prevent issues with old events having non zero seconds 
+    start_time.setSeconds(0); // prevent issues with old events having non zero seconds 
+
+    const diff_in_ms = Number(end_time) - Number(start_time);
+    const half_hours = Math.floor((((diff_in_ms / 1000) / 60)) / 30);
+    const credits = (half_hours / 2) * event.multiplier; // halves are possible here
+    return credits;
+}
