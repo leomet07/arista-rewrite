@@ -21,7 +21,7 @@
 			</hgroup>
 
 			{#if data.credits !== undefined}
-				<CreditsDisplay credits={data.credits} />
+				<CreditsDisplay credits={data.credits} user={$currentUser} />
 			{/if}
 			{#if data.strikes !== undefined}
 				<StrikesDisplay strikes={data.strikes} />

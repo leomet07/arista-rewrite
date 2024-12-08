@@ -1,12 +1,13 @@
 <script lang="ts">
 	import { ProgressBar } from "@skeletonlabs/skeleton";
 	import { calculateCredits, calculateRequiredCredits } from "$lib/calculateCredits";
-	import type { ExpandedCredit, RecievedCredit } from "$lib/db_types";
+	import type { ExpandedCredit, RecievedCredit, CommitteesSchema, OpenUser } from "$lib/db_types";
 	import { currentUser } from "$lib/pocketbase";
 	import { TreeView, TreeViewItem } from "@skeletonlabs/skeleton";
 	import { format } from "date-fns";
 
 	export let credits: ExpandedCredit[];
+	export let user: OpenUser;
 	export let type: RecievedCredit["type"];
 </script>
 
@@ -16,10 +17,10 @@
 		<ProgressBar
 			label={`${type} Credits Bar`}
 			value={calculateCredits(credits, type)}
-			max={calculateRequiredCredits($currentUser, type)}
+			max={calculateRequiredCredits(user, type)}
 		/>
 		<p class="text-right w-fit whitespace-nowrap">
-			{calculateCredits(credits, type)} / {calculateRequiredCredits($currentUser, type)}
+			{calculateCredits(credits, type)} / {calculateRequiredCredits(user, type)}
 		</p>
 	</div>
 

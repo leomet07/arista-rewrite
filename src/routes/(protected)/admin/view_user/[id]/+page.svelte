@@ -8,6 +8,7 @@
 	import { CodeBlock, RadioGroup, RadioItem } from "@skeletonlabs/skeleton";
 	import StrikesDisplay from "$lib/components/StrikesDisplay.svelte";
 	import CreditsDisplay from "$lib/components/CreditsDisplay.svelte";
+	import type { ExpandedCredit, CommitteesSchema, RecievedUser } from "$lib/db_types";
 
 	let user_id = $page.params.id;
 	export let data: PageData;
@@ -22,7 +23,7 @@
 <main class="container mx-auto p-8 space-y-8">
 	<h2 class="h2">Viewing {full_user.name}</h2>
 	<h3 class="h3">Email: {full_user.email}</h3>
-	<CreditsDisplay credits={full_user.credits} />
+	<CreditsDisplay credits={full_user.credits} user={full_user} />
 	<StrikesDisplay strikes={full_user.strikes} />
 	<form
 		class="card p-4 w-full text-token space-y-4"
