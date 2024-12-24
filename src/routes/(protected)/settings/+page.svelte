@@ -65,15 +65,31 @@
 <main class="container mx-auto p-8 space-y-8">
 	<h1 class="h1">Settings</h1>
 	{#if $currentUser}
-		<section>
-			<h2 class="h2">Profile</h2>
+		<section class="card p-4 w-full text-token">
+			<h3 class="h3">Profile</h3>
+			<p class="mb-4">
+				Please contact <code class="font-bold">stuyaristanycweb@gmail.com</code> with any issues.
+			</p>
 			<p>Name: {$currentUser.name}</p>
 			<p>Email: {$currentUser.email}</p>
 			<p>Graduation Year: {$currentUser.graduationYear}</p>
-			<p>Osis: {$currentUser.osis}</p>
+			<p>OSIS: {$currentUser.osis}</p>
 			<p>Homeroom: {$currentUser.homeroom}</p>
-			<p>Committees: {JSON.stringify($currentUser.committees)}</p>
-			<p>Is tutee?: {$currentUser.is_tutee}</p>
+			<p>Committees: {$currentUser.committees.join(", ")}</p>
+			<p class="mt-2">
+				Your account is of type
+				<span class="font-bold">"{$currentUser.is_tutee ? "tutee" : "ARISTA member"}"</span>.
+			</p>
+			<p class="italic mb-2">
+				Note: If you are NOT an ARISTA member (ie: you are here to be tutored) but your account type
+				is, <span class="underline">please delete your account and make a new one as a member</span>
+				by checking the approriate checkbox.
+			</p>
+			<form method="POST" on:submit|preventDefault={handleDeleteAccount} action="?/delete_account">
+				<button type="submit" class="btn variant-filled-error">Delete My Account</button>
+			</form>
+			<br />
+			<a href="/" on:click={logout} class="btn variant-outline-primary">Logout</a>
 		</section>
 		<section>
 			<form
@@ -107,11 +123,6 @@
 				<button type="submit" class="btn variant-filled">Change password</button>
 			</form>
 		</section>
-		<a href="/" on:click={logout} class="btn variant-outline-primary">Logout</a>
-		<br />
-		<form method="POST" on:submit|preventDefault={handleDeleteAccount} action="?/delete_account">
-			<button type="submit" class="btn variant-filled-error">Delete My Account</button>
-		</form>
 	{:else}
 		<h2 class="h2">You must be logged in to view this page.</h2>
 	{/if}
