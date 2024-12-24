@@ -40,6 +40,6 @@
   "type": "module",
   "dependencies": {
     "date-fns": "^3.6.0",
-    "pocketbase": "^0.21.4"
+    "pocketbase": "^0.24.0"
   }
 }
