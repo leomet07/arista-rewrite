@@ -5,7 +5,7 @@
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
 		<h1 class="h1">Study Guides</h1>
-		<p>Please browse our extensive directory of study guides for many different subjects.</p>
+		<p>Explore our collection of study guides and study smarter.</p>
 	</hgroup>
 
 	<section>
