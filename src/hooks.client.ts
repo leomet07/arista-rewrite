@@ -3,6 +3,6 @@ import { currentUser, pb } from "$lib/pocketbase";
 
 pb.authStore.loadFromCookie(document.cookie);
 pb.authStore.onChange(() => {
-	currentUser.set(pb.authStore.model as RecievedUser);
+	currentUser.set(pb.authStore.record as RecievedUser);
 	document.cookie = pb.authStore.exportToCookie({ httpOnly: false });
 });
