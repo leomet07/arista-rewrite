@@ -30,7 +30,7 @@
 				<a class="ml-2" href="/admin">Admin</a>
 			{/if}
 		{/if}
-		<a class="ml-2" href="/study-guides">Study Guides</a>
+		<a class="ml-2" href="/study-guides">Study <span class="hidden lg:inline">Guides</span></a>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<!-- <LightSwitch /> -->
