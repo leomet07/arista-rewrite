@@ -31,7 +31,7 @@
 				<svelte:fragment slot="children">
 					{#each credits.filter((v) => v.type == type) as credit}
 						<div class="variant-filled-tertiary m-4 p-4 rounded">
-							{#if credit.manualExplanation}
+							{#if credit.manualExplanation && credit.manualExplanation.length > 0}
 								<p class="font-bold">{credit.manualExplanation}</p>
 							{:else}
 								{#if credit.type == "event"}

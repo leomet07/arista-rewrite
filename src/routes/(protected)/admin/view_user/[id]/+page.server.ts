@@ -4,7 +4,7 @@ import type { PageServerLoad } from "./$types";
 import { isOnCommittee } from "$lib/isOnCommittee";
 import { z } from "zod";
 import type { Actions } from "./$types";
-import { superValidate, setError } from "sveltekit-superforms";
+import { fail, superValidate, setError } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import handleError from "$lib/handleError";
 
@@ -87,6 +87,9 @@ export const actions = {
     },
     credit_user: async ({ request, locals, params }) => {
         const form = await superValidate(request, zod(ManualCreditSchema));
+        if (!form.valid) {
+            return fail(400, { form });
+        }
         const user_id = params.id;
 
         // Unless you throw, always return { form } in load and form actions.

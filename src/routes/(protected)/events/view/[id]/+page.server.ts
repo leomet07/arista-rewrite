@@ -23,7 +23,7 @@ export const load = (async ({ params, locals }) => {
 		end_time: new Date(serialized_event.end_time)
 	};
 
-	let is_current_user_signed_up = serialized_event_with_time.signed_up.includes(locals?.user?.id);
+	let is_current_user_signed_up = serialized_event_with_time.signed_up.includes(locals?.user?.id as any as string);
 
 	// this will only return something for event committee members 
 	const filterstr = `event="${event_id}"`;

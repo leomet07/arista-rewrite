@@ -44,7 +44,7 @@ export const CreditSchema = z.object({
 	event: z.string(), // id of event
 	session: z.string(), // id of session,
 	type: z.union([z.literal("event"), z.literal("tutoring"), z.literal("other")]),
-	manualExplanation: z.string().optional()
+	manualExplanation: z.string().min(1).optional()
 });
 
 export const StrikeSchema = z.object({
@@ -75,7 +75,7 @@ export const PublicUserDataSchema = UserSchema.pick({ email: true, name: true })
 
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
 export type RecievedEvent = z.infer<typeof EventSchema> &
-	StrictRecordModel & { signed_up: string[]; event_owner: string };
+	StrictRecordModel & { signed_up: string[]; event_owner: string; };
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
 export type RecievedStrike = z.infer<typeof StrikeSchema> & StrictRecordModel;
 export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
@@ -95,7 +95,7 @@ export type ExpandedEvent = {
 	};
 } & RecievedEvent;
 
-export type OpenUser = RecievedUser & { [x: string | number | symbol]: any };
+export type OpenUser = RecievedUser & { [x: string | number | symbol]: any; };
 
 export type ExpandedTutoringSession = {
 	tutee_name?: string;
