@@ -15,9 +15,14 @@ const RegisterPageSchema = UserSchema.merge(z.object({
 	message: "Passwords don't match"
 });
 
-export const load = async () => {
+export const load = async ({ locals, request, url }) => {
 	// Server API:
 	const form = await superValidate(zod(RegisterPageSchema));
+
+	if (locals.user) {
+		// if logged in, redirect to home
+		throw redirect(303, "/");
+	}
 
 	// Unless you throw, always return { form } in load and form actions.
 	return { form };

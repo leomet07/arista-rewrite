@@ -9,9 +9,15 @@ const LoginPageSchema = z.object({
 	password: z.string().min(6).max(64)
 });
 
-export const load = async () => {
+export const load = async ({ locals, request, url }) => {
 	// Server API:
 	const form = await superValidate(zod(LoginPageSchema));
+
+	if (locals.user) {
+		// if logged in, redirect to home
+		throw redirect(303, "/");
+	}
+
 	return { form }; // Unless you throw, always return { form } in load and form actions.
 };
 
