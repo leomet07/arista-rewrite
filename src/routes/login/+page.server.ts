@@ -1,7 +1,7 @@
 import { redirect } from "@sveltejs/kit";
 import type { Actions } from "./$types";
 import { z } from "zod";
-import { setError, superValidate } from "sveltekit-superforms";
+import { setError, superValidate, fail } from "sveltekit-superforms";
 import { zod } from 'sveltekit-superforms/adapters';
 
 const LoginPageSchema = z.object({
@@ -18,6 +18,9 @@ export const load = async () => {
 export const actions: Actions = {
 	default: async ({ locals, request, url }) => {
 		const form = await superValidate(request, zod(LoginPageSchema));
+		if (!form.valid) {
+			return fail(400, { form });
+		}
 
 		try {
 			await locals.pb.collection("users").authWithPassword(form.data.email, form.data.password);

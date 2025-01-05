@@ -48,6 +48,9 @@ export const load = (async ({ params, locals }) => {
 export const actions = {
     strike_user: async ({ request, locals, params }) => {
         const form = await superValidate(request, zod(StrikeSchema));
+        if (!form.valid) {
+            return fail(400, { form });
+        }
         const user_id = params.id;
 
         // Unless you throw, always return { form } in load and form actions.
