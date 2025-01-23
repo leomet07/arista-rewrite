@@ -3,6 +3,7 @@
 	import { currentUser } from "$lib/pocketbase";
 	import StrikesDisplay from "$lib/components/StrikesDisplay.svelte";
 	import CreditsDisplay from "$lib/components/CreditsDisplay.svelte";
+	import SignedUpEventsDisplay from "$lib/components/SignedUpEventsDisplay.svelte";
 
 	export let data: PageData;
 </script>
@@ -22,6 +23,9 @@
 
 			{#if data.credits !== undefined}
 				<CreditsDisplay credits={data.credits} user={$currentUser} />
+			{/if}
+			{#if data.signed_up_events !== undefined}
+				<SignedUpEventsDisplay signed_up_events={data.signed_up_events} />
 			{/if}
 			{#if data.strikes !== undefined}
 				<StrikesDisplay strikes={data.strikes} />
