@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { calculateCredits, calculateRequiredCredits } from "$lib/calculateCredits";
 	import calculateTotalStrikeWeight from "$lib/calculateTotalStrikeWeight";
+	import MassCreditor from "$lib/components/MassCreditor.svelte";
 	import type { PageData } from "./$types";
 	import { Paginator } from "@skeletonlabs/skeleton";
 	import type { PaginationSettings } from "@skeletonlabs/skeleton";
+	import { superForm } from "sveltekit-superforms";
+
 	export let data: PageData;
 
 	let paginationSettings = {
@@ -17,6 +20,9 @@
 		paginationSettings.page * paginationSettings.limit,
 		paginationSettings.page * paginationSettings.limit + paginationSettings.limit
 	);
+
+	const MassCreditFormObj = superForm(data.mass_credit_form, { resetForm: true });
+	const { errors: MassCreditFormErrors } = MassCreditFormObj;
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -83,4 +89,6 @@
 		showFirstLastButtons={true}
 		showPreviousNextButtons={true}
 	/>
+
+	<MassCreditor form={MassCreditFormObj} />
 </main>
