@@ -21,12 +21,15 @@
 </script>
 
 <div class="card p-4 w-full text-token space-y-4">
-	<h1>Mass Creditor</h1>
-	<p>
-		Enter data in a csv format of <code>osis,credit_num,credit_type,manual_explanation</code> (each line
-		is a new entry).
-	</p>
-	<p>Invalid lines will be returned (kept inside the text box)</p>
+	<hgroup>
+		<h1>Mass Creditor</h1>
+		<p>
+			Enter data in a csv format of <code>osis,credit_num,credit_type,manual_explanation</code> (each
+			line is a new entry).
+		</p>
+		<p>Invalid lines will be returned to you and kept inside the text box.</p>
+	</hgroup>
+	<p>Line count: {$value.trim().split("\n").length} lines</p>
 	<form method="POST" action="?/mass_credit" use:enhance>
 		{#if $delayed}
 			<!-- Technichally you should not show loading bar until 200ms have passed (use delayed field for that) -->
@@ -34,7 +37,7 @@
 			<p>Loading...Crediting...</p>
 		{/if}
 		<textarea
-			class="text-black resize w-full"
+			class="text-black resize w-full min-h-96 mb-2"
 			name="csv_string"
 			id="mass_credit_csv_string"
 			placeholder="osis,credit_num,credit_type,manual_explanation"

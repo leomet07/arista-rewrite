@@ -11,7 +11,7 @@ import mergeUsersWithEmails from "$lib/mergeUsersWithEmails";
 
 // Get the data, for page load
 export const load: LayoutServerLoad = async ({ params, locals }) => {
-	const users = await locals.pb.collection("users").getFullList({ sort: "-created" });
+	const users = await locals.pb.collection("users").getFullList({ sort: "-created", requestKey: null });
 
 	const serialized_users = structuredClone(users as unknown) as RecievedUser[];
 
@@ -20,10 +20,10 @@ export const load: LayoutServerLoad = async ({ params, locals }) => {
 	const credits = structuredClone(
 		(await locals.pb
 			.collection("credits")
-			.getFullList({ expand: "event,session,session.tutoringRequest" })) as unknown
+			.getFullList({ expand: "event,session,session.tutoringRequest", requestKey: null })) as unknown
 	) as ExpandedCredit[];
 	const strikes = structuredClone(
-		(await locals.pb.collection("strikes").getFullList()) as unknown
+		(await locals.pb.collection("strikes").getFullList({ requestKey: null })) as unknown
 	) as RecievedStrike[];
 
 	const serialized_users_with_emails = users_with_emails.map((useri) => {

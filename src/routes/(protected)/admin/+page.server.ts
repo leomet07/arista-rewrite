@@ -70,7 +70,14 @@ export const actions = {
 
             let [osis, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
 
-            let user = await locals.pb.collection("users").getFirstListItem(`osis=${osis}`, { requestKey: null });
+            let user;
+            try {
+                user = await locals.pb.collection("users").getFirstListItem(`osis=${osis}`, { requestKey: null });
+            } catch (error: any) {
+                invalid_lines.push(line);
+                continue;
+            }
+
             if (!user) {
                 invalid_lines.push(line);
                 continue;
