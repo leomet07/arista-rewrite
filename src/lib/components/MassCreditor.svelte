@@ -27,6 +27,9 @@
 			Enter data in a csv format of <code>osis,credit_num,credit_type,manual_explanation</code> (each
 			line is a new entry).
 		</p>
+		<p>
+			Credit type can only be <code>event</code> or <code>tutoring</code> or <code>other</code> .
+		</p>
 		<p>Invalid lines will be returned to you and kept inside the text box.</p>
 	</hgroup>
 	<p>Line count: {$value.trim().split("\n").length} lines</p>
