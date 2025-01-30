@@ -61,6 +61,7 @@ export const actions = {
         const lines = csv_string.split("\n").map(v => v.trim());
 
         let invalid_lines: string[] = [];
+        let valid_lines_db_requests: Promise<any>[] = [];
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
             if (!isLineValid(line)) {
@@ -69,40 +70,37 @@ export const actions = {
 
             let [osis, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
 
-            let user;
+            let user = await locals.pb.collection("users").getFirstListItem(`osis=${osis}`, { requestKey: null });
+            if (!user) {
+                invalid_lines.push(line);
+                continue;
+            }
 
+            if (user.is_tutee) {
+                invalid_lines.push(line);
+                continue;
+            }
+
+            let new_credit_body = {
+                credits: parseInt(credit_num),
+                manualExplanation: manual_explanation,
+                type: credit_type,
+                user: user.id
+            };
+
+            const create_credit_request = locals.pb.collection("credits").create(
+                new_credit_body,
+                { requestKey: null } // requestKey is null here to avoid cancelled requests when successive requests are ran
+            );
+
+            valid_lines_db_requests.push(create_credit_request);
             try {
-                user = await locals.pb.collection("users").getFirstListItem(`osis=${osis}`, { requestKey: null });
-                if (!user) {
-                    invalid_lines.push(line);
-                    continue;
-                }
-
-                if (user.is_tutee) {
-                    invalid_lines.push(line);
-                    continue;
-                }
-
-                let new_credit_body = {
-                    credits: parseInt(credit_num),
-                    manualExplanation: manual_explanation,
-                    type: credit_type,
-                    user: user.id
-                };
-
-                console.log("new_credit_body: ", new_credit_body);
-
-                const created_credit = await locals.pb.collection("credits").create(
-                    new_credit_body,
-                    { requestKey: null } // requestKey is null here to avoid cancelled requests when successive requests are ran
-                );
-                console.log("Created credit: ", created_credit);
+                let results = await Promise.all(valid_lines_db_requests);
             } catch (error: any) {
                 console.error(error);
             }
         }
 
-        console.log("INVALID LINES: ", invalid_lines);
         form.data.csv_string = invalid_lines.join("\n");
 
         return { mass_credit_form: form };

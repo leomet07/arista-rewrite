@@ -1,23 +1,45 @@
 <script lang="ts">
-	import { enhance } from "$app/forms";
-	import type { SuperForm } from "sveltekit-superforms";
-
+	import {
+		formFieldProxy,
+		type FormFieldProxy,
+		type SuperForm,
+		type FormPathLeaves
+	} from "sveltekit-superforms";
 	export let form: SuperForm<
 		{
 			csv_string: string;
 		},
 		any
 	>;
+
+	const { delayed, enhance } = form;
+
+	const { value, errors, constraints } = formFieldProxy(
+		form,
+		"csv_string"
+	) satisfies FormFieldProxy<string>;
 </script>
 
 <div class="card p-4 w-full text-token space-y-4">
 	<h1>Mass Creditor</h1>
 	<p>
 		Enter data in a csv format of <code>osis,credit_num,credit_type,manual_explanation</code> (each line
-		is a new entry)
+		is a new entry).
 	</p>
+	<p>Invalid lines will be returned (kept inside the text box)</p>
 	<form method="POST" action="?/mass_credit" use:enhance>
-		<textarea class="text-black w-auto" name="csv_string" id="mass_credit_csv_string"></textarea>
+		{#if $delayed}
+			<!-- Technichally you should not show loading bar until 200ms have passed (use delayed field for that) -->
+			<!-- But instant loading is useful here for admin dashboard purposes -->
+			<p>Loading...Crediting...</p>
+		{/if}
+		<textarea
+			class="text-black resize w-full"
+			name="csv_string"
+			id="mass_credit_csv_string"
+			placeholder="osis,credit_num,credit_type,manual_explanation"
+			bind:value={$value}
+		></textarea>
 		<br />
 		<input type="submit" class="btn variant-filled-secondary" />
 	</form>

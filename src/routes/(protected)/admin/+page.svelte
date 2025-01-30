@@ -21,7 +21,7 @@
 		paginationSettings.page * paginationSettings.limit + paginationSettings.limit
 	);
 
-	const MassCreditFormObj = superForm(data.mass_credit_form, { resetForm: true });
+	const MassCreditFormObj = superForm(data.mass_credit_form, { resetForm: false });
 	const { errors: MassCreditFormErrors } = MassCreditFormObj;
 </script>
 
