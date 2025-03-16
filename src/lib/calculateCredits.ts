@@ -29,7 +29,35 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 	if (user.graduationYear == 2025) {
 		// seniors
 		creditMap = {
-			event: 17,
+			event: 20,
+			tutoring: 4,
+			other: 2
+		};
+		if (user.committees.includes("events")) {
+			creditMap = {
+				event: 0,
+				tutoring: 3,
+				other: 1
+			};
+		}
+		if (user.committees.includes("operations")) {
+			creditMap = {
+				event: 15,
+				tutoring: 3,
+				other: 1
+			};
+		}
+		if (user.committees.includes("web")) {
+			creditMap = {
+				event: 17,
+				tutoring: 3,
+				other: 2
+			};
+		}
+	} else if (user.graduationYear == 2026) {
+		// juniors
+		creditMap = {
+			event: 25,
 			tutoring: 3,
 			other: 2
 		};
@@ -37,77 +65,49 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 			creditMap = {
 				event: 0,
 				tutoring: 2,
-				other: 1
-			};
-		}
-		if (user.committees.includes("operations")) {
-			creditMap = {
-				event: 12,
-				tutoring: 2,
-				other: 1
-			};
-		}
-		if (user.committees.includes("web")) {
-			creditMap = {
-				event: 14,
-				tutoring: 2,
-				other: 2
-			};
-		}
-	} else if (user.graduationYear == 2026) {
-		// juniors
-		creditMap = {
-			event: 21,
-			tutoring: 3,
-			other: 4
-		};
-		if (user.committees.includes("events")) {
-			creditMap = {
-				event: 0,
-				tutoring: 2,
 				other: 2
 			};
 		}
 		if (user.committees.includes("operations")) {
 			creditMap = {
-				event: 16,
+				event: 21,
 				tutoring: 2,
 				other: 2
 			};
 		}
 		if (user.committees.includes("web")) {
 			creditMap = {
-				event: 18,
-				tutoring: 2,
-				other: 3
+				event: 23,
+				tutoring: 3,
+				other: 2
 			};
 		}
 	} else if (user.graduationYear == 2027) {
 		// sophomores
 		creditMap = {
-			event: 21,
+			event: 27,
 			tutoring: 0,
-			other: 0
+			other: 2
 		};
 		if (user.committees.includes("events")) {
 			creditMap = {
 				event: 0,
 				tutoring: 0,
-				other: 0
+				other: 2
 			};
 		}
 		if (user.committees.includes("operations")) {
 			creditMap = {
-				event: 16,
+				event: 24,
 				tutoring: 0,
-				other: 0
+				other: 2
 			};
 		}
 		if (user.committees.includes("web")) {
 			creditMap = {
-				event: 18,
+				event: 26,
 				tutoring: 0,
-				other: 0
+				other: 2
 			};
 		}
 	} else {
