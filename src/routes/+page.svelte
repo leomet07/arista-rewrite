@@ -4,11 +4,12 @@
 	import StrikesDisplay from "$lib/components/StrikesDisplay.svelte";
 	import CreditsDisplay from "$lib/components/CreditsDisplay.svelte";
 	import SignedUpEventsDisplay from "$lib/components/SignedUpEventsDisplay.svelte";
+	import FAQ from "$lib/components/FAQ.svelte";
 
 	export let data: PageData;
 </script>
 
-<main class="container mx-auto p-8 space-y-8">
+<main class="container mx-auto p-4 space-y-8">
 	{#if $currentUser}
 		{#if $currentUser.is_tutee}
 			<hgroup>
@@ -37,4 +38,5 @@
 			<a class="anchor" href="/login">Login please.</a>
 		</h3>
 	{/if}
+	<FAQ />
 </main>
