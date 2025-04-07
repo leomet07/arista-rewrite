@@ -217,4 +217,57 @@
 			</section>
 		</svelte:fragment>
 	</AccordionItem>
+	<AccordionItem open>
+		<svelte:fragment slot="summary">
+			<h3 class="h3">I have another question. Who can I contact?</h3>
+		</svelte:fragment>
+		<svelte:fragment slot="content">
+			For any inquiries not addressed here, please refer to the following contacts:
+
+			<ul class="mt-1 list-disc list-inside [&_ul]:list-[revert]">
+				<li>
+					<span class="underline font-bold">Ayla Irshad, President</span> (stuyaristanyc@gmail.com)
+					<ul class="list-inside ml-5">
+						<li>
+							This is the main contact for anything ARISTA-related that doesn’t fit into the other
+							categories. If you’re not sure who to email, start here.
+						</li>
+					</ul>
+				</li>
+				<li>
+					<span class="underline font-bold">Tamiyyah Shafiq, Vice President of Operations</span>
+					(stuyaristanycops@gmail.com)
+					<ul class="list-inside ml-5">
+						<li>
+							For questions about tutoring logistics, credit tracking, study guides, academic
+							resources, PISTE, or anything related to how ARISTA runs behind the scenes. If you’re
+							an ARISTA member with concerns about your credits, this is the place to ask.
+						</li>
+					</ul>
+				</li>
+				<li>
+					<span class="underline font-bold">Alexa Chiang, Vice President of Events</span>
+					(stuyaristanycevents@gmail.com)
+					<ul class="list-inside ml-5">
+						<li>
+							If you have questions about an ARISTA event, whether it's logistics, sign-ups, or a
+							credit discrepancy, email here. If your question is about a specific event, it helps
+							to reach out to the event leader directly.
+						</li>
+					</ul>
+				</li>
+				<li>
+					<span class="underline font-bold">Lenny Metlitsky, Vice President of Web Development</span
+					>
+					(stuyaristanycweb@gmail.com)
+					<ul class="list-inside ml-5">
+						<li>
+							For any problems with the ARISTA website, suggestions for improvements, or updates
+							that need to be made. If something looks off or isn't working, let us know.
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</svelte:fragment>
+	</AccordionItem>
 </Accordion>
