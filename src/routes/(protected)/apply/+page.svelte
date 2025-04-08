@@ -29,36 +29,36 @@
 			<InputField
 				form={formObj}
 				field="q1"
-				label="q1:"
-				placeholder="Lorem Ipsum Dolor..."
+				label="Why do you want to be a member of ARISTA? (Max. 1000 characters)"
+				placeholder=""
 				type="text"
 			/>
 			<InputField
 				form={formObj}
 				field="q2"
-				label="q2:"
-				placeholder="Lorem Ipsum Dolor..."
+				label="Describe a way that you are involved in your community (your neighborhood, NYC, Stuyvesant, etc.) that has been meaningful to you. What did you learn from the experience? (Max. 2000 characters)"
+				placeholder=""
 				type="text"
 			/>
 			<InputField
 				form={formObj}
 				field="q3"
-				label="q3:"
-				placeholder="Lorem Ipsum Dolor..."
+				label="If you have not previously been engaged in your community, what impact would you like to have in the future? And how do you hope ARISTA will help those endeavors? (Max. 2000 characters)"
+				placeholder=""
 				type="text"
 			/>
 			<InputField
 				form={formObj}
 				field="q4"
-				label="q4:"
-				placeholder="Lorem Ipsum Dolor..."
+				label="Choose a quote that resonates with you. Explain how it demonstrates your values, beliefs, or experiences in the world. Feel free to explore your creativity in answering this. (Max. 2000 characters)"
+				placeholder=""
 				type="text"
 			/>
 			<InputField
 				form={formObj}
 				field="q5"
-				label="q5:"
-				placeholder="Lorem Ipsum Dolor..."
+				label="Describe a significant challenge you’ve faced. How did you handle it, and what did you learn from the experience? (Max. 2000 characters)"
+				placeholder=""
 				type="text"
 			/>
 
