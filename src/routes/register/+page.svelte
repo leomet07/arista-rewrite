@@ -7,6 +7,10 @@
 	import InputField from "$lib/components/InputField.svelte";
 	import { SlideToggle } from "@skeletonlabs/skeleton";
 	import SuperDebug from "sveltekit-superforms";
+	import { page } from "$app/stores";
+
+	let message: string;
+	$: message = $page.url.searchParams.get("message") ?? "";
 
 	export let data: PageData;
 	const formObj = superForm(data.form);
@@ -15,10 +19,17 @@
 
 <main class="container mx-auto p-8 space-y-8">
 	<!-- <SuperDebug data={{ $form, $errors }} /> -->
+
 	<hgroup>
 		<h1 class="h1">Register</h1>
 		<p>Register to ARISTA with your Stuy.edu email!</p>
 	</hgroup>
+
+	{#if message}
+		<aside class="alert variant-filled-warning mb-4">
+			<b>{message}</b>
+		</aside>
+	{/if}
 
 	<ErrorComponent errors={$errors} />
 

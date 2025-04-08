@@ -29,7 +29,7 @@ export const load = async ({ locals, request, url }) => {
 };
 
 export const actions: Actions = {
-	default: async ({ locals, request }) => {
+	default: async ({ locals, request, url }) => {
 		const form = await superValidate(request, zod(RegisterPageSchema));
 		console.log("POST", form);
 
@@ -53,7 +53,13 @@ export const actions: Actions = {
 		} catch (error: unknown) {
 			return handleError(error, form);
 		}
-		throw redirect(303, "/");
+		const redirectTo = url.searchParams.get("redirectTo");
+		if (redirectTo) {
+			// always have slash in front so no malicous URL inserted
+			throw redirect(303, "/" + redirectTo.slice(1));
+		} else {
+			throw redirect(303, "/");
+		}
 		// return { form };
 	}
 };

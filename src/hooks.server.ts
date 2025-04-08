@@ -18,11 +18,15 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.pb = pb;
 	event.locals.user = structuredClone(pb.authStore.model);
 
-	if (event.url.pathname.startsWith("/events") || event.url.pathname.startsWith("/settings") || event.url.pathname.startsWith("/tutoring")) {
+	if (event.url.pathname.startsWith("/events") || event.url.pathname.startsWith("/settings") || event.url.pathname.startsWith("/tutoring") || event.url.pathname.startsWith("/apply")) {
 		if (!event.locals.user) { // if not logged in, redirect
 			// Redirection inspired by https://www.youtube.com/watch?v=ieECVME5ZLU
 			const fromUrl = event.url.pathname + event.url.search;
-			const message = "You must be logged in to access that page.";
+			let message = "You must be logged in to access that page.";
+			if (event.url.pathname.startsWith("/apply")) {
+				message = "Prospective ARISTA applicants must first register as a tutee before filling out the application.";
+				throw redirect(303, `/register?redirectTo=${fromUrl}&message=${message}`);
+			}
 			throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
 		}
 	}

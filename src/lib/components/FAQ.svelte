@@ -192,7 +192,7 @@
 		<svelte:fragment slot="content">
 			<section class="w-full text-token space-y-4">
 				<h4 class="h4">
-					Apply today at <a href="stuyarista.org/apply" class="anchor">stuyarista.org/apply</a> !
+					Apply today at <a href="/apply" class="anchor">stuyarista.org/apply</a> !
 				</h4>
 				<p>
 					Applications to join ARISTA open every spring, typically around February. Freshmen,
