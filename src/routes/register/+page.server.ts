@@ -41,16 +41,13 @@ export const actions: Actions = {
 
 		console.log("Trying to create user: ", JSON.stringify(form.data, null, 2));
 
-		try {
-			await locals.pb.collection("users").getFirstListItem(`email="${form.data.email}"`);
-			// If it does not error, then email is taken
-			return setError(form, "", "An account with that email already exists.");
-		} catch (error: unknown) { }
+		form.data.is_tutee = true; // by default, all sign ups are tutees!
 
 		try {
 			await locals.pb.collection<RecievedUser>("users").create(form.data); // create user
 			await locals.pb.collection("users").authWithPassword(form.data.email, form.data.password); // login
 		} catch (error: unknown) {
+			console.log("Unkown error: ", error);
 			return handleError(error, form);
 		}
 		const redirectTo = url.searchParams.get("redirectTo");

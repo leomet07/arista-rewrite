@@ -45,7 +45,7 @@
 	>
 		<InputField form={formObj} field="name" label="Enter your name:" placeholder="John Doe" />
 
-		<label for="is_tutee">
+		<!-- <label for="is_tutee">
 			Please select whether you are looking to be tutored <b>or</b> are an active ARISTA member.
 			<br />
 			<SlideToggle
@@ -58,7 +58,7 @@
 					? "I'm not an ARISTA member and I'm here to be tutored."
 					: "I am an accepted ARISTA member."}
 			</SlideToggle>
-		</label>
+		</label> -->
 
 		<InputField form={formObj} field="homeroom" label="Enter your homeroom:" placeholder="3JJ" />
 		<InputField
@@ -79,7 +79,7 @@
 		<InputField
 			form={formObj}
 			field="email"
-			label="Enter your email:"
+			label="Enter your email (@stuy.edu):"
 			placeholder="email@stuy.edu"
 			type="email"
 		/>
