@@ -217,7 +217,7 @@
 			</section>
 		</svelte:fragment>
 	</AccordionItem>
-	<AccordionItem open>
+	<AccordionItem>
 		<svelte:fragment slot="summary">
 			<h3 class="h3">I have another question. Who can I contact?</h3>
 		</svelte:fragment>

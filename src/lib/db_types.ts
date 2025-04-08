@@ -71,6 +71,14 @@ export const TutoringSessionSchema = z.object({
 	durationInHours: z.coerce.number().min(0.5).max(10).optional()
 });
 
+export const ApplicationSchema = z.object({
+	q1: z.string().min(2).max(1000),
+	q2: z.string().min(2).max(2000),
+	q3: z.string().min(2).max(2000),
+	q4: z.string().min(2).max(2000),
+	q5: z.string().min(2).max(2000),
+});
+
 export const PublicUserDataSchema = UserSchema.pick({ email: true, name: true });
 
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
@@ -81,6 +89,7 @@ export type RecievedStrike = z.infer<typeof StrikeSchema> & StrictRecordModel;
 export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
 export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & StrictRecordModel;
 export type RecievedPublicUserData = z.infer<typeof PublicUserDataSchema> & StrictRecordModel;
+export type RecievedApplication = z.infer<typeof ApplicationSchema> & StrictRecordModel & { applicant: string; submitted: boolean; };
 
 export type ExpandedCredit = {
 	expand?: {
