@@ -59,7 +59,7 @@
 
 	{#if data.userApplication && data.userApplication.submitted}
 		<aside class="alert variant-filled-success mb-4">
-			<b>You have already submitted your application to ARISTA.</b>
+			<b>You have submitted your application to ARISTA.</b>
 		</aside>
 	{:else}
 		<div class="card p-4">
