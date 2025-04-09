@@ -9,33 +9,32 @@
 	export let data: PageData;
 </script>
 
-<main class="container mx-auto p-4 space-y-8">
-	{#if $currentUser}
-		{#if $currentUser.is_tutee}
-			<hgroup>
-				<h1 class="h1">Welcome to ARISTA.</h1>
-				<p class="h5">Request academic support and tutoring here.</p>
-			</hgroup>
-		{:else}
-			<hgroup>
-				<h1 class="h1">Your credits.</h1>
-				<p class="h5">View your progress and the ARISTA service requirements here.</p>
-			</hgroup>
+<main class="container mx-auto p-4 md:p-8 space-y-8">
+	{#if $currentUser && !$currentUser.is_tutee}
+		<hgroup>
+			<h1 class="h1">Hello{$currentUser ? `, ${$currentUser.name}` : ""}! View your credits.</h1>
+			<p class="h5">View your progress and the ARISTA service requirements here.</p>
+		</hgroup>
 
-			{#if data.credits !== undefined}
-				<CreditsDisplay credits={data.credits} user={$currentUser} />
-			{/if}
-			{#if data.signed_up_events !== undefined}
-				<SignedUpEventsDisplay signed_up_events={data.signed_up_events} />
-			{/if}
-			{#if data.strikes !== undefined}
-				<StrikesDisplay strikes={data.strikes} />
-			{/if}
+		{#if data.credits !== undefined}
+			<CreditsDisplay credits={data.credits} user={$currentUser} />
+		{/if}
+		{#if data.signed_up_events !== undefined}
+			<SignedUpEventsDisplay signed_up_events={data.signed_up_events} />
+		{/if}
+		{#if data.strikes !== undefined}
+			<StrikesDisplay strikes={data.strikes} />
 		{/if}
 	{:else}
+		<hgroup>
+			<h1 class="h1">Welcome to ARISTA{$currentUser ? `, ${$currentUser.name}` : ""}.</h1>
+			<p class="h5">Request academic support and tutoring here.</p>
+		</hgroup>
+	{/if}
+	{#if !$currentUser}
 		<h3 class="h3">
 			You aren't logged in.
-			<a class="anchor" href="/login">Login please.</a>
+			<a class="anchor" href="/login">Login</a> or <a class="anchor" href="/register">Register</a>.
 		</h3>
 	{/if}
 	<FAQ />

@@ -32,7 +32,7 @@
 		{/if}
 		<a class="ml-2" href="/studyguides">Study <span class="hidden lg:inline">Guides</span></a>
 		{#if !$currentUser || ($currentUser && $currentUser.is_tutee)}
-			<a class="ml-2" href="/apply">Apply to ARISTA</a>
+			<a class="ml-2" href="/apply">Apply <span class="hidden sm:inline">to ARISTA</span></a>
 		{/if}
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
