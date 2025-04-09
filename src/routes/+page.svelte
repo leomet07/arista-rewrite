@@ -28,7 +28,10 @@
 	{:else}
 		<hgroup>
 			<h1 class="h1">Welcome to ARISTA{$currentUser ? `, ${$currentUser.name}` : ""}.</h1>
-			<p class="h5">Request academic support and tutoring here.</p>
+			<p class="h3">
+				Request academic support through indivudual tutoring
+				<a class="anchor" href="/tutoring">here</a>.
+			</p>
 		</hgroup>
 	{/if}
 	{#if !$currentUser}

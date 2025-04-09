@@ -100,5 +100,8 @@
 		/>
 
 		<input type="submit" class="btn variant-filled" value="Register" />
+		<p id="suggest_login">
+			Already have an account? <a href="/login" class="anchor">Login here.</a>
+		</p>
 	</form>
 </main>

@@ -27,6 +27,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 				message = "Prospective ARISTA applicants must first register as a tutee before filling out the application.";
 				throw redirect(303, `/register?redirectTo=${fromUrl}&message=${message}`);
 			}
+			if (event.url.pathname.startsWith("/tutoring")) {
+				message = "Looking to get tutored? Register for a tutee account below and submit your request!";
+				throw redirect(303, `/register?redirectTo=${fromUrl}&message=${message}`);
+			}
 			throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
 		}
 	}
