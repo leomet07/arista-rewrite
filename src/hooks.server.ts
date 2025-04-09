@@ -38,6 +38,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 		throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
 	}
 
+	if ((event.url.pathname.startsWith("/apply")) && event.locals.user && !event.locals.user.is_tutee) {
+		throw redirect(303, `/`); // current arista members can't access the application page
+	}
+
 	// Forbid non-admins from entering admin routes
 	if ((event.url.pathname.startsWith("/admin")) && event.locals.user && !isOnCommittee(event.locals.user as RecievedUser, "admin")) {
 		const fromUrl = event.url.pathname + event.url.search;
