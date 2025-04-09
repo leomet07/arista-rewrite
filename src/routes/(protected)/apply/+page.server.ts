@@ -5,6 +5,8 @@ import { ApplicationSchema, type RecievedApplication, type RecievedEvent } from 
 import handleError from "$lib/handleError";
 import { zod } from 'sveltekit-superforms/adapters';
 import type Client from "pocketbase";
+import { pb } from "$lib/pocketbase";
+import type { z } from "zod";
 
 let InProgressApplicationSchema = ApplicationSchema.partial();
 
@@ -12,8 +14,24 @@ async function getUserApplication(pb: Client, applicant_id: string): Promise<Rec
     // has user applied before? 
     const applications = await pb.collection("applications").getFullList({ filter: `applicant="${applicant_id}"` }) as unknown as RecievedApplication[]; // should only be able to see your own application
     return applications.length > 0 ? applications[0] : undefined;
-
 }
+
+async function createOrUpdateApplication(pb: Client, applicant_id: string, application: z.infer<typeof InProgressApplicationSchema>) {
+    let userApplication = await getUserApplication(pb, applicant_id);
+
+    let body: Partial<RecievedApplication> = {
+        ...application,
+        applicant: applicant_id,
+        submitted: false
+    };
+
+    if (!userApplication) {
+        return await pb.collection("applications").create(body) as unknown as RecievedApplication;
+    }
+    // else, update
+    return await pb.collection("applications").update(userApplication.id, body, {}) as unknown as RecievedApplication;
+}
+
 export const load = async ({ locals }) => {
     // Server API:
     if (!locals.user) {
@@ -29,7 +47,7 @@ export const load = async ({ locals }) => {
 
 
 export const actions: Actions = {
-    default: async ({ locals, request, url }) => {
+    save_application: async ({ locals, request, url }) => {
         const form = await superValidate(request, zod(InProgressApplicationSchema));
 
         if (!locals.user) {
@@ -42,30 +60,36 @@ export const actions: Actions = {
             return fail(400, { form });
         }
 
-        console.log("Submitted Application: ", form.data);
 
-        let userApplication = await getUserApplication(locals.pb, locals.user.id);
+        let new_application = await createOrUpdateApplication(locals.pb, locals.user.id, form.data);
 
-
-        let body: Partial<RecievedApplication> = {
-            ...form.data,
-            applicant: locals.user.id,
-            submitted: false
-        };
-
-        let new_application;
-        if (!userApplication) {
-            new_application = await locals.pb.collection("applications").create(body) as unknown as RecievedApplication;
-            console.log("Created application: ", new_application);
-        } else {
-            new_application = await locals.pb.collection("applications").update(userApplication.id, body, {}) as unknown as RecievedApplication;
-            console.log("Updated application: ", new_application);
-        }
-
-        let newForm = await superValidate(new_application, zod(InProgressApplicationSchema));
+        let newForm = await superValidate(form.data, zod(InProgressApplicationSchema));
 
 
         return { form: newForm };
 
+    },
+    submit_application: async ({ locals, request, url }) => {
+        let formData = Object.fromEntries(await request.formData());
+
+        if (!locals.user) {
+            error(401, "User not logged in.");
+        }
+
+        let safe_parsed_application = ApplicationSchema.safeParse(formData);
+
+        if (!safe_parsed_application.success) {
+            error(400, "Application is incomplete or is improperly formatted.");
+        }
+
+        let new_application = await createOrUpdateApplication(locals.pb, locals.user.id, safe_parsed_application.data);
+
+        // now mark it as submitted
+        await pb.collection("applications").update(new_application.id, {
+            submitted: true,
+            submitted_time: new Date().toISOString() // uploads UTC time, DB reads UTC time, marked as UTC time, all good
+        }, {}) as unknown as RecievedApplication;
+
+        return { success: true };
     }
 };

@@ -29,7 +29,7 @@
 	<div class="md:flex block justify-between items-center mb-1">
 		{label || field}
 		<span class="text-right mt-2 md:mt-0"
-			>{$value.length} / {$constraints?.maxlength} characters</span
+			>{$value?.length ?? 0} / {$constraints?.maxlength} characters</span
 		>
 	</div>
 	<textarea
