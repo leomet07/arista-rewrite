@@ -16,7 +16,6 @@
 
 	export let form: SuperForm<T, any>;
 	export let field: FormPathLeaves<T>;
-	export let label: string = "";
 	export let placeholder: string = "";
 
 	const { value, errors, constraints } = formFieldProxy(
@@ -27,7 +26,9 @@
 
 <label>
 	<div class="md:flex block justify-between items-center mb-1">
-		{label || field}
+		<div>
+			<slot></slot>
+		</div>
 		<span class="text-right mt-2 md:mt-0"
 			>{$value?.length ?? 0} / {$constraints?.maxlength} characters</span
 		>

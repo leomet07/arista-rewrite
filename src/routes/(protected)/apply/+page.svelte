@@ -69,36 +69,52 @@
 				action="?/save_application"
 				class="w-full text-token space-y-4"
 			>
-				<TextArea
-					form={formObj}
-					field="q1"
-					label="Why do you want to be a member of ARISTA?"
-					placeholder=""
-				/>
-				<TextArea
-					form={formObj}
-					field="q2"
-					label="Describe a way that you are involved in your community (your neighborhood, NYC, Stuyvesant, etc.) that has been meaningful to you. What did you learn from the experience?"
-					placeholder=""
-				/>
-				<TextArea
-					form={formObj}
-					field="q3"
-					label="If you have not previously been engaged in your community, what impact would you like to have in the future? And how do you hope ARISTA will help those endeavors?"
-					placeholder=""
-				/>
-				<TextArea
-					form={formObj}
-					field="q4"
-					label="Choose a quote that resonates with you. Explain how it demonstrates your values, beliefs, or experiences in the world. Feel free to explore your creativity in answering this."
-					placeholder=""
-				/>
-				<TextArea
-					form={formObj}
-					field="q5"
-					label="Describe a significant challenge you’ve faced. How did you handle it, and what did you learn from the experience?"
-					placeholder=""
-				/>
+				<hgroup>
+					<h3 class="h3">Please fill out the following responses below.</h3>
+					<p>
+						Speak what you feel, not what you think we want to hear. The provided character limits
+						are only maximums, not minimums.
+					</p>
+				</hgroup>
+				<TextArea form={formObj} field="q1" placeholder="">
+					<p>Why do you want to be a member of ARISTA?</p>
+				</TextArea>
+
+				<div>
+					<h4 class="h4">
+						For question 2, please choose <span class="underline">ONE</span> prompt to answer.
+					</h4>
+					<TextArea form={formObj} field="q2" placeholder="">
+						<p>
+							a) Describe a way that you are involved in your community (your neighborhood, NYC,
+							Stuyvesant, etc.) that has been meaningful to you. What did you learn from the
+							experience?
+						</p>
+						<span class="font-bold">OR</span>
+						<p>
+							b) If you have not previously been engaged in your community, what impact would you
+							like to have in the future? And how do you hope ARISTA will help those endeavors?
+						</p>
+					</TextArea>
+				</div>
+
+				<div>
+					<h4 class="h4">
+						For question 3, please choose <span class="underline">ONE</span> prompt to answer.
+					</h4>
+					<TextArea form={formObj} field="q3" placeholder="">
+						<p>
+							a) Choose a quote that resonates with you. Explain how it demonstrates your values,
+							beliefs, or experiences in the world. Feel free to explore your creativity in
+							answering this.
+						</p>
+						<span class="font-bold">OR</span>
+						<p>
+							b) Describe a significant challenge you’ve faced. How did you handle it, and what did
+							you learn from the experience?
+						</p>
+					</TextArea>
+				</div>
 
 				<input type="submit" class="btn variant-filled" value="Save Application" />
 			</form>
