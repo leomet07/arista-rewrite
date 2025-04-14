@@ -82,7 +82,8 @@
 
 				<div>
 					<h4 class="h4">
-						For question 2, please choose <span class="underline">ONE</span> prompt to answer.
+						For question 2, please choose <span class="underline">ONE</span> prompt to answer. Indicate
+						your at the start of your response.
 					</h4>
 					<TextArea form={formObj} field="q2" placeholder="">
 						<p>
@@ -100,7 +101,8 @@
 
 				<div>
 					<h4 class="h4">
-						For question 3, please choose <span class="underline">ONE</span> prompt to answer.
+						For question 3, please choose <span class="underline">ONE</span> prompt to answer. Indicate
+						your at the start of your response.
 					</h4>
 					<TextArea form={formObj} field="q3" placeholder="">
 						<p>
