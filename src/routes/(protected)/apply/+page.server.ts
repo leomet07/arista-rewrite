@@ -82,7 +82,7 @@ export const actions: Actions = {
             error(400, "Application is incomplete or is improperly formatted.");
         }
 
-        let new_application = await createOrUpdateApplication(locals.pb, locals.user.id, safe_parsed_application.data);
+        let new_application = await createOrUpdateApplication(locals.pb, locals.user.id, formData);
 
         // now mark it as submitted
         await pb.collection("applications").update(new_application.id, {

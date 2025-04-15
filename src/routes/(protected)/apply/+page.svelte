@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { applyAction, deserialize, enhance } from "$app/forms";
+	import { applyAction, deserialize } from "$app/forms";
 	import { pb } from "$lib/pocketbase";
 	import { superForm } from "sveltekit-superforms";
 	import type { PageData } from "./$types";
@@ -10,12 +10,24 @@
 	import type { ActionResult } from "@sveltejs/kit";
 	import { invalidateAll } from "$app/navigation";
 	import ECSelector from "$lib/components/ECSelector.svelte";
+	import { extracurriculars } from "$lib/components/ECSelectorStore";
 
 	const modalStore = getModalStore();
 
 	export let data: PageData;
-	const formObj = superForm(data.form);
-	const { form, errors, constraints } = formObj;
+
+	const formObj = superForm(data.form, {
+		dataType: "json",
+		onSubmit({ jsonData }) {
+			// Set data to be posted
+			jsonData({
+				...$form,
+				extracurriculars: $extracurriculars
+			});
+		},
+		invalidateAll: "force"
+	});
+	const { form, errors, constraints, enhance } = formObj;
 
 	let formEl: HTMLFormElement;
 
@@ -28,6 +40,8 @@
 				console.log("Here");
 				if (r) {
 					const data = new FormData(formEl);
+					data.append("extracurriculars", JSON.stringify($extracurriculars));
+
 					// @ts-ignore
 					const response = await fetch("/apply?/submit_application", {
 						method: "POST",
@@ -79,6 +93,7 @@
 				method="POST"
 				action="?/save_application"
 				class="w-full text-token space-y-4"
+				use:enhance
 			>
 				<TextArea form={formObj} field="q1" placeholder="">
 					<p>Why do you want to be a member of ARISTA?</p>

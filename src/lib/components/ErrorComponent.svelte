@@ -3,7 +3,7 @@
 
 	export let errors: Record<string, string[]> | undefined | ValidationErrors<any>;
 
-	let errors_use: Iterable<any> | undefined = errors as any;
+	let errors_use: Iterable<any> = errors as any;
 </script>
 
 {#if errors_use}

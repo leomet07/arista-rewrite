@@ -50,8 +50,11 @@
 
 		$extracurriculars = [...($extracurriculars || []), safe_ec.data];
 		errors = {};
+
+		// reset form
 		let form = event.target as HTMLFormElement;
 		form.reset();
+		category = ""; // reset form category selection
 
 		console.log($extracurriculars);
 	}
