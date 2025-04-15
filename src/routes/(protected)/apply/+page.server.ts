@@ -71,6 +71,7 @@ export const actions: Actions = {
     },
     submit_application: async ({ locals, request, url }) => {
         let formData = Object.fromEntries(await request.formData());
+        formData["extracurriculars"] = JSON.parse(formData["extracurriculars"] as any as string); // get back to json
 
         if (!locals.user) {
             error(401, "User not logged in.");

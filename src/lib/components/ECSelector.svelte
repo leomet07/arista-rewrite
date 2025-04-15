@@ -23,6 +23,7 @@
 		console.log("adding an ec!");
 
 		if (category == "") {
+			console.error("You must select the category for this ec.");
 			errors = {
 				_errors: ["You must select the category for this extracurricular."]
 			};

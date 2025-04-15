@@ -62,6 +62,8 @@
 			modalStore.trigger(confirmDelete);
 		}, 2);
 	}
+
+	$extracurriculars = data?.userApplication?.extracurriculars;
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
