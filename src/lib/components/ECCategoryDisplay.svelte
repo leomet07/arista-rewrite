@@ -38,7 +38,7 @@
 			{/each}
 		</div>
 	{/if}
-	{#if $extracurriculars?.filter((v) => v.category == category).length == 0}
+	{#if !$extracurriculars || $extracurriculars?.filter((v) => v.category == category).length == 0}
 		<p>You have not added any {formattedName.toLowerCase()}.</p>
 	{/if}
 </div>
