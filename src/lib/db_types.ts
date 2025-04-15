@@ -71,13 +71,28 @@ export const TutoringSessionSchema = z.object({
 	durationInHours: z.coerce.number().min(0.5).max(10).optional()
 });
 
+export const ExtraCurricularSchema = z.object({
+	organization: z.string().min(2).max(64),
+	position: z.string().min(2).max(64),
+	description: z.string().min(2).max(512),
+	hoursPerWeek: z.string().min(1).max(10),
+	weeksPerYear: z.string().min(1).max(10),
+	advisorName: z.string().min(2).max(64),
+	advisorContact: z.string().min(2).max(64),
+	category: z.union([z.literal("service_in_stuy"), z.literal("service_out_stuy"), z.literal("ecs_in_stuy"), z.literal("ecs_out_stuy")])
+});
+
 export const ApplicationSchema = z.object({
 	q1: z.string().min(2).max(1000),
 	q2: z.string().min(2).max(2000),
 	q3: z.string().min(2).max(2000),
+	extraCurriculars: z.array(ExtraCurricularSchema).min(0).max(20)
 	// q4: z.string().min(2).max(2000),
 	// q5: z.string().min(2).max(2000),
 });
+
+
+export type ExtraCurricular = z.infer<typeof ExtraCurricularSchema>;
 
 export const PublicUserDataSchema = UserSchema.pick({ email: true, name: true });
 

@@ -9,6 +9,7 @@
 	import { getModalStore } from "@skeletonlabs/skeleton";
 	import type { ActionResult } from "@sveltejs/kit";
 	import { invalidateAll } from "$app/navigation";
+	import ECSelector from "$lib/components/ECSelector.svelte";
 
 	const modalStore = getModalStore();
 
@@ -63,19 +64,22 @@
 		</aside>
 	{:else}
 		<div class="card p-4">
+			<hgroup class="mb-4">
+				<h3 class="h3">Please fill out the following responses below.</h3>
+				<p>
+					Speak what you feel, not what you think we want to hear. The provided character limits are
+					only maximums, not minimums.
+				</p>
+			</hgroup>
+			<div class="mb-4">
+				<ECSelector />
+			</div>
 			<form
 				bind:this={formEl}
 				method="POST"
 				action="?/save_application"
 				class="w-full text-token space-y-4"
 			>
-				<hgroup>
-					<h3 class="h3">Please fill out the following responses below.</h3>
-					<p>
-						Speak what you feel, not what you think we want to hear. The provided character limits
-						are only maximums, not minimums.
-					</p>
-				</hgroup>
 				<TextArea form={formObj} field="q1" placeholder="">
 					<p>Why do you want to be a member of ARISTA?</p>
 				</TextArea>
