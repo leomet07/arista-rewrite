@@ -62,8 +62,6 @@
 </script>
 
 <div class="space-y-4">
-	<h3 class="h3">EC Selector</h3>
-
 	<ECCategoryDisplay formattedName="In School Service Activities" category="service_in_stuy" />
 	<ECCategoryDisplay formattedName="Out of School Service Activities" category="service_out_stuy" />
 	<ECCategoryDisplay formattedName="In School Extracurriculars" category="ecs_in_stuy" />
@@ -71,7 +69,10 @@
 
 	<!-- Superform is too much, just use svelte stores and validate on server here -->
 	<form class="card p-4" on:submit|preventDefault={onAddECButtonClick}>
-		<h3 class="h3">Record an Extracurricular</h3>
+		<hgroup class="mb-4">
+			<h3 class="h3">Record an Extracurricular</h3>
+			<p>You may record a maximum of 5 extracurricular acitivties per category.</p>
+		</hgroup>
 		<label for="">
 			Organization Name
 			<input class="input" type="text" bind:value={organization} required />
