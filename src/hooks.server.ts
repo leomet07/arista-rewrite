@@ -24,7 +24,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 			const fromUrl = event.url.pathname + event.url.search;
 			let message = "You must be logged in to access that page.";
 			if (event.url.pathname.startsWith("/apply")) {
-				message = "Prospective ARISTA applicants must first register as a tutee before filling out the application. Only freshmen, sophomores, and junior Stuyvesant students with a 92 overall GPA (no exceptions will be made, not even if you are a tenth off) are eligible to apply.";
+				message = "Prospective ARISTA applicants must first register as a tutee before filling out the application. Only current freshmen, sophomores, and junior Stuyvesant students with a 92 overall GPA (no exceptions will be made, not even if you are a tenth off) are eligible to apply.";
 				throw redirect(303, `/register?redirectTo=${fromUrl}&message=${message}`);
 			}
 			if (event.url.pathname.startsWith("/tutoring")) {

@@ -195,9 +195,9 @@
 					Apply today at <a href="/apply" class="anchor">stuyarista.org/apply</a> !
 				</h4>
 				<p>
-					Applications to join ARISTA open every spring, typically around February. Freshmen,
-					sophomores, and junior Stuyvesant students with a 92 overall GPA (no exceptions will be
-					made, not even if you are a tenth off) are eligible to apply.
+					Applications to join ARISTA open every spring, typically around February. Current
+					Freshmen, sophomores, and junior Stuyvesant students with a 92 overall GPA (no exceptions
+					will be made, not even if you are a tenth off) are eligible to apply.
 				</p>
 
 				<p>

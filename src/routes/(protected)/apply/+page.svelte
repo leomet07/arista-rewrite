@@ -82,8 +82,8 @@
 		<div class="card p-4">
 			<aside class="alert variant-filled-surface mb-4">
 				<b>
-					Only Freshmen, sophomores, and junior Stuyvesant students with a 92 overall GPA (no
-					exceptions will be made, not even if you are a tenth off) are eligible to apply.
+					Only current Freshmen, sophomores, and junior Stuyvesant students with a 92 overall GPA
+					(no exceptions will be made, not even if you are a tenth off) are eligible to apply.
 				</b>
 			</aside>
 			<hgroup class="mb-4">
