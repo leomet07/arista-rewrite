@@ -29,7 +29,7 @@
 		<hgroup>
 			<h1 class="h1">Welcome to ARISTA{$currentUser ? `, ${$currentUser.name}` : ""}.</h1>
 			<p class="h3">
-				Request academic support through indivudual tutoring
+				Request academic support through individual tutoring
 				<a class="anchor" href="/tutoring">here</a>.
 			</p>
 		</hgroup>
