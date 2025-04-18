@@ -63,20 +63,25 @@
 		}, 2);
 	}
 
-	$extracurriculars = data?.userApplication?.extracurriculars;
+	$extracurriculars = data?.userApplication?.extracurriculars || [];
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
 		<h1 class="h1">Apply to ARISTA</h1>
-		<p>Welcome to the ARISTA application.</p>
+		<p>
+			Welcome to the ARISTA application. Applications are due Wednesday, April 30th at 11:59PM EST.
+		</p>
 	</hgroup>
 
 	<ErrorComponent errors={$errors} />
 
 	{#if data.userApplication && data.userApplication.submitted}
 		<aside class="alert variant-filled-success mb-4">
-			<b>You have submitted your application to ARISTA.</b>
+			<b>
+				Thank you for submitting your application to ARISTA. Selected applicants will move forward
+				in our application process by being contacted to interview with the executive council.
+			</b>
 		</aside>
 	{:else}
 		<div class="card p-4">

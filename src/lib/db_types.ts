@@ -86,9 +86,7 @@ export const ApplicationSchema = z.object({
 	q1: z.string().min(2).max(1000),
 	q2: z.string().min(2).max(2000),
 	q3: z.string().min(2).max(2000),
-	extracurriculars: z.array(ExtraCurricularSchema).min(0).max(20)
-	// q4: z.string().min(2).max(2000),
-	// q5: z.string().min(2).max(2000),
+	extracurriculars: z.array(ExtraCurricularSchema).min(0).max(20).nullable()
 });
 
 
