@@ -5,7 +5,7 @@
 
 <Accordion class="card p-4 justify-center">
 	<div class="w-full flex justify-around">
-		<span class="block chip variant-filled-secondary h4">Frequentely Asked Questions</span>
+		<span class="block chip variant-filled-secondary h4">Frequently Asked Questions</span>
 	</div>
 
 	<h2 class="h2 text-center">You ask. ARISTA answers.</h2>
