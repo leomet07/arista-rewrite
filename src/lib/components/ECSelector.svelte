@@ -113,7 +113,7 @@
 				<RadioItem bind:group={category} name="justify" value={"ecs_in_stuy"}>
 					Extracurriculars Activities Inside Stuyvesant
 				</RadioItem>
-				<RadioItem bind:group={category} name="justify" value={"new_type"}>
+				<RadioItem bind:group={category} name="justify" value={"ecs_out_stuy"}>
 					Extracurriculars Activities Outside of Stuyvesant
 				</RadioItem>
 			</RadioGroup>
