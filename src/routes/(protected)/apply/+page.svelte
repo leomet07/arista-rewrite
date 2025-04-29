@@ -69,9 +69,7 @@
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
 		<h1 class="h1">Apply to ARISTA</h1>
-		<p>
-			Welcome to the ARISTA application. Applications are due Wednesday, April 30th at 11:59PM EST.
-		</p>
+		<p>Welcome to the ARISTA application. Applications are due Monday, May 5th at 11:59PM EST.</p>
 	</hgroup>
 
 	<ErrorComponent errors={$errors} />

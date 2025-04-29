@@ -193,7 +193,7 @@
 			<section class="w-full text-token space-y-4">
 				<h4 class="h4">
 					Apply today at <a href="/apply" class="anchor">stuyarista.org/apply</a> ! Applications are
-					due Wednesday, April 30th at 11:59PM EST.
+					due Monday, May 5th at 11:59PM EST.
 				</h4>
 				<p>
 					Applications to join ARISTA open every spring, typically around February. Current
