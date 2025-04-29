@@ -37,10 +37,8 @@
 								{#if credit.type == "event"}
 									<p class="font-bold">{credit.expand?.event?.name}</p>
 									<p class="font-bold">
-										{format(String(credit.expand?.event?.start_time), "MM/dd/yyyy hh:mm a")} to {format(
-											String(credit.expand?.event?.end_time),
-											"MM/dd/yyyy hh:mm a"
-										)}
+										{format(credit.expand?.event?.start_time || new Date(), "MM/dd/yyyy hh:mm a")} to
+										{format(credit.expand?.event?.end_time || new Date(), "MM/dd/yyyy hh:mm a")}
 									</p>
 								{/if}
 								{#if credit.type == "tutoring"}
@@ -50,7 +48,7 @@
 									</p>
 									<p>
 										Tutoring request completed on {format(
-											String(credit.expand?.session?.dateCompleted),
+											credit.expand?.session?.dateCompleted || new Date(),
 											"MM/dd/yyyy hh:mm a"
 										)}
 									</p>
