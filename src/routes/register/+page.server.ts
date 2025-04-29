@@ -43,12 +43,13 @@ export const actions: Actions = {
 
 		form.data.is_tutee = true; // by default, all sign ups are tutees!
 
+		// check if exists
 		try {
 			await locals.pb.collection<RecievedUser>("users").create(form.data); // create user
 			await locals.pb.collection("users").authWithPassword(form.data.email, form.data.password); // login
 		} catch (error: unknown) {
 			console.log("Unkown error: ", error);
-			return handleError(error, form);
+			return handleError("User with that email already exists.", form); // usually this is cuz email taken (can't check here without having some serious security vulns)
 		}
 		const redirectTo = url.searchParams.get("redirectTo");
 		if (redirectTo) {

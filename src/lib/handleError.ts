@@ -10,7 +10,7 @@ export default function handleError(error: unknown, form: SuperValidated<Infer<z
 	} else if (error instanceof Error) {
 		return setError(form, "", error.message);
 	}
-	return setError(form, "", "An unkown error occurred.");
+	return setError(form, "", "An unknown error occurred.");
 }
 
 export function handleGenericError(error_param: unknown) {
@@ -19,5 +19,5 @@ export function handleGenericError(error_param: unknown) {
 	} else if (error_param instanceof Error) {
 		error(400, error_param.message);
 	}
-	return error(400, "An unkown error occurred.");
+	return error(400, "An unknown error occurred.");
 }
