@@ -80,6 +80,7 @@ export const actions: Actions = {
         let safe_parsed_application = ApplicationSchema.safeParse(formData);
 
         if (!safe_parsed_application.success) {
+            console.log(safe_parsed_application.error);
             error(400, "Application is incomplete or is improperly formatted.");
         }
 

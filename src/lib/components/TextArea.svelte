@@ -30,7 +30,7 @@
 			<slot></slot>
 		</div>
 		<span class="text-right mt-2 md:mt-0"
-			>{$value?.length ?? 0} / {$constraints?.maxlength} characters</span
+			>{$value?.length ?? 0} / {($constraints?.maxlength ?? 10) - 10} characters</span
 		>
 	</div>
 	<textarea
@@ -40,6 +40,7 @@
 		{...$constraints}
 		{...$$restProps}
 		bind:value={$value}
+		maxlength={($constraints?.maxlength ?? 100) - 10}
 	></textarea>
 </label>
 

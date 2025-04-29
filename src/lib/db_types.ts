@@ -88,9 +88,9 @@ export const ExtraCurricularSchema = z.object({
 });
 
 export const ApplicationSchema = z.object({
-	q1: z.preprocess((a, ctx) => String(a).replace(/[^\x00-\xFF]/g, ""), z.string().min(2).max(1000)), // remove unicode characters (tabs, emojis) to prevent miscount bug
-	q2: z.preprocess((a, ctx) => String(a).replace(/[^\x00-\xFF]/g, ""), z.string().min(2).max(2000)),
-	q3: z.preprocess((a, ctx) => String(a).replace(/[^\x00-\xFF]/g, ""), z.string().min(2).max(2000)),
+	q1: z.preprocess((a, ctx) => String(a).trim().replace(/[^\x00-\xFF]/g, ""), z.string().min(2).max(1010)), // remove unicode characters (tabs, emojis) to prevent miscount bug
+	q2: z.preprocess((a, ctx) => String(a).trim().replace(/[^\x00-\xFF]/g, ""), z.string().min(2).max(2010)),
+	q3: z.preprocess((a, ctx) => String(a).trim().replace(/[^\x00-\xFF]/g, ""), z.string().min(2).max(2010)),
 	extracurriculars: z.array(ExtraCurricularSchema).min(0).max(20).nullable()
 });
 
@@ -100,14 +100,14 @@ export const PublicUserDataSchema = UserSchema.pick({ email: true, name: true })
 
 export type RecievedUser = z.infer<typeof UserSchema> & StrictRecordModel;
 export type RecievedEvent = z.infer<typeof EventSchema> &
-	StrictRecordModel & { signed_up: string[]; event_owner: string };
+	StrictRecordModel & { signed_up: string[]; event_owner: string; };
 export type RecievedCredit = z.infer<typeof CreditSchema> & StrictRecordModel;
 export type RecievedStrike = z.infer<typeof StrikeSchema> & StrictRecordModel;
 export type RecievedTutoringRequest = z.infer<typeof TutoringRequestSchema> & StrictRecordModel;
 export type RecievedTutoringSession = z.infer<typeof TutoringSessionSchema> & StrictRecordModel;
 export type RecievedPublicUserData = z.infer<typeof PublicUserDataSchema> & StrictRecordModel;
 export type RecievedApplication = z.infer<typeof ApplicationSchema> &
-	StrictRecordModel & { applicant: string; submitted: boolean };
+	StrictRecordModel & { applicant: string; submitted: boolean; };
 
 export type ExpandedCredit = {
 	expand?: {
@@ -122,7 +122,7 @@ export type ExpandedEvent = {
 	};
 } & RecievedEvent;
 
-export type OpenUser = RecievedUser & { [x: string | number | symbol]: any };
+export type OpenUser = RecievedUser & { [x: string | number | symbol]: any; };
 
 export type ExpandedTutoringSession = {
 	tutee_name?: string;
