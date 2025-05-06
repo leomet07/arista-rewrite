@@ -5,7 +5,7 @@
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
 		<h1 class="h1">Cram Central</h1>
-		<p>APs are coming! ARSITA is here for you.</p>
+		<p>APs are coming! ARISTA is here for you.</p>
 	</hgroup>
 
 	<section>
