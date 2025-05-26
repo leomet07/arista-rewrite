@@ -135,8 +135,7 @@ export const actions: Actions = {
 
 		console.log("Tutoring form is valid: ", finishTutoringForm.data);
 
-		const searchParams = url.searchParams;
-		const tutoring_session_id = searchParams.get("id");
+		const tutoring_session_id = url.searchParams.get("id");
 		if (!tutoring_session_id) {
 			error(400, "A tutoring session ID must be passed in as a parameter to finish it.");
 		}
@@ -156,24 +155,29 @@ export const actions: Actions = {
 				error(400, "Duration in hours of a tutoring session cannot be <= 0 or > 10");
 			}
 
-
-			//check; isCancelled to cancel 
-			const session = await locals.pb.collection("tutoringSessions").getOne(tutoring_session_id) as unknown as RecievedTutoringSession;
-
-			if (session.tutee !== locals.user.id && session.tutor !== locals.user.id) {
-				error(403, "You don't have permission to cancel this session.");
-			}
-			await locals.pb.collection("tutoringSessions").update(tutoring_session_id, {
-				isCancelled: true
-			});
-			await locals.pb.collection("tutoringRequests").update(session.tutoringRequest, {
-				isClaimed: false //return to pool
-			});
-
 			await locals.pb.collection("tutoringSessions").update(tutoring_session_id, { isComplete: true, dateCompleted: new Date().toISOString(), durationInHours: finishTutoringForm.data.durationInHours });
 		} catch (error: unknown) {
 			console.error(error);
 		}
 		return { finishTutoringForm };
+	},
+	cancel_tutoring_session: async ({ locals, request, params, url }) => {
+		if (!locals?.user?.id) {
+			error(401, "User not logged in.");
+		}
+	
+	//check; isCancelled to cancel 
+	const tutoring_session_id = url.searchParams.get("id") as string;
+	const session = await locals.pb.collection("tutoringSessions").getOne(tutoring_session_id) as RecievedTutoringSession;
+
+	if (session.tutee !== locals.user.id && session.tutor !== locals.user.id) {
+		error(403, "You don't have permission to cancel this session.");
 	}
+	await locals.pb.collection("tutoringSessions").update(tutoring_session_id, {
+		isCancelled: true
+	});
+	await locals.pb.collection("tutoringRequests").update(session.tutoringRequest, {
+		isClaimed: false //return to pool
+	});
+}
 };

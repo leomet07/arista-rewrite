@@ -103,6 +103,21 @@ $: availableRequests = data.tutoringRequests
 								>
 							</form>
 						{/if}
+						{#if $currentUser?.is_tutee || $currentUser?.id === tutoringSession.tutor}
+						<!-- need to notify other person -->
+							<form method="POST" action="?/cancel_tutoring_session&id={tutoringSession.id}">
+								<button
+									type="submit"
+									on:click={(e) => {
+									if (!confirm("Are you sure you want to cancel this session?")) {
+										e.preventDefault();
+									}
+								}}
+							class="mt-2 btn variant-filled"
+							>Cancel</button
+						>
+						</form>
+						{/if}
 					</div>
 				{/each}
 			</div>
