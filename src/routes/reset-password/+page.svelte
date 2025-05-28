@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { applyAction, enhance } from "$app/forms";
-	import { pb } from "$lib/pocketbase";
 	import { superForm } from "sveltekit-superforms";
 	import type { PageData } from "./$types";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
@@ -17,12 +16,12 @@
 
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
-		<h1 class="h1">Sign in</h1>
-		<p>Sign in to ARISTA with your Stuy.edu email!</p>
+		<h1 class="h1">Reset Password</h1>
+		<p>Enter your new password below.</p>
 	</hgroup>
 
 	{#if message}
-		<aside class="alert variant-filled-warning mb-4">
+		<aside class="alert variant-filled-success mb-4">
 			<b>{message}</b>
 		</aside>
 	{/if}
@@ -32,7 +31,6 @@
 		method="POST"
 		use:enhance={() => {
 			return async ({ result }) => {
-				pb.authStore.loadFromCookie(document.cookie);
 				await applyAction(result);
 			};
 		}}
@@ -40,20 +38,21 @@
 	>
 		<InputField
 			form={formObj}
-			field="email"
-			label="Enter your email:"
-			placeholder="email@stuy.edu"
-			type="email"
+			field="password"
+			label="Enter your new password:"
+			type="password"
 		/>
 
-		<InputField form={formObj} field="password" label="Enter your password:" type="password" />
+		<InputField
+			form={formObj}
+			field="passwordConfirm"
+			label="Confirm your new password:"
+			type="password"
+		/>
 
-		<input type="submit" class="btn variant-filled" value="Log in" />
-		<p id="suggest_register">
-			Don't have an account? <a href="/register" class="anchor">Register for one.</a>
-		</p>
-		<p id="forgot_password">
-			<a href="/forgot-password" class="anchor">Forgot your password?</a>
+		<input type="submit" class="btn variant-filled" value="Reset Password" />
+		<p id="back_to_login">
+			<a href="/login" class="anchor">Back to login</a>
 		</p>
 	</form>
-</main>
+</main> 
