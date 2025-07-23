@@ -32,6 +32,7 @@
 		{/if}
 		<a class="ml-2" href="/studyguides"><span class="hidden lg:inline">Study </span>Guides</a>
 		<a class="ml-2" href="/cramcentral">Cram <span class="hidden lg:inline">Central</span></a>
+		<a class="ml-2" href="/faq">FAQ</a>
 		{#if !$currentUser || ($currentUser && $currentUser.is_tutee)}
 			<a class="ml-2" href="/apply">Apply <span class="hidden sm:inline">to ARISTA</span></a>
 		{/if}

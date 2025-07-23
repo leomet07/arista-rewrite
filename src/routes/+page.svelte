@@ -40,5 +40,4 @@
 			<a class="anchor" href="/login">Login</a> or <a class="anchor" href="/register">Register</a>.
 		</h3>
 	{/if}
-	<FAQ />
 </main>
