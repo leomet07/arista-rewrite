@@ -84,6 +84,59 @@
 
 	const MassCreditFormObj = superForm(data.mass_credit_form, { resetForm: false });
 	const { errors: MassCreditFormErrors } = MassCreditFormObj;
+
+	// CSV Export functionality
+	function exportToCSV() {
+		const headers = [
+			'Name',
+			'Email', 
+			'Is-Tutee',
+			'Events Credits',
+			'Required Events Credits',
+			'Tutoring Credits', 
+			'Required Tutoring Credits',
+			'Other Credits',
+			'Required Other Credits',
+			'Total Strike Weight',
+			'Committees',
+			'Homeroom',
+			'Graduation Year',
+			'OSIS'
+		];
+
+		const csvRows = [
+			headers.join(','),
+			...filteredUsers.map(user => [
+				`"${user.name}"`,
+				user.email,
+				user.is_tutee,
+				calculateCredits(user.credits, "event"),
+				user.is_tutee ? "N/A" : calculateRequiredCredits(user, "event"),
+				calculateCredits(user.credits, "tutoring"),
+				user.is_tutee ? "N/A" : calculateRequiredCredits(user, "tutoring"),
+				calculateCredits(user.credits, "other"),
+				user.is_tutee ? "N/A" : calculateRequiredCredits(user, "other"),
+				calculateTotalStrikeWeight(user.strikes),
+				`"${user.committees.join(', ') || 'none'}"`,
+				user.homeroom,
+				user.graduationYear,
+				user.osis
+			].join(','))
+		];
+
+		const csvContent = csvRows.join('\n');
+		const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+		const link = document.createElement('a');
+		const url = URL.createObjectURL(blob);
+		
+		link.setAttribute('href', url);
+		link.setAttribute('download', `admin_panel_export_${new Date().toISOString().split('T')[0]}.csv`);
+		link.style.visibility = 'hidden';
+		
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
+	}
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -111,9 +164,18 @@
 				<span>Show only graduating after 2025</span>
 			</label>
 		</div>
-		<p class="text-sm text-token-500">
-			Showing {filteredUsers.length} of {data.users.length} users
-		</p>
+		<div class="flex justify-between items-center">
+			<p class="text-sm text-token-500">
+				Showing {filteredUsers.length} of {data.users.length} users
+			</p>
+			<button 
+				class="btn variant-filled-primary"
+				on:click={exportToCSV}
+				disabled={filteredUsers.length === 0}
+			>
+				Export to CSV ({filteredUsers.length} users)
+			</button>
+		</div>
 	</div>
 
 	<div class="table-container">
