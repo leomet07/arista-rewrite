@@ -5,6 +5,7 @@
 	import CreditsDisplay from "$lib/components/CreditsDisplay.svelte";
 	import SignedUpEventsDisplay from "$lib/components/SignedUpEventsDisplay.svelte";
 	import FAQ from "$lib/components/FAQ.svelte";
+	import PWAInstall from "$lib/components/PWAInstall.svelte";
 
 	export let data: PageData;
 </script>
@@ -40,4 +41,7 @@
 			<a class="anchor" href="/login">Login</a> or <a class="anchor" href="/register">Register</a>.
 		</h3>
 	{/if}
+
+	<!-- PWA Install Prompt -->
+	<PWAInstall />
 </main>

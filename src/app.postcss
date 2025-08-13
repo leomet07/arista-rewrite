@@ -8,6 +8,39 @@ body {
 	@apply h-full overflow-hidden;
 }
 
+/* Mobile App Styles for iOS Home Screen */
+@supports (padding: max(0px)) {
+	body {
+		padding-top: max(0px, env(safe-area-inset-top));
+		padding-bottom: max(0px, env(safe-area-inset-bottom));
+		padding-left: max(0px, env(safe-area-inset-left));
+		padding-right: max(0px, env(safe-area-inset-right));
+	}
+}
+
+/* Prevent zoom on input focus for iOS */
+input, textarea, select {
+	font-size: 16px;
+}
+
+/* Improve touch targets for mobile */
+button, a, [role="button"] {
+	min-height: 44px;
+	min-width: 44px;
+}
+
+/* Smooth scrolling for iOS */
+html {
+	-webkit-overflow-scrolling: touch;
+	scroll-behavior: smooth;
+}
+
+/* Prevent pull-to-refresh on iOS */
+body {
+	overscroll-behavior: none;
+	-webkit-overflow-scrolling: touch;
+}
+
 /* Calendar NEXT/PREV buttons (adding this dupe so existing css isn't purged) */
 /*! purgecss start ignore */
 .ec-icon {
