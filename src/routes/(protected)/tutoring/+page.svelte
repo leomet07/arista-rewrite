@@ -37,6 +37,21 @@
 <main class="container mx-auto p-8 space-y-8">
 	<h1 class="h1">Tutoring</h1>
 
+	{#if !$currentUser?.is_tutee}
+		<!-- Tutoring Tips PDF Link - Only for Tutors -->
+		<div class="card p-4 bg-primary-50-900-token">
+			<h3 class="h3 mb-2">Tutoring Tips & Instructions</h3>
+			<p class="mb-3">New to tutoring? Check out our guide for tips and best practices.</p>
+			<a 
+				href="/Tutoring-Tips-and-Tricks-Guide.pdf" 
+				target="_blank" 
+				class="btn variant-filled-primary"
+			>
+				View Tutoring Tips & Tricks Guide (PDF)
+			</a>
+		</div>
+	{/if}
+
 	<section>
 		<h3 class="h3">Active sessions</h3>
 		{#if data.tutoringSessions.length == 0}
