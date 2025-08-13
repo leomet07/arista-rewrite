@@ -40,4 +40,11 @@
 			<a class="anchor" href="/login">Login</a> or <a class="anchor" href="/register">Register</a>.
 		</h3>
 	{/if}
+	
+	<!-- Mobile App Installation Link -->
+	<div class="text-center p-4">
+		<a href="/install" class="text-blue-600 hover:text-blue-800 hover:underline">
+			📱 Add Arista to your home screen (like Jupiter)
+		</a>
+	</div>
 </main>
