@@ -6,8 +6,24 @@
 	import SignedUpEventsDisplay from "$lib/components/SignedUpEventsDisplay.svelte";
 	import FAQ from "$lib/components/FAQ.svelte";
 	import PWAInstall from "$lib/components/PWAInstall.svelte";
+	import { onMount } from "svelte";
+	import { browser } from "$app/environment";
+	import { invalidateAll } from "$app/navigation";
 
 	export let data: PageData;
+
+	onMount(() => {
+		if (browser) {
+			// Check if running as PWA
+			const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
+							   (window.navigator as any)?.standalone === true;
+			
+			// Auto-reload data when PWA opens
+			if (isStandalone) {
+				invalidateAll();
+			}
+		}
+	});
 </script>
 
 <main class="container mx-auto p-4 md:p-8 space-y-8">
