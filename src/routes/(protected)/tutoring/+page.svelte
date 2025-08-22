@@ -9,8 +9,18 @@
 	import { superForm } from "sveltekit-superforms";
 
 	export let data: PageData;
-	let myTutoringRequests: RecievedTutoringRequest[];
-	$: myTutoringRequests = data.tutoringRequests.filter((v) => v.tutee == $currentUser?.id);
+	let myTutoringRequests: RecievedTutoringRequest[]; //typo received,,,
+	let availableRequests: RecievedTutoringRequest[] = [];
+	function isExpired(request: RecievedTutoringRequest): boolean {
+	const expirationDays = 14; //2 week buffer; when expired delete
+	const created = new Date(request.created);
+	const now = new Date();
+	const diffDays = (now.getTime() - created.getTime()) / (1000 * 60 * 60 * 24);
+	return diffDays > expirationDays; }
+$: myTutoringRequests = data.tutoringRequests
+	.filter((v) => v.tutee == $currentUser?.id && !isExpired(v));
+$: availableRequests = data.tutoringRequests
+	.filter((v) => !$currentUser?.is_tutee && !isExpired(v));
 
 	async function finishTutoringSession(event: Event) {
 		const formEl = event.target as HTMLFormElement;
@@ -177,7 +187,7 @@
 				<p>There are no tutoring requests at this time!</p>
 			{/if}
 			<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2 mt-4">
-				{#each data.tutoringRequests as tutoringRequest}
+				{#each availableRequests as tutoringRequest}
 					<div class="card p-4">
 						<h3 class="h3">{tutoringRequest.class}</h3>
 						<p class="font-bold">{tutoringRequest.topic}</p>

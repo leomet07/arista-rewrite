@@ -36,7 +36,7 @@ export const load = async ({ locals, request }) => {
 	const sessions = structuredClone(
 		(await locals.pb
 			.collection("tutoringSessions")
-			.getFullList({ sort: "-created", expand: "tutoringRequest", filter: "isComplete=false", requestKey: null })) as unknown
+			.getFullList({ sort: "-created", expand: "tutoringRequest", filter: "isComplete=false && isCancelled=false", requestKey: null })) as unknown
 	) as ExpandedTutoringSession[];
 
 	// only gets rows where tutor or tutee is matching an active session for this user
@@ -91,8 +91,7 @@ export const actions: Actions = {
 			error(401, "A tutee cannot claim a request.");
 		}
 
-		const searchParams = url.searchParams;
-		const tutoring_request_id = searchParams.get("id");
+		const tutoring_request_id = url.searchParams.get("id");
 		if (!tutoring_request_id) {
 			error(400, "A tutoring request ID must be passed in as a parameter to claim it.");
 		}
@@ -156,6 +155,20 @@ export const actions: Actions = {
 				// checking range here because using the pocketbase schema above is weird
 				error(400, "Duration in hours of a tutoring session cannot be <= 0 or > 10");
 			}
+
+
+			//check; isCancelled to cancel 
+			const session = await locals.pb.collection("tutoringSessions").getOne(tutoring_session_id) as unknown as RecievedTutoringSession;
+
+			if (session.tutee !== locals.user.id && session.tutor !== locals.user.id) {
+				error(403, "You don't have permission to cancel this session.");
+			}
+			await locals.pb.collection("tutoringSessions").update(tutoring_session_id, {
+				isCancelled: true
+			});
+			await locals.pb.collection("tutoringRequests").update(session.tutoringRequest, {
+				isClaimed: false //return to pool
+			});
 
 			await locals.pb.collection("tutoringSessions").update(tutoring_session_id, { isComplete: true, dateCompleted: new Date().toISOString(), durationInHours: finishTutoringForm.data.durationInHours });
 		} catch (error: unknown) {
