@@ -49,6 +49,9 @@
 				Cram <span class="hidden lg:inline">Central</span>
 			</a>
 			<a href="/faq" class="hover:text-primary-500 transition-colors">FAQ</a>
+			<a href="/ARISTA-report-24-25.pdf" class="hover:text-primary-500 transition-colors">
+				Annual <span class="hidden lg:inline">Report</span>
+			</a>
 			{#if !$currentUser || ($currentUser && $currentUser.is_tutee)}
 				<a href="/apply" class="hover:text-primary-500 transition-colors">
 					Apply <span class="hidden lg:inline">to ARISTA</span>
@@ -181,6 +184,13 @@
 					on:click={closeMobileMenu}
 				>
 					FAQ
+				</a>
+				<a
+					href="/annual-report"
+					class="block py-2 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+					on:click={closeMobileMenu}
+				>
+					Annual Report
 				</a>
 				{#if !$currentUser || ($currentUser && $currentUser.is_tutee)}
 					<a
