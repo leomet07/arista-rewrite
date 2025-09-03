@@ -14,14 +14,8 @@
 
 	onMount(() => {
 		if (browser) {
-			// Check if running as PWA
-			const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
-							   (window.navigator as any)?.standalone === true;
-			
-			// Auto-reload data when PWA opens
-			if (isStandalone) {
-				invalidateAll();
-			}
+			// Always reload data on homepage load to ensure fresh hours data
+			invalidateAll();
 		}
 	});
 </script>
