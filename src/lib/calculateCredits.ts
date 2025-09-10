@@ -26,7 +26,7 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 		other: 0
 	};
 
-	if (user.graduationYear == 2025) {
+	if (user.graduationYear == 2026) {
 		// seniors
 		creditMap = {
 			event: 20,
@@ -54,7 +54,7 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 				other: 2
 			};
 		}
-	} else if (user.graduationYear == 2026) {
+	} else if (user.graduationYear == 2027) {
 		// juniors
 		creditMap = {
 			event: 25,
@@ -82,7 +82,7 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 				other: 2
 			};
 		}
-	} else if (user.graduationYear == 2027) {
+	} else if (user.graduationYear == 2028) {
 		// sophomores
 		creditMap = {
 			event: 27,
