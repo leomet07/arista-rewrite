@@ -29,29 +29,29 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 	if (user.graduationYear == 2026) {
 		// seniors
 		creditMap = {
-			event: 20,
-			tutoring: 4,
-			other: 2
+			event: 21,
+			tutoring: 2,
+			other: 6
 		};
 		if (user.committees.includes("events")) {
 			creditMap = {
 				event: 0,
-				tutoring: 3,
-				other: 1
+				tutoring: 2,
+				other: 4
 			};
 		}
 		if (user.committees.includes("operations")) {
 			creditMap = {
 				event: 15,
-				tutoring: 3,
-				other: 1
+				tutoring: 2,
+				other: 4
 			};
 		}
 		if (user.committees.includes("web")) {
 			creditMap = {
 				event: 17,
-				tutoring: 3,
-				other: 2
+				tutoring: 2,
+				other: 4
 			};
 		}
 	} else if (user.graduationYear == 2027) {
@@ -59,55 +59,55 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 		creditMap = {
 			event: 25,
 			tutoring: 3,
-			other: 2
+			other: 6
 		};
 		if (user.committees.includes("events")) {
 			creditMap = {
 				event: 0,
-				tutoring: 2,
-				other: 2
+				tutoring: 3,
+				other: 4
 			};
 		}
 		if (user.committees.includes("operations")) {
 			creditMap = {
-				event: 21,
-				tutoring: 2,
-				other: 2
+				event: 19,
+				tutoring: 3,
+				other: 4
 			};
 		}
 		if (user.committees.includes("web")) {
 			creditMap = {
-				event: 23,
+				event: 21,
 				tutoring: 3,
-				other: 2
+				other: 4
 			};
 		}
 	} else if (user.graduationYear == 2028) {
 		// sophomores
 		creditMap = {
-			event: 27,
-			tutoring: 0,
-			other: 2
+			event: 25,
+			tutoring: 2,
+			other: 6
 		};
 		if (user.committees.includes("events")) {
 			creditMap = {
 				event: 0,
-				tutoring: 0,
-				other: 2
+				tutoring: 2,
+				other: 4
 			};
 		}
 		if (user.committees.includes("operations")) {
 			creditMap = {
-				event: 24,
-				tutoring: 0,
-				other: 2
+				event: 19,
+				tutoring: 2,
+				other: 4
 			};
 		}
 		if (user.committees.includes("web")) {
 			creditMap = {
-				event: 26,
-				tutoring: 0,
-				other: 2
+				event: 21,
+				tutoring: 2,
+				other: 4
 			};
 		}
 	} else {
