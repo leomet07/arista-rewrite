@@ -38,7 +38,7 @@
 					<a href="/events" class="hover:text-primary-500 transition-colors">Events</a>
 					<a href="/tutoring" class="hover:text-primary-500 transition-colors">Tutor</a>
 				{/if}
-				{#if isOnCommittee($currentUser, "admin")}
+				{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
 					<a href="/admin" class="hover:text-primary-500 transition-colors">Admin</a>
 				{/if}
 			{/if}
@@ -154,7 +154,7 @@
 							Tutor
 						</a>
 					{/if}
-					{#if isOnCommittee($currentUser, "admin")}
+					{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
 						<a
 							href="/admin"
 							class="block py-1.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"

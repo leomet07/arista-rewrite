@@ -48,8 +48,8 @@ export const actions = {
             error(401, "User not logged in.");
         }
 
-        if (!isOnCommittee(locals.user as RecievedUser, "admin")) {
-            error(401, "User is not a member of the admin committee.");
+        if (!isOnCommittee(locals.user as RecievedUser, "admin") && !isOnCommittee(locals.user as RecievedUser, "operations")) {
+            error(401, "User is not a member of the admin or operations committee.");
         }
 
         const form = await superValidate(request, zod(MassCreditorSchema));
