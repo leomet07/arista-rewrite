@@ -11,6 +11,21 @@
 	export let data: PageData;
 	let myTutoringRequests: RecievedTutoringRequest[];
 	$: myTutoringRequests = data.tutoringRequests.filter((v) => v.tutee == $currentUser?.id);
+	
+	// Separate requests into priority (2+ days old) and recent
+	let priorityRequests: RecievedTutoringRequest[];
+	let recentRequests: RecievedTutoringRequest[];
+	$: {
+		const twoDaysAgo = new Date();
+		twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+		
+		priorityRequests = data.tutoringRequests.filter(request => 
+			new Date(request.created) <= twoDaysAgo
+		);
+		recentRequests = data.tutoringRequests.filter(request => 
+			new Date(request.created) > twoDaysAgo
+		);
+	}
 
 	async function finishTutoringSession(event: Event) {
 		const formEl = event.target as HTMLFormElement;
@@ -171,28 +186,64 @@
 		</section>
 	{:else}
 		<!-- Tutor View -->
+		{#if priorityRequests.length > 0}
+			<section>
+				<h3 class="h3 text-warning-500">Priority Requests (2+ days old):</h3>
+				<p class="text-warning-700 dark:text-warning-300 mb-4">These requests need urgent attention!</p>
+				<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
+					{#each priorityRequests as tutoringRequest}
+						<div class="card p-4 variant-soft-warning">
+							<h3 class="h3">{tutoringRequest.class}</h3>
+							<p class="font-bold">{tutoringRequest.topic}</p>
+							<p>{tutoringRequest.teacher}</p>
+							<p>{tutoringRequest.general_time}</p>
+							<p class="text-sm text-surface-600 dark:text-surface-400">
+								Requested: {new Date(tutoringRequest.created).toLocaleDateString()}
+							</p>
+							<form
+								method="POST"
+								action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
+								use:enhance
+							>
+								<button type="submit" class="mt-2 btn variant-filled-warning">Claim Priority Request</button>
+							</form>
+						</div>
+					{/each}
+				</div>
+			</section>
+		{/if}
+		
 		<section>
-			<h3 class="h3">Current requests by tutees:</h3>
-			{#if data.tutoringRequests.length == 0}
+			<h3 class="h3">Recent requests by tutees:</h3>
+			{#if data.tutoringRequests.length === 0}
 				<p>There are no tutoring requests at this time!</p>
+			{:else if recentRequests.length === 0 && priorityRequests.length > 0}
+				<p>All current requests are in the priority section above.</p>
+			{:else if recentRequests.length === 0}
+				<p>There are no recent tutoring requests at this time!</p>
 			{/if}
-			<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2 mt-4">
-				{#each data.tutoringRequests as tutoringRequest}
-					<div class="card p-4">
-						<h3 class="h3">{tutoringRequest.class}</h3>
-						<p class="font-bold">{tutoringRequest.topic}</p>
-						<p>{tutoringRequest.teacher}</p>
-						<p>{tutoringRequest.general_time}</p>
-						<form
-							method="POST"
-							action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
-							use:enhance
-						>
-							<button type="submit" class="mt-2 btn variant-filled">Claim Request</button>
-						</form>
-					</div>
-				{/each}
-			</div>
+			{#if recentRequests.length > 0}
+				<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2 mt-4">
+					{#each recentRequests as tutoringRequest}
+						<div class="card p-4">
+							<h3 class="h3">{tutoringRequest.class}</h3>
+							<p class="font-bold">{tutoringRequest.topic}</p>
+							<p>{tutoringRequest.teacher}</p>
+							<p>{tutoringRequest.general_time}</p>
+							<p class="text-sm text-surface-600 dark:text-surface-400">
+								Requested: {new Date(tutoringRequest.created).toLocaleDateString()}
+							</p>
+							<form
+								method="POST"
+								action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
+								use:enhance
+							>
+								<button type="submit" class="mt-2 btn variant-filled">Claim Request</button>
+							</form>
+						</div>
+					{/each}
+				</div>
+			{/if}
 		</section>
 	{/if}
 </main>

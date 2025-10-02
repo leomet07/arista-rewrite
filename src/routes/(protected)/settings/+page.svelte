@@ -80,11 +80,19 @@
 				Your account is of type
 				<span class="font-bold">"{$currentUser.is_tutee ? "tutee" : "ARISTA member"}"</span>.
 			</p>
+			{#if !$currentUser?.is_tutee}
 			<p class="italic mb-2">
 				Note: If you are NOT an ARISTA member (ie: you are here to be tutored) but your account type
 				is, <span class="underline">please delete your account and make a new one as a member</span>
 				by checking the approriate checkbox.
 			</p>
+				{/if}
+			{#if $currentUser?.is_tutee}
+			<p class="italic mb-2">
+				Note: If you ARE an ARISTA member but your account type
+				isn't, <span class="underline">do not delete your account, contact support.</span>
+			</p>
+				{/if}
 			<form method="POST" on:submit|preventDefault={handleDeleteAccount} action="?/delete_account">
 				<button type="submit" class="btn variant-filled-error">Delete My Account</button>
 			</form>

@@ -22,8 +22,8 @@ export const load = (async ({ params, locals }) => {
         error(401, "You are not logged in.");
     }
 
-    if (!isOnCommittee(locals.user as RecievedUser, "admin")) {
-        error(401, "You are not a member of the addmin committee.");
+    if (!isOnCommittee(locals.user as RecievedUser, "admin") && !isOnCommittee(locals.user as RecievedUser, "operations")) {
+        error(401, "You are not a member of the admin or operations committee.");
     }
 
     let user;
@@ -59,8 +59,8 @@ export const actions = {
             error(401, "You are not logged in.");
         }
 
-        if (!isOnCommittee(locals.user as RecievedUser, "admin")) {
-            error(401, "You are not a member of the addmin committee.");
+        if (!isOnCommittee(locals.user as RecievedUser, "admin") && !isOnCommittee(locals.user as RecievedUser, "operations")) {
+            error(401, "You are not a member of the admin or operations committee.");
         }
 
         let user;
@@ -101,8 +101,8 @@ export const actions = {
             error(401, "You are not logged in.");
         }
 
-        if (!isOnCommittee(locals.user as RecievedUser, "admin")) {
-            error(401, "You are not a member of the addmin committee.");
+        if (!isOnCommittee(locals.user as RecievedUser, "admin") && !isOnCommittee(locals.user as RecievedUser, "operations")) {
+            error(401, "You are not a member of the admin or operations committee.");
         }
 
         let user;

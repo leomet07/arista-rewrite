@@ -13,9 +13,21 @@
 	let showOnlyTutors = false;
 	let showOnlyInsufficientHours = false;
 	let showOnlyGraduating2025OrLater = false;
+	let searchQuery = "";
 
 	// Filtered users based on current filter settings
 	$: filteredUsers = data.users?.filter(user => {
+		// Search filter
+		if (searchQuery.trim()) {
+			const query = searchQuery.toLowerCase().trim();
+			const matchesName = user.name.toLowerCase().includes(query);
+			const matchesEmail = user.email.toLowerCase().includes(query);
+			
+			if (!matchesName && !matchesEmail) {
+				return false;
+			}
+		}
+		
 		// Filter for tutors only (non-tutees)
 		if (showOnlyTutors && user.is_tutee) {
 			return false;
@@ -147,9 +159,22 @@
 		<p>Click on a user's name to view more information and strike them.</p>
 	</hgroup>
 
-	<!-- Filter Controls -->
+	<!-- Search and Filter Controls -->
 	<div class="card p-4 space-y-4">
-		<h3 class="h3">Filters</h3>
+		<h3 class="h3">Search & Filters</h3>
+		
+		<!-- Search Bar -->
+		<div class="w-full">
+			<label for="search" class="block text-sm font-medium mb-2">Search Users</label>
+			<input 
+				id="search"
+				type="text" 
+				bind:value={searchQuery}
+				placeholder="Search by name or email..."
+				class="input w-full"
+			/>
+		</div>
+		
 		<div class="flex flex-wrap gap-4">
 			<label class="flex items-center space-x-2">
 				<input type="checkbox" bind:checked={showOnlyTutors} class="checkbox" />
