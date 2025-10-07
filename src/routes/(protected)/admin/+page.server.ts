@@ -24,11 +24,8 @@ export const load = (async ({ params, locals }) => {
 function isLineValid(line: string): boolean {
     // osis,credit_num,credit_type,manual_explanation
 
-    let [osis, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
-
-    if (Number.isNaN(Number(osis))) {
-        return false;
-    }
+    let [email, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
+    
     if (Number.isNaN(Number(credit_num))) {
         return false;
     }
