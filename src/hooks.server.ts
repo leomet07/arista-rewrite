@@ -47,10 +47,17 @@ export const handle: Handle = async ({ event, resolve }) => {
 	}
 
 	// Forbid non-admins from entering admin routes
-	if ((event.url.pathname.startsWith("/admin")) && event.locals.user && !isOnCommittee(event.locals.user as RecievedUser, "admin") && !isOnCommittee(event.locals.user as RecievedUser, "operations")) {
-		const fromUrl = event.url.pathname + event.url.search;
-		const message = "Non-admins cannot access that page.";
-		throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
+	if (event.url.pathname.startsWith("/admin")) {
+		if (!event.locals.user) {
+			const fromUrl = event.url.pathname + event.url.search;
+			const message = "You must be logged in to access the admin panel.";
+			throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
+		}
+		if (!isOnCommittee(event.locals.user as RecievedUser, "admin") && !isOnCommittee(event.locals.user as RecievedUser, "operations")) {
+			const fromUrl = event.url.pathname + event.url.search;
+			const message = "Non-admins cannot access that page.";
+			throw redirect(303, `/login?redirectTo=${fromUrl}&message=${message}`);
+		}
 	}
 
 	const response = await resolve(event);
