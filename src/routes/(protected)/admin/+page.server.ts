@@ -69,7 +69,8 @@ export const actions = {
 
             let user;
             try {
-                user = await locals.pb.collection("users").getFirstListItem(`email=${email}`, { requestKey: null });
+                userID = await locals.pb.collection("publicUsers").getFirstListItem(`email=${email}`, { requestKey: null });
+                user = await locals.pb.collection("users").getFirstListItem(`id=${userID.id}`, { requestKey: null });
             } catch (error: any) {
                 invalid_lines.push(line);
                 continue;
