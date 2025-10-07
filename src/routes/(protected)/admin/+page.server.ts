@@ -25,7 +25,7 @@ function isLineValid(line: string): boolean {
     // osis,credit_num,credit_type,manual_explanation
 
     let [email, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
-
+    
     if (Number.isNaN(Number(credit_num))) {
         return false;
     }
@@ -68,10 +68,8 @@ export const actions = {
             let [email, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
 
             let user;
-            let userID;
             try {
-                userID = await locals.pb.collection("publicUsers").getFirstListItem(`email=${email}`, { requestKey: null }).id;
-                user = await locals.pb.collection("publicUsers").getOne(userID);
+                user = await locals.pb.collection("users").getFirstListItem(`email=${email}`, { requestKey: null });
             } catch (error: any) {
                 invalid_lines.push(line);
                 continue;
