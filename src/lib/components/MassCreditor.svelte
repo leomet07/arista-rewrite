@@ -24,7 +24,7 @@
 	<hgroup>
 		<h1>Mass Creditor</h1>
 		<p>
-			Enter data in a csv format of <code>osis,credit_num,credit_type,manual_explanation</code> (each
+			Enter data in a csv format of <code>email,credit_num,credit_type,manual_explanation</code> (each
 			line is a new entry).
 		</p>
 		<p>
@@ -43,7 +43,7 @@
 			class="text-black resize w-full min-h-96 mb-2"
 			name="csv_string"
 			id="mass_credit_csv_string"
-			placeholder="osis,credit_num,credit_type,manual_explanation"
+			placeholder="email,credit_num,credit_type,manual_explanation"
 			bind:value={$value}
 		></textarea>
 		<br />

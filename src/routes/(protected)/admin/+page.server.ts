@@ -68,11 +68,11 @@ export const actions = {
                 invalid_lines.push(line);
             }
 
-            let [osis, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
+            let [email, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
 
             let user;
             try {
-                user = await locals.pb.collection("users").getFirstListItem(`osis=${osis}`, { requestKey: null });
+                user = await locals.pb.collection("users").getFirstListItem(`email=${email}`, { requestKey: null });
             } catch (error: any) {
                 invalid_lines.push(line);
                 continue;
@@ -89,7 +89,7 @@ export const actions = {
             }
 
             let new_credit_body = {
-                credits: parseInt(credit_num),
+                credits: parseFloat(credit_num),
                 manualExplanation: manual_explanation,
                 type: credit_type,
                 user: user.id
