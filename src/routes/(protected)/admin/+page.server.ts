@@ -6,6 +6,7 @@ import { fail, superValidate } from "sveltekit-superforms";
 import { zod } from "sveltekit-superforms/adapters";
 import handleError, { handleGenericError } from "$lib/handleError";
 import { z } from "zod";
+import mergeUsersWithEmails from "$lib/mergeUsersWithEmails";
 
 const MassCreditorSchema = z.object({
     csv_string: z.string()
@@ -57,23 +58,25 @@ export const actions = {
         const csv_string = form.data.csv_string.trim();
         const lines = csv_string.split("\n").map(v => v.trim());
 
+        // Get all users and merge with emails using the proper function
+        const users = await locals.pb.collection("users").getFullList({ sort: "-created", requestKey: null });
+        const serialized_users = structuredClone(users as unknown) as RecievedUser[];
+        const users_with_emails = await mergeUsersWithEmails(serialized_users, locals.pb);
+
         let invalid_lines: string[] = [];
         let valid_lines_db_requests: Promise<any>[] = [];
+        
         for (let i = 0; i < lines.length; i++) {
             let line = lines[i];
             if (!isLineValid(line)) {
                 invalid_lines.push(line);
+                continue;
             }
 
             let [email, credit_num, credit_type, manual_explanation] = line.split(",").map(v => v.trim());
 
-            let user;
-            try {
-                user = await locals.pb.collection("users").getFirstListItem(`email=${email}`, { requestKey: null });
-            } catch (error: any) {
-                invalid_lines.push(line);
-                continue;
-            }
+            // Find user by email from the merged data
+            const user = users_with_emails.find(u => u.email === email);
 
             if (!user) {
                 invalid_lines.push(line);
@@ -98,11 +101,13 @@ export const actions = {
             );
 
             valid_lines_db_requests.push(create_credit_request);
-            try {
-                let results = await Promise.all(valid_lines_db_requests);
-            } catch (error: any) {
-                console.error(error);
-            }
+        }
+
+        // Execute all credit creation requests
+        try {
+            await Promise.all(valid_lines_db_requests);
+        } catch (error: any) {
+            console.error(error);
         }
 
         form.data.csv_string = invalid_lines.join("\n");
