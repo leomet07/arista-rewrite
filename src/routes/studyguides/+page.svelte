@@ -21,7 +21,7 @@
 		<section class="card p-4 w-full text-token space-y-4">
 			<p class="">
 				Please submit any study guides you have created to receive "other" credits. Each study guide
-				can receive up to 2 credits, depending on the quality. Please note that this year, we are
+				can receive up to 1 credit, depending on the quality. Please note that this year, we are
 				encouraging submissions of all formats, including Quizlets, Kahoots, handwritten notes, and
 				more. We hope that offering a wider range of formats will support all students with varying
 				learning styles.
