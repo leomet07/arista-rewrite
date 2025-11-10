@@ -5,7 +5,7 @@
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
 		<h1 class="h1">Study Guides</h1>
-		<p>Explore our collection of study guides and study smarter.</p>
+		<p>Explore our collection of study guides and study smarter. Access is available using your stuy.edu email.</p>
 	</hgroup>
 
 	<section>
