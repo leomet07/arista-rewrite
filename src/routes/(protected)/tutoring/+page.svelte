@@ -11,20 +11,28 @@
 	export let data: PageData;
 	let myTutoringRequests: RecievedTutoringRequest[];
 	$: myTutoringRequests = data.tutoringRequests.filter((v) => v.tutee == $currentUser?.id);
-	
+
+	let selectedSubject = "All";
+
 	// Separate requests into priority (2+ days old) and recent
 	let priorityRequests: RecievedTutoringRequest[];
 	let recentRequests: RecievedTutoringRequest[];
-	$: {
+
+
+	$:{
 		const twoDaysAgo = new Date();
 		twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
 		
 		priorityRequests = data.tutoringRequests.filter(request => 
-			new Date(request.created) <= twoDaysAgo
+			new Date(request.created) <= twoDaysAgo &&
+			(selectedSubject === "All" || request.subject === selectedSubject)
 		);
 		recentRequests = data.tutoringRequests.filter(request => 
-			new Date(request.created) > twoDaysAgo
-		);
+			new Date(request.created) > twoDaysAgo && 
+			(selectedSubject === "All" || request.subject === selectedSubject)
+		)
+	
+		;
 	}
 
 	async function finishTutoringSession(event: Event) {
@@ -94,6 +102,9 @@
 							<p>Tutee email: {tutoringSession.tutee_email}</p>
 						{/if}
 						<p class="font-bold">
+							Subject: {tutoringSession.expand.tutoringRequest.subject}
+						</p>
+						<p class="font-bold">
 							Class: {tutoringSession.expand.tutoringRequest.class}
 						</p>
 						<p>
@@ -140,6 +151,25 @@
 
 			<h3 class="h3">Request tutoring</h3>
 
+			<label for="subjectSelect" class="block font-semibold">Subject:</label>
+				<select
+				id="subjectSelect"
+				name="subject"
+				class="w-full rounded-lg border border-surface-300 bg-surface-50 text-surface-900 dark:bg-surface-800 dark:text-surface-50 p-2 focus:ring-2 focus:ring-primary-500"
+				>
+				<option value="" disabled selected>Select a subject</option>
+				<option value="Physics">Physics</option>
+				<option value="Social Studies">Social Studies</option>
+				<option value="Chemistry">Chemistry</option>
+				<option value="Biology & Environmental Science">Biology & Environmental Science</option>
+				<option value="Foreign Language">Foreign Language</option>
+				<option value="Computer Science & Technology">Computer Science & Technology</option>
+				<option value="English">English</option>
+				<option value="Math">Math</option>
+				<option value="Music & Art & Health">Music & Art & Health</option>
+				<option value="Others">Others</option>
+				</select>
+
 			<InputField
 				form={requestTutoringFormObj}
 				field="class"
@@ -173,6 +203,7 @@
 					{#each myTutoringRequests as tutoringRequest}
 						<div class="card p-4">
 							<h3 class="h3">{tutoringRequest.class}</h3>
+							<p class="font-bold">{tutoringRequest.subject}</p>
 							<p class="font-bold">{tutoringRequest.topic}</p>
 							<p>{tutoringRequest.teacher}</p>
 							<p>{tutoringRequest.general_time}</p>
@@ -186,14 +217,38 @@
 		</section>
 	{:else}
 		<!-- Tutor View -->
+		 <label for="subjectFilter" class="font-semibold">Filter by subject:</label>
+				<select
+				id="subjectFilter"
+    			bind:value={selectedSubject}
+				class="w-full rounded-lg border border-surface-300 bg-surface-50 text-surface-900 dark:bg-surface-800 dark:text-surface-50 p-2 focus:ring-2 focus:ring-primary-500"
+				>
+					<option value="All">All Subjects</option>
+					<option value="Physics">Physics</option>
+					<option value="Social Studies">Social Studies</option>
+					<option value="Chemistry">Chemistry</option>
+					<option value="Biology & Environmental Science">Biology & Environmental Science</option>
+					<option value="Foreign Language">Foreign Language</option>
+					<option value="Computer Science & Technology">Computer Science & Technology</option>
+					<option value="English">English</option>
+					<option value="Math">Math</option>
+					<option value="Music & Art & Health">Music & Art & Health</option>
+					<option value="Others">Others</option>
+				</select>
+
+		<p>{selectedSubject}</p>
+
+
 		{#if priorityRequests.length > 0}
 			<section>
+				
 				<h3 class="h3 text-warning-500">Priority Requests (2+ days old):</h3>
 				<p class="text-warning-700 dark:text-warning-300 mb-4">These requests need urgent attention!</p>
 				<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
 					{#each priorityRequests as tutoringRequest}
 						<div class="card p-4 variant-soft-warning">
 							<h3 class="h3">{tutoringRequest.class}</h3>
+							<p class="font-bold">{tutoringRequest.subject}</p>
 							<p class="font-bold">{tutoringRequest.topic}</p>
 							<p>{tutoringRequest.teacher}</p>
 							<p>{tutoringRequest.general_time}</p>
@@ -227,6 +282,7 @@
 					{#each recentRequests as tutoringRequest}
 						<div class="card p-4">
 							<h3 class="h3">{tutoringRequest.class}</h3>
+							<p class="font-bold">{tutoringRequest.subject}</p>
 							<p class="font-bold">{tutoringRequest.topic}</p>
 							<p>{tutoringRequest.teacher}</p>
 							<p>{tutoringRequest.general_time}</p>
