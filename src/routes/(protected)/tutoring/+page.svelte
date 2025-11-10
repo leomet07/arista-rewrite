@@ -219,7 +219,7 @@
 		<!-- Tutor View -->
 
 		
-		 <label for="subjectFilter" class="font-semibold">Filter by subject:</label>
+		 <label for="subjectFilter" class="font-semibold text-lg">Filter by subject:</label>
 				<select
 				id="subjectFilter"
     			bind:value={selectedSubject}
