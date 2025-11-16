@@ -54,6 +54,7 @@ export const StrikeSchema = z.object({
 });
 
 export const TutoringRequestSchema = z.object({
+	subject: z.string().min(2).max(64),
 	class: z.string().min(2).max(64),
 	teacher: z.string().min(2).max(64),
 	topic: z.string().min(2).max(64),

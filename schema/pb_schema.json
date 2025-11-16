@@ -5,6 +5,27 @@
     "type": "base",
     "system": false,
     "schema": [
+      { "hidden": false,
+                "id": "select879953894",
+                "maxSelect": 1,
+                "name": "subject",
+                "presentable": false,
+                "required": true,
+                "system": false,
+                "type": "select",
+                "values": [
+                    "Physics",
+                    "Social Studies",
+                    "Chemistry",
+                    "Foreign Language",
+                    "Computer Science & Technology",
+                    "English",
+                    "Others",
+                    "Math",
+                    "Music & Art & Health",
+                    "Biology & Environmental Science"
+                ]
+            },
       {
         "system": false,
         "id": "sfj9dnt1",
@@ -92,7 +113,7 @@
     "listRule": "@request.auth.id != \"\" ",
     "viewRule": "@request.auth.id != \"\" ",
     "createRule": "@request.auth.id != \"\" && @request.auth.is_tutee = true",
-    "updateRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false && @request.data.isClaimed:isset = true && @request.data.tutee:isset = false && @request.data.topic:isset = false && @request.data.class:isset = false && @request.data.teacher:isset = false && @request.data.general_time:isset = false  && @request.data.id:isset = false ",
+    "updateRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false && @request.data.isClaimed:isset = true && @request.data.tutee:isset = false && @request.data.topic:isset = false && @request.data.class:isset = false && @request.data.subject.isset = false && @request.data.teacher:isset = false && @request.data.general_time:isset = false  && @request.data.id:isset = false ",
     "deleteRule": "@request.auth.id != \"\" && @request.auth.id = tutee.id",
     "options": {}
   },
