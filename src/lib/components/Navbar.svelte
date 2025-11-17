@@ -16,15 +16,19 @@
 					.map((v: string) => v.substring(0, 1))
 					.join("");
 	}
+
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
 	}
+
 	function closeMobileMenu() {
 		mobileMenuOpen = false;
 	}
+
 	function toggleDropdown(){
 		dropdownOpen = !dropdownOpen;
 	}
+	
 	function toggleMobileDropdown() {
 		mobileDropdownOpen = !mobileDropdownOpen;
 	}
