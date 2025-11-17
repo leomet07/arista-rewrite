@@ -28,13 +28,13 @@
 	function toggleDropdown(){
 		dropdownOpen = !dropdownOpen;
 	}
-	
+
 	function toggleMobileDropdown() {
 		mobileDropdownOpen = !mobileDropdownOpen;
 	}
 </script>
 
-<AppBar class="!pt-2 !pb-2">
+<AppBar class="!pt-2 !pb-1">
 	<svelte:fragment slot="lead">
 		<a href="/" class="py-2"><strong class="text-xl uppercase">ARISTA</strong></a>
 	</svelte:fragment>
