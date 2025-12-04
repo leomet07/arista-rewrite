@@ -34,7 +34,7 @@
 	}
 </script>
 
-<AppBar class="!pt-2 !pb-1">
+<AppBar class="!pt-2 !pb-1 overflow-visible">
 	<svelte:fragment slot="lead">
 		<a href="/" class="py-2"><strong class="text-xl uppercase">ARISTA</strong></a>
 	</svelte:fragment>
