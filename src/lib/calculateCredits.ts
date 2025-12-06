@@ -29,84 +29,84 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 	if (user.graduationYear == 2026) {
 		// seniors
 		creditMap = {
-			event: 21,
-			tutoring: 2,
+			event: 18,
+			tutoring: 5,
 			other: 6
 		};
 		if (user.committees.includes("events")) {
 			creditMap = {
 				event: 0,
-				tutoring: 2,
+				tutoring: 5,
 				other: 4
 			};
 		}
 		if (user.committees.includes("operations")) {
 			creditMap = {
-				event: 15,
-				tutoring: 2,
+				event: 12,
+				tutoring: 5,
 				other: 4
 			};
 		}
 		if (user.committees.includes("web")) {
 			creditMap = {
-				event: 17,
-				tutoring: 2,
+				event: 14,
+				tutoring: 5,
 				other: 4
 			};
 		}
 	} else if (user.graduationYear == 2027) {
 		// juniors
 		creditMap = {
-			event: 25,
-			tutoring: 3,
+			event: 22,
+			tutoring: 6,
 			other: 6
 		};
 		if (user.committees.includes("events")) {
 			creditMap = {
 				event: 0,
-				tutoring: 3,
+				tutoring: 6,
 				other: 4
 			};
 		}
 		if (user.committees.includes("operations")) {
 			creditMap = {
-				event: 19,
-				tutoring: 3,
+				event: 16,
+				tutoring: 6,
 				other: 4
 			};
 		}
 		if (user.committees.includes("web")) {
 			creditMap = {
-				event: 21,
-				tutoring: 3,
+				event: 18,
+				tutoring: 6,
 				other: 4
 			};
 		}
 	} else if (user.graduationYear == 2028) {
 		// sophomores
 		creditMap = {
-			event: 25,
-			tutoring: 2,
+			event: 22,
+			tutoring: 5,
 			other: 6
 		};
 		if (user.committees.includes("events")) {
 			creditMap = {
 				event: 0,
-				tutoring: 2,
+				tutoring: 5,
 				other: 4
 			};
 		}
 		if (user.committees.includes("operations")) {
 			creditMap = {
-				event: 19,
-				tutoring: 2,
+				event: 16,
+				tutoring: 5,
 				other: 4
 			};
 		}
 		if (user.committees.includes("web")) {
 			creditMap = {
-				event: 21,
-				tutoring: 2,
+				event: 18,
+				tutoring: 5,
 				other: 4
 			};
 		}

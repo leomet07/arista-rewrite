@@ -114,6 +114,7 @@ export const actions: Actions = {
 			// update the tutoring request
 			await locals.pb
 				.collection("tutoringRequests")
+				
 				.update(tutoring_request_id, { isClaimed: true });
 		} catch (error: unknown) {
 			console.error(error);
