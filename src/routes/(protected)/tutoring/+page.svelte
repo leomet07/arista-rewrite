@@ -191,7 +191,7 @@
 				<h3 class="h3 text-warning-500">Priority Requests (2+ days old):</h3>
 				<p class="text-warning-700 dark:text-warning-300 mb-4">These requests need urgent attention!</p>
 				<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
-					{#each priorityRequests as tutoringRequest}
+					{#each [...priorityRequests].reverse() as tutoringRequest}
 						<div class="card p-4 variant-soft-warning">
 							<h3 class="h3">{tutoringRequest.class}</h3>
 							<p class="font-bold">{tutoringRequest.topic}</p>
