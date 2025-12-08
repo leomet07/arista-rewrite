@@ -116,9 +116,9 @@ export const actions = {
             error(401, `User with id of "${user_id}" does not exist.`);
         }
 
-        const created_credit = await locals.pb.collection("credits").create(
+        await locals.pb.collection("credits").create(
             {
-                credits: parseInt(String(form.data.credits)),
+                credits: parseFloat(String(form.data.credits)),
                 manualExplanation: form.data.manualExplanation,
                 type: form.data.type,
                 user: user.id
