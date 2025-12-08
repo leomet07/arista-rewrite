@@ -40,6 +40,9 @@
 				placeholder="1"
 				field="credits"
 				form={creditFormObj}
+				type="number"
+				inputmode="decimal"
+				step="any"
 			/>
 			<InputField
 				label="What is this manual crediting for? Please provide an explanation."
