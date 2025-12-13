@@ -117,141 +117,193 @@
     "deleteRule": "@request.auth.id != \"\" && @request.auth.id = tutee.id",
     "options": {}
   },
-  {
-    "id": "x1ji0ke44ibk983",
-    "name": "events",
-    "type": "base",
-    "system": false,
-    "schema": [
-      {
-        "system": false,
-        "id": "bzfzs1sk",
-        "name": "name",
-        "type": "text",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": null,
-          "max": null,
-          "pattern": ""
-        }
-      },
-      {
-        "system": false,
-        "id": "ci3qknej",
-        "name": "description",
-        "type": "text",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": null,
-          "max": null,
-          "pattern": ""
-        }
-      },
-      {
-        "system": false,
-        "id": "hrawbkkk",
-        "name": "start_time",
-        "type": "date",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": "",
-          "max": ""
-        }
-      },
-      {
-        "system": false,
-        "id": "s3dlq4pk",
-        "name": "end_time",
-        "type": "date",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": "",
-          "max": ""
-        }
-      },
-      {
-        "system": false,
-        "id": "fldfmfco",
-        "name": "multiplier",
-        "type": "number",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "min": null,
-          "max": null,
-          "noDecimal": false
-        }
-      },
-      {
-        "system": false,
-        "id": "mtmlrhsf",
-        "name": "is_out_of_school",
-        "type": "bool",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {}
-      },
-      {
-        "system": false,
-        "id": "xgd1cz46",
-        "name": "event_owner",
-        "type": "relation",
-        "required": true,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": 1,
-          "displayFields": null
-        }
-      },
-      {
-        "system": false,
-        "id": "hcqoq865",
-        "name": "signed_up",
-        "type": "relation",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {
-          "collectionId": "_pb_users_auth_",
-          "cascadeDelete": false,
-          "minSelect": null,
-          "maxSelect": null,
-          "displayFields": null
-        }
-      },
-      {
-        "system": false,
-        "id": "7wyh4awm",
-        "name": "isComplete",
-        "type": "bool",
-        "required": false,
-        "presentable": false,
-        "unique": false,
-        "options": {}
-      }
-    ],
-    "indexes": [],
-    "listRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
-    "viewRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
-    "createRule": "@request.auth.id != \"\" && (@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") && @request.auth.is_tutee = false\n// check if either admin or events committee",
-    "updateRule": "@request.auth.id != \"\"&& @request.auth.is_tutee = false && (@request.data.signed_up:isset = true || ((@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") && @request.data.isComplete:isset = true ) ) && @request.data.name:isset = false && @request.data.description:isset = false && @request.data.start_time:isset = false && @request.data.end_time:isset = false && @request.data.event_owner:isset = false && @request.data.is_out_of_school:isset = false",
-    "deleteRule": "@request.auth.id != \"\" && (@request.auth.id = event_owner.id || @request.auth.committees ?~ \"admin\") && @request.auth.is_tutee = false",
-    "options": {}
-  },
+   {
+        "id": "x1ji0ke44ibk983",
+        "listRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
+        "viewRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
+        "createRule": "@request.auth.id != \"\" && (@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") && @request.auth.is_tutee = false\n// check if either admin or events committee",
+        "updateRule": "@request.auth.id != \"\"&& @request.auth.is_tutee = false && (@request.body.signed_up:isset = true && @request.body.name:isset = false && @request.body.description:isset = false && @request.body.start_time:isset = false && @request.body.end_time:isset = false && @request.body.event_owner:isset = false && @request.body.signupStatus:isset = false) || (@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") ",
+        "deleteRule": "@request.auth.id != \"\" && (@request.auth.id = event_owner.id || @request.auth.committees ?~ \"admin\") && @request.auth.is_tutee = false",
+        "name": "events",
+        "type": "base",
+        "fields": [
+            {
+                "autogeneratePattern": "[a-z0-9]{15}",
+                "hidden": false,
+                "id": "text3208210256",
+                "max": 15,
+                "min": 15,
+                "name": "id",
+                "pattern": "^[a-z0-9]+$",
+                "presentable": false,
+                "primaryKey": true,
+                "required": true,
+                "system": true,
+                "type": "text"
+            },
+            {
+                "autogeneratePattern": "",
+                "hidden": false,
+                "id": "bzfzs1sk",
+                "max": 0,
+                "min": 0,
+                "name": "name",
+                "pattern": "",
+                "presentable": false,
+                "primaryKey": false,
+                "required": true,
+                "system": false,
+                "type": "text"
+            },
+            {
+                "autogeneratePattern": "",
+                "hidden": false,
+                "id": "ci3qknej",
+                "max": 0,
+                "min": 0,
+                "name": "description",
+                "pattern": "",
+                "presentable": false,
+                "primaryKey": false,
+                "required": true,
+                "system": false,
+                "type": "text"
+            },
+            {
+                "hidden": false,
+                "id": "hrawbkkk",
+                "max": "",
+                "min": "",
+                "name": "start_time",
+                "presentable": false,
+                "required": true,
+                "system": false,
+                "type": "date"
+            },
+            {
+                "hidden": false,
+                "id": "s3dlq4pk",
+                "max": "",
+                "min": "",
+                "name": "end_time",
+                "presentable": false,
+                "required": true,
+                "system": false,
+                "type": "date"
+            },
+            {
+                "hidden": false,
+                "id": "fldfmfco",
+                "max": null,
+                "min": null,
+                "name": "multiplier",
+                "onlyInt": false,
+                "presentable": false,
+                "required": true,
+                "system": false,
+                "type": "number"
+            },
+            {
+                "hidden": false,
+                "id": "mtmlrhsf",
+                "name": "signupStatus",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "bool"
+            },
+            {
+                "cascadeDelete": false,
+                "collectionId": "_pb_users_auth_",
+                "hidden": false,
+                "id": "xgd1cz46",
+                "maxSelect": 1,
+                "minSelect": 0,
+                "name": "event_owner",
+                "presentable": false,
+                "required": true,
+                "system": false,
+                "type": "relation"
+            },
+            {
+                "cascadeDelete": false,
+                "collectionId": "_pb_users_auth_",
+                "hidden": false,
+                "id": "hcqoq865",
+                "maxSelect": 2147483647,
+                "minSelect": 0,
+                "name": "signed_up",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "relation"
+            },
+            {
+                "hidden": false,
+                "id": "7wyh4awm",
+                "name": "isComplete",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "bool"
+            },
+            {
+                "autogeneratePattern": "",
+                "hidden": false,
+                "id": "tjjx1lp8",
+                "max": 256,
+                "min": 0,
+                "name": "location",
+                "pattern": "",
+                "presentable": false,
+                "primaryKey": false,
+                "required": true,
+                "system": false,
+                "type": "text"
+            },
+            {
+                "hidden": false,
+                "id": "select1948079053",
+                "maxSelect": 1,
+                "name": "place",
+                "presentable": false,
+                "required": true,
+                "system": false,
+                "type": "select",
+                "values": [
+                    "Queens",
+                    "Manhattan",
+                    "Brooklyn",
+                    "Bronx",
+                    "Staten Island",
+                    "In Stuy",
+                    "Other"
+                ]
+            },
+            {
+                "hidden": false,
+                "id": "autodate2990389176",
+                "name": "created",
+                "onCreate": true,
+                "onUpdate": false,
+                "presentable": false,
+                "system": false,
+                "type": "autodate"
+            },
+            {
+                "hidden": false,
+                "id": "autodate3332085495",
+                "name": "updated",
+                "onCreate": true,
+                "onUpdate": true,
+                "presentable": false,
+                "system": false,
+                "type": "autodate"
+            }
+        ],
+        "indexes": [],
+        "system": false
+    },
   {
     "id": "vnxh7t0zw2pk0o6",
     "name": "tutoringSessions",

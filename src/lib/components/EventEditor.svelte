@@ -30,12 +30,30 @@
 	label="Enter the event's location:"
 	placeholder="Stuyvesant High School, PS100, Prospect Park, etc"
 />
+
+<select
+	id ="place"
+	name="place"
+	bind:value={$form.place}
+	class="w-full rounded-lg border border-surface-300 bg-surface-50 text-surface-900 dark:bg-surface-800 dark:text-surface-50 p-2 focus:ring-2 focus:ring-primary-500">
+	<option value="" disabled selected>Select a borough</option>
+	<option value="In Stuy">In Stuy</option>
+	<option value="Queens">Queens</option>
+	<option value="Manhattan">Manhattan</option>
+	<option value="Brooklyn">Brooklyn</option>
+	<option value="Bronx">Bronx</option>
+	<option value="Staten Island">Staten Island</option>
+	<option value= "Other">Other</option>
+
+</select>
+
 <InputField
 	form={formObj}
 	field="description"
 	label="Enter the event's description:"
 	placeholder="Helping people, Saving the world, Assisting the Red Cross, etc"
 />
+
 
 <label for="start_time">Choose a start time for this event</label>
 {#if browser}
@@ -74,12 +92,14 @@
 	inputmode="numeric"
 />
 
-<label for="is_out_of_school">Is this event taking place out of school?</label>
+<label for="signupStatus">Signups Closed</label>
 <SlideToggle
-	name="is_out_of_school"
-	bind:checked={$form.is_out_of_school}
+	name="signupStatus"
+	bind:checked={$form.signupStatus}
 	active="bg-primary-500 dark:bg-primary-500"
-	{...$constraints.is_out_of_school}
+	{...$constraints.signupStatus}
 ></SlideToggle>
+
+
 <br />
 <button class="btn variant-filled" type="submit">{promptText} Event</button>

@@ -55,6 +55,15 @@
 	const { errors: requestTutoringFormErrors } = requestTutoringFormObj;
 	const finishTutoringFormObj = superForm(data.finishTutoringSessionForm, { resetForm: true });
 	const { errors: finishTutoringFormErrors } = finishTutoringFormObj;
+
+	const subjectShortNames: Record<string, string> = {
+	"Biology & Environmental Science": "Bio & Env Sci",
+	"Computer Science & Technology": "CS & Tech",
+	"Foreign Language": "Foreign Lang",
+	"Social Studies": "S.S.",
+	"Music & Art & Health": "Music/Art/Health",
+	};
+
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -249,7 +258,7 @@
 						<div class="relative card p-4 variant-soft-warning">
 							<h3 class="h3">{tutoringRequest.class}</h3>
 							<span class="absolute top-2 right-2 border border-surface-400 dark:border-surface-600 text-sm font-semibold px-2 py-1 rounded-full bg-surface-100 dark:bg-surface-800">
-								{tutoringRequest.subject}
+								{subjectShortNames[tutoringRequest.subject] ?? tutoringRequest.subject}
 							</span>
 							<p class="font-bold">{tutoringRequest.topic}</p>
 							<p>{tutoringRequest.teacher}</p>
