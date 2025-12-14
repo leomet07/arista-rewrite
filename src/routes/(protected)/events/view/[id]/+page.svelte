@@ -95,6 +95,7 @@
 			</p>
 			<p>{data.event.signed_up.length} people are currently signed up.</p>
 			<p>Is out of school: {data.event.is_out_of_school}</p>
+			<p>Expected capacity: {data.event.expected_cap}</p>
 		</div>
 		{#if !data.event.isComplete}
 			{#if data.is_current_user_signed_up}

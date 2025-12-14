@@ -74,6 +74,13 @@
 	inputmode="numeric"
 />
 
+<InputField
+	form={formObj}
+	field="expected_cap"
+	label="Enter the expected capacity for this event:"
+	inputmode="numeric"
+/>
+
 <label for="is_out_of_school">Is this event taking place out of school?</label>
 <SlideToggle
 	name="is_out_of_school"
