@@ -1,17 +1,15 @@
 <script lang="ts">
-	import { EventSchema, type RecievedEvent } from "$lib/db_types";
+	import { EventSchema } from "$lib/db_types";
 	import { SlideToggle } from "@skeletonlabs/skeleton";
-	import { isOnCommittee } from "$lib/isOnCommittee";
-	import { currentUser } from "$lib/pocketbase";
-	import type { SuperValidated, Infer } from "sveltekit-superforms";
 	import { DateInput } from "date-picker-svelte";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import { browser } from "$app/environment";
 	import InputField from "$lib/components/InputField.svelte";
 	import type { SuperForm } from "sveltekit-superforms/client";
+	import type { z } from "zod";
 
 	export let promptText: "Update" | "Create" = "Create";
-	export let formObj: SuperForm<Infer<typeof EventSchema>>;
+	export let formObj: SuperForm<z.infer<typeof EventSchema>>;
 	const { form, errors, constraints, message } = formObj;
 </script>
 
@@ -71,6 +69,13 @@
 	form={formObj}
 	field="multiplier"
 	label="Choose a credits multiplier (default is 1.0):"
+	inputmode="numeric"
+/>
+
+<InputField
+	form={formObj}
+	field="expected_cap"
+	label="Enter the expected capacity for this event:"
 	inputmode="numeric"
 />
 
