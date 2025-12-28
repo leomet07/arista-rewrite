@@ -61,7 +61,7 @@
 	function transformEvent(event: RecievedEvent): CalendarEvent {
 		return {
 			id: event.id,
-			title: event.signupStatus ? "[Sign-Ups Closed] " + event.name : event.name,
+			title: event.signupStatus ? "[Sign-Ups Closed] " + event.name + " (" + event.signed_up.length + "/" + event.intendedVolunteers + " Volunteers)"  : event.name + " (" + event.signed_up.length + "/" + event.intendedVolunteers + " Volunteers)",
 			start: event.start_time,
 			end: event.end_time
 		};

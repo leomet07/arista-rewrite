@@ -54,6 +54,13 @@
 	placeholder="Helping people, Saving the world, Assisting the Red Cross, etc"
 />
 
+<InputField
+	form={formObj}
+	field="intendedVolunteers"
+	label="Enter the intended number of expected volunteers for this event:"
+	placeholder="5, 10, 20, etc"
+	inputmode="numeric" 
+	/>
 
 <label for="start_time">Choose a start time for this event</label>
 {#if browser}

@@ -76,7 +76,7 @@
 
 <main class="container mx-auto p-8 space-y-8">
 	<section>
-		<h1 class="h1">{data.event.signupStatus ? "[Sign-Ups Closed] " : ""}{data.event.name}</h1>
+		<h1 class="h1">{data.event.signupStatus ? "[Sign-Ups Closed] " : ""}{data.event.name} ({data.event.signed_up.length}/{data.event.intendedVolunteers} Volunteers)</h1>
 
 
 
@@ -96,7 +96,7 @@
 		<div class="mt-3">
 			<p>
 				Worth {calculateEventCredits(data.event)} credits, after applying a multiplier of
-				{data.event.multiplier}x
+				{data.event.multiplier}
 			</p>
 			<p>{data.event.signed_up.length} people are currently signed up.</p>
 		</div>

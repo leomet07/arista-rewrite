@@ -31,6 +31,7 @@ export const EventSchema = z.object({
 	description: z.string().max(4000),
 	location: z.string().max(256),
 	place: z.string().min(2).max(64),
+	intendedVolunteers: z.number().min(1).max(200),
 	start_time: z.coerce.date(),
 	end_time: z.coerce.date(),
 	multiplier: z.number().min(1).max(5).step(0.5).default(1),
