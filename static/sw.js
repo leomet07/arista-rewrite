@@ -1,4 +1,4 @@
-const CACHE_NAME = 'arista-v1.1';
+const CACHE_NAME = 'arista-v1.2';
 const urlsToCache = [
   '/',
   '/favicon.png',

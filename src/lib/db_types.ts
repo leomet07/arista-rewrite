@@ -41,7 +41,7 @@ export const EventSchema = z.object({
 });
 
 export const CreditSchema = z.object({
-	credits: z.number().min(0.5),
+	credits: z.number(),
 	user: z.string(), // id of user
 	event: z.string(), // id of event
 	session: z.string(), // id of session,
