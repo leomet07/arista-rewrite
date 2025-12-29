@@ -122,7 +122,7 @@
         "listRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
         "viewRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
         "createRule": "@request.auth.id != \"\" && (@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") && @request.auth.is_tutee = false\n// check if either admin or events committee",
-        "updateRule": "@request.auth.id != \"\"&& @request.auth.is_tutee = false && (@request.body.signed_up:isset = true && @request.body.name:isset = false && @request.body.description:isset = false && @request.body.start_time:isset = false && @request.body.end_time:isset = false && @request.body.event_owner:isset = false && @request.body.is_out_of_school:isset = false) || (@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") ",
+        "updateRule": "@request.auth.id != \"\"&& @request.auth.is_tutee = false && (@request.body.signed_up:isset = true && @request.body.name:isset = false && @request.body.description:isset = false && @request.body.start_time:isset = false && @request.body.end_time:isset = false && @request.body.event_owner:isset = false && @request.body.signupStatus:isset = false) || (@request.auth.committees ?~ \"admin\" || @request.auth.committees ?~ \"events\") ",
         "deleteRule": "@request.auth.id != \"\" && (@request.auth.id = event_owner.id || @request.auth.committees ?~ \"admin\") && @request.auth.is_tutee = false",
         "name": "events",
         "type": "base",

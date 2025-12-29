@@ -93,12 +93,14 @@
 				"MM/dd/yyyy hh:mm a"
 			)}
 		</p>
+		<br>
+		<p><strong>Intended Volunteers: </strong> {data.event.intendedVolunteers} People</p>
+		<p><strong>Currently Signed-Up: </strong> {data.event.signed_up.length} People</p>
 		<div class="mt-3">
 			<p>
 				Worth {calculateEventCredits(data.event)} credits, after applying a multiplier of
-				{data.event.multiplier}
+				{data.event.multiplier}x
 			</p>
-			<p>{data.event.signed_up.length} people are currently signed up.</p>
 		</div>
 		<br/>
 		{#if !data.event.isComplete}
