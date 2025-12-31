@@ -76,26 +76,33 @@
 
 <main class="container mx-auto p-8 space-y-8">
 	<section>
-		<h1 class="h1">{data.event.name}</h1>
-		<p class=" font-normal mt-2">{data.event.description}</p>
+		<h1 class="h1">{data.event.signupStatus ? "[Sign-Ups Closed] " : ""}{data.event.name} ({data.event.signed_up.length}/{data.event.intendedVolunteers} Volunteers)</h1>
+
+
+
+		<p class="font-normal mt-2 text-lg">{data.event.description}</p>
 		{#if data.event.isComplete}
 			<aside class="alert variant-filled-success mt-2 mb-4">This event is already complete.</aside>
 		{/if}
-		<p>Located at: {data.event.location}</p>
-		<p class="">
+		<br />
+		<p> <strong>Located at: </strong> {data.event.location}</p>
+		<p> <strong> Place: </strong> {data.event.place}</p>
+		<p class=""> <strong>Date: </strong>
 			{format(data.event.start_time, "MM/dd/yyyy hh:mm a")} to {format(
 				data.event.end_time,
 				"MM/dd/yyyy hh:mm a"
 			)}
 		</p>
+		<br>
+		<p><strong>Intended Volunteers: </strong> {data.event.intendedVolunteers} People</p>
+		<p><strong>Currently Signed-Up: </strong> {data.event.signed_up.length} People</p>
 		<div class="mt-3">
 			<p>
 				Worth {calculateEventCredits(data.event)} credits, after applying a multiplier of
 				{data.event.multiplier}x
 			</p>
-			<p>{data.event.signed_up.length} people are currently signed up.</p>
-			<p>Is out of school: {data.event.is_out_of_school}</p>
 		</div>
+		<br/>
 		{#if !data.event.isComplete}
 			{#if data.is_current_user_signed_up}
 				<h3 class="h3">You are signed up for this event.</h3>
@@ -103,9 +110,11 @@
 					<button type="submit" class="btn variant-outline-secondary">Leave event</button>
 				</form>
 			{:else}
+				{#if !data.event.signupStatus}
 				<form method="POST" action="?/event_sign_up" use:enhance>
 					<button type="submit" class="btn variant-filled-secondary">Sign up</button>
 				</form>
+					{/if}
 			{/if}
 		{/if}
 

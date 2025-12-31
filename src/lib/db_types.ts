@@ -30,10 +30,12 @@ export const EventSchema = z.object({
 	name: z.string().min(3).max(64),
 	description: z.string().max(4000),
 	location: z.string().max(256),
+	place: z.string().min(2).max(64),
+	intendedVolunteers: z.number().min(1).max(200),
 	start_time: z.coerce.date(),
 	end_time: z.coerce.date(),
 	multiplier: z.number().min(1).max(5).step(0.5).default(1),
-	is_out_of_school: z.boolean().default(true),
+	signupStatus: z.boolean().default(false),
 	// signed_up: z.string().array(),
 	isComplete: z.boolean().default(false)
 });
