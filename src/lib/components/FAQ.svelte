@@ -22,29 +22,6 @@
 				<p>
 					Despite the sometimes overwhelming amount of obligations and commitments our members have, we, high school students, are perhaps one of the most reliable volunteer groups in the country—not because we have more time than anyone else, but because we make time for the causes we care about.
 				</p>
-				<p>
-					We are excited to see our momentum carry on to future permutations of ARISTA; despite a different makeup of members and different leadership, our values as a society persist across time, with each year expanding on ARISTA’s mission and allowing it to create even more positive change within our school and the world.
-				</p>
-				<blockquote class="blockquote">
-					“I have learned, over time, to enjoy helping others and to gain a sense of pride and fulfillment from it, and I hope that you learn to develop this muscle over the coming years. Our responsibilities can often feel onerous, burdensome, and tiresome. We may not want to do them, and there are other things we could be doing with our time, and so on. But that moment when we help someone out—when we know we’ve made someone else’s day just a little easier—that’s a beautiful feeling. With every act of service you perform, I hope you take a moment afterwards to reflect, briefly, on how good it feels to help someone else.” - Eric Ferencz, Faculty Advisor
-				</blockquote>
-				<p>Here are the pillars we strive to uphold:</p>
-				<p class="font-bold">Character</p>
-				<blockquote class="blockquote">
-					Character encompasses a person's inner qualities, principles, and the way they interact with others and the world around them. Because ARISTA members strive to be role models, the Stuyvesant—as well as the New York City—community trusts them.<br />-Lenny Metlitsky ‘25
-				</blockquote>
-				<p class="font-bold">Leadership</p>
-				<blockquote class="blockquote">
-					ARISTA members are leaders of their communities, whether within Stuyvesant, their neighborhood, or among family and friends. Each ARISTA member has demonstrated the ability to plan and to execute. More than just the ability to lead a group of people, to be a leader is to be a listener. Leaders are empathetic and caring, and as our members enter communities both within and outside Stuyvesant, they treat everyone they meet with respect.<br />-Ayla Irshad ‘25
-				</blockquote>
-				<p class="font-bold">Scholarship</p>
-				<blockquote class="blockquote">
-					Our members here at ARISTA excel academically, constantly pushing themselves. But scholarship goes beyond simply academic achievement: at its core, it is about the love of learning—the desire to explore the world around us, to ask questions, to challenge assumptions. So many around the world lack the educational opportunities that are available to us here at Stuyvesant. Our members optimize the opportunities they receive and seek knowledge both in academic settings and beyond, while recognizing that many do not have access to this privilege. It is our hope that our students harness their knowledge to create meaningful change, as knowledge is a powerful tool for transformation, and we hope that they take this love of learning and this perpetual pursuit of excellence along with them even after they leave Stuyvesant and embark on their journeys in college and beyond.<br />-Tamiyyah Shafiq ‘25
-				</blockquote>
-				<p class="font-bold">Service</p>
-				<blockquote class="blockquote">
-					Service is about giving back to the communities that support us. It embodies the spirit of selflessness and the drive to make a positive difference. Our members embrace this pillar and engage in meaningful ways, both in Stuyvesant and the greater New York City community. By committing to service, we not only uplift those around us but also grow as individuals, cultivating the values of kindness and collaboration that will guide us throughout our lives.<br />-Alexa Chiang ‘25
-				</blockquote>
 			</section>
 		</svelte:fragment>
 	</AccordionItem>
@@ -73,7 +50,7 @@
 						<li>Within Stuyvesant, ARISTA members facilitate in-school events, such as open houses, Camp Stuy, the college fair, and more.</li>
 						<li>Our members volunteer at dozens of one-off events weekly around the city. If you are an organization and would like us to volunteer with you, please email aristaeventscommittee@gmail.com.
 							<ul class="list-inside ml-5">
-								<li>Some of our 2024 - 2025 service partners:
+								<li>Some of our 2025 - 2026 service partners:
 									<ul class="list-inside ml-5">
 										<li>9 Million Reasons</li>
 										<li>W72 Association</li>
@@ -85,8 +62,6 @@
 										<li>Community Church of New York</li>
 										<li>Ralph Ellison Memorial</li>
 										<li>MoMath</li>
-										<li>The Service Collective</li>
-										<li>Creighton's Cafe</li>
 										<li>Inform Your Community</li>
 										<li>DOROT</li>
 										<li>and more…</li>
@@ -154,7 +129,7 @@
 				<li>Create a tutoring request at <a class="anchor" href="/tutoring">stuyarista.org/tutoring</a>.</li>
 				<li>Please be as specific as possible when describing what you need help with and when you can meet (remember that you can also meet virtually on zoom, on the weekends, after school, however you’d like!)</li>
 				<li>You can submit as many different requests as you would like. Making the same request for the same topic multiple times will not increase the chance of it getting selected.</li>
-				<li>You will see your request under “Tutoring Requests.” Please check back every so often to see if someone has selected your request, which you will then see under “Active Sessions”. Your tutor should reach out to you soon after selecting your request; if they do not, please email Tamiyyah at <a href="mailto:stuyaristanycops@gmail.com" class="anchor">stuyaristanycops@gmail.com</a>.</li>
+				<li>You will see your request under “Tutoring Requests.” Please check back every so often to see if someone has selected your request, which you will then see under “Active Sessions”. Your tutor should reach out to you soon after selecting your request; if they do not, please email Veronika at <a href="mailto:stuyaristanycops@gmail.com" class="anchor">stuyaristanycops@gmail.com</a>.</li>
 				<li>You will soon be automatically emailed once someone pairs with you, but this feature is still under testing as this is a new website.</li>
 				<li>After your session, please “Finish Tutoring Session” on the website under “Active Sessions” by inputting the duration of the session, rounded to the nearest tenth of an hour. Keep an eye out for a new feature dropping soon where you will be able to rate your tutor! This helps us improve as an organization, so we appreciate your feedback.</li>
 				<li>If you found the tutor to be extremely engaging and helpful, talk to them and see if they are willing to work with you for a few more sessions (be a “recurring tutor”). If so, do not complete the session, and just finish the tutoring session towards the end of the semester with the total amount of time you were tutored for.</li>
@@ -220,7 +195,7 @@
 		</svelte:fragment>
 		<svelte:fragment slot="content">
 			<p>Both! Although sessions tend to be one-off, if you found the tutor to be extremely engaging and helpful, talk to them and see if they are willing to work with you for a few more sessions (be a “recurring tutor”). If so, do not complete the session, and just finish the tutoring session towards the end of the semester with the total amount of time you were tutored for.</p>
-			<p>If you are looking for a recurring tutor, email Tamiyyah at <a href="mailto:stuyaristanycops@gmail.com" class="anchor">stuyaristanycops@gmail.com</a> and she will see if she can pair you with someone long term.</p>
+			<p>If you are looking for a recurring tutor, email Veronika at <a href="mailto:stuyaristanycops@gmail.com" class="anchor">stuyaristanycops@gmail.com</a> and she will see if she can pair you with someone long term.</p>
 		</svelte:fragment>
 	</AccordionItem>
 	<AccordionItem>
@@ -280,7 +255,7 @@
 			<h3 class="h3">What do I do if I no longer need a tutoring session?</h3>
 		</svelte:fragment>
 		<svelte:fragment slot="content">
-			<p>If the session has not been selected, please email Tamiyyah at <a href="mailto:stuyaristanycops@gmail.com" class="anchor">stuyaristanycops@gmail.com</a> and she will delete the request for you. If someone has selected your request, please email the tutor and let them know you no longer need help (cc Tamiyyah at <a href="mailto:stuyaristanycops@gmail.com" class="anchor">stuyaristanycops@gmail.com</a>) and complete the session by inputting 0 as the duration of your session.</p>
+			<p>If the session has not been selected, please email Veronika at <a href="mailto:stuyaristanycops@gmail.com" class="anchor">stuyaristanycops@gmail.com</a> and she will delete the request for you. If someone has selected your request, please email the tutor and let them know you no longer need help (cc Veronika at <a href="mailto:stuyaristanycops@gmail.com" class="anchor">stuyaristanycops@gmail.com</a>) and complete the session by inputting 0 as the duration of your session.</p>
 		</svelte:fragment>
 	</AccordionItem>
 	<AccordionItem>
