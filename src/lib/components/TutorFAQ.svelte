@@ -88,10 +88,10 @@
 		<svelte:fragment slot="content">
 			<p>For any inquiries not addressed here, please refer to the following contacts:</p>
 			<ul class="mt-1 list-disc list-inside [&_ul]:list-[revert]">
-				<li>stuyaristanyc@gmail.com<br/>Ayla Irshad, President<br/>This is the main contact for anything ARISTA-related that doesn’t fit into the other categories. If you’re not sure who to email, start here.</li>
-				<li>stuyaristanycops@gmail.com<br/>Tamiyyah Shafiq, Vice President of Operations<br/>For questions about tutoring logistics, credit tracking, study guides, academic resources, PISTE, or anything related to how ARISTA runs behind the scenes. If you’re an ARISTA member with concerns about your credits, this is the place to ask.</li>
-				<li>stuyaristanycevents@gmail.com<br/>Alexa Chiang, Vice President of Events<br/>If you have questions about an ARISTA event, whether it's logistics, sign-ups, or a credit discrepancy, email here. If your question is about a specific event, it helps to reach out to the event leader directly.</li>
-				<li>stuyaristanycweb@gmail.com<br/>Lenny Metlitsky, Vice President of Web Development<br/>For any problems with the ARISTA website, suggestions for improvements, or updates that need to be made. If something looks off or isn't working, let us know.</li>
+				<li>stuyaristanyc@gmail.com<br/>Joanne Huang, President<br/>This is the main contact for anything ARISTA-related that doesn’t fit into the other categories. If you’re not sure who to email, start here.</li>
+				<li>stuyaristanycops@gmail.com<br/>Veronika Gulko, Vice President of Operations<br/>For questions about tutoring logistics, credit tracking, study guides, academic resources, PISTE, or anything related to how ARISTA runs behind the scenes. If you’re an ARISTA member with concerns about your credits, this is the place to ask.</li>
+				<li>stuyaristanycevents@gmail.com<br/>Elizabeth Chao, Vice President of Events<br/>If you have questions about an ARISTA event, whether it's logistics, sign-ups, or a credit discrepancy, email here. If your question is about a specific event, it helps to reach out to the event leader directly.</li>
+				<li>stuyaristanycweb@gmail.com<br/>Rohan Sen, Vice President of Web Development<br/>For any problems with the ARISTA website, suggestions for improvements, or updates that need to be made. If something looks off or isn't working, let us know.</li>
 			</ul>
 		</svelte:fragment>
 	</AccordionItem>
