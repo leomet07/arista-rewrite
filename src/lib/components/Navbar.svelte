@@ -39,22 +39,22 @@
 	}
 </script>
 
-<AppBar class="!pt-2 !pb-1 overflow-visible">
+<AppBar class="!pt-1 !pb-0.5 overflow-visible">
 	<svelte:fragment slot="lead">
 		<a href="/" class="py-2"><strong class="text-xl uppercase">ARISTA</strong></a>
 	</svelte:fragment>
 	<svelte:fragment slot="default">
 		<!-- Desktop Navigation -->
-		<div class="hidden md:flex items-center space-x-4 lg:space-x-6">
+		<div class="hidden md:flex items-center space-x-2 lg:space-x-3">
 			{#if $currentUser}
 				{#if $currentUser.is_tutee}
-					<a href="/tutoring" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">Tutoring</a>
+					<a href="/tutoring" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Tutoring</a>
 				{:else}
-					<a href="/events" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">Events</a>
-					<a href="/tutoring" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">Tutor</a>
+					<a href="/events" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Events</a>
+					<a href="/tutoring" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Tutor</a>
 				{/if}
 				{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
-					<a href="/admin" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">Admin</a>
+					<a href="/admin" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Admin</a>
 				{/if}
 			{/if}
 			
@@ -62,7 +62,7 @@
 			<div class="relative">
 				<button
 					on:click={toggleResourcesDropdown}
-					class="hover:text-primary-500 transition-colors flex items-center gap-1 py-2 font-medium h-10"
+					class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors flex items-center gap-1 py-2 px-2 rounded-md font-medium h-10"
 					aria-expanded={resourcesDropdownOpen}
 					aria-haspopup="true"
 				>
@@ -101,7 +101,7 @@
 			</div>
 			
 			{#if !$currentUser || ($currentUser && $currentUser.is_tutee)}
-				<a href="/apply" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">
+				<a href="/apply" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">
 					Apply <span class="hidden xl:inline">to ARISTA</span>
 				</a>
 			{/if}
@@ -109,12 +109,12 @@
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<!-- Desktop User Actions -->
-		<div class="hidden md:flex items-center space-x-4">
+		<div class="hidden md:flex items-center space-x-2">
 			{#if !$currentUser}
-				<a href="/register" class="hover:text-primary-500 transition-colors py-2 flex items-center h-10">Register</a>
-				<a href="/login" class="hover:text-primary-500 transition-colors py-2 flex items-center h-10">Login</a>
+				<a href="/register" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md flex items-center h-10">Register</a>
+				<a href="/login" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md flex items-center h-10">Login</a>
 			{:else}
-				<a href="/settings" class="py-2 flex items-center h-10">
+				<a href="/settings" class="hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md flex items-center h-10">
 					<Avatar initials={generateInitials($currentUser)} background="bg-primary-500" class="w-8" />
 				</a>
 			{/if}
@@ -181,7 +181,7 @@
 					{#if $currentUser.is_tutee}
 					<a
 							href="/tutoring"
-							class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+							class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 							on:click={closeMobileMenu}
 						>
 							Tutoring
@@ -189,14 +189,14 @@
 					{:else}
 					<a
 							href="/events"
-							class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+							class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 							on:click={closeMobileMenu}
 						>
 							Events
 						</a>
 						<a
 							href="/tutoring"
-							class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+							class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 							on:click={closeMobileMenu}
 						>
 							Tutor
@@ -205,7 +205,7 @@
 					{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
 					<a
 							href="/admin"
-							class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+							class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 							on:click={closeMobileMenu}
 						>
 							Admin
@@ -216,7 +216,7 @@
 				<div>
 					<button
 						on:click={toggleMobileResourcesDropdown}
-						class="w-full text-left py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors flex justify-between items-center font-medium"
+						class="w-full text-left py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors flex justify-between items-center font-medium"
 						aria-expanded={mobileResourcesDropdownOpen}
 					>
 						<span>Resources</span>
@@ -229,28 +229,28 @@
 						<div class="pl-3 mt-1 space-y-1">
 							<a
 								href="/studyguides"
-								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+								class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 								on:click={closeMobileMenu}
 							>
 								Study Guides
 							</a>
 							<a
 								href="/cramcentral"
-								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+								class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 								on:click={closeMobileMenu}
 							>
 								Cram Central
 							</a>
 							<a
 								href="/faq"
-								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+								class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 								on:click={closeMobileMenu}
 							>
 								FAQ
 							</a>
 							<a
 								href="/annual-report"
-								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+								class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 								on:click={closeMobileMenu}
 							>
 								Annual Report
@@ -261,7 +261,7 @@
 				{#if !$currentUser || ($currentUser && $currentUser.is_tutee)}
 				<a
 						href="/apply"
-						class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+						class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 						on:click={closeMobileMenu}
 					>
 						Apply to ARISTA
@@ -292,7 +292,7 @@
 			{:else}
 			<a
 					href="/settings"
-					class="flex items-center space-x-3 py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+					class="flex items-center space-x-3 py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
 					on:click={closeMobileMenu}
 				>
 					<Avatar initials={generateInitials($currentUser)} background="bg-primary-500" class="w-8" />
