@@ -110,9 +110,11 @@
 					<button type="submit" class="btn variant-outline-secondary">Leave event</button>
 				</form>
 			{:else}
+				{#if !data.event.signupStatus}
 				<form method="POST" action="?/event_sign_up" use:enhance>
 					<button type="submit" class="btn variant-filled-secondary">Sign up</button>
 				</form>
+					{/if}
 			{/if}
 		{/if}
 
