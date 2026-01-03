@@ -79,7 +79,7 @@
 				target="_blank" 
 				class="btn variant-filled-primary"
 			>
-				View Tutoring Tips & Tricks Guide (PDF)
+				View Guide (PDF)
 			</a>
 		</div>
 	{/if}
