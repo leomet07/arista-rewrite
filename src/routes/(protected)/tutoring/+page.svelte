@@ -294,7 +294,7 @@
 						<div class="relative card p-4">
 							<h3 class="h3">{tutoringRequest.class}</h3>
 							<span class="absolute top-2 right-2 border border-surface-400 dark:border-surface-600 text-sm font-semibold px-2 py-1 rounded-full bg-surface-100 dark:bg-surface-800">
-								{tutoringRequest.subject}
+								{subjectShortNames[tutoringRequest.subject] ?? tutoringRequest.subject}
 							</span>
 							<p class="font-bold">{tutoringRequest.topic}</p>
 							<p>{tutoringRequest.teacher}</p>
