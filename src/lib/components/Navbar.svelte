@@ -5,8 +5,8 @@
 	import { isOnCommittee } from "$lib/isOnCommittee";
 
 	let mobileMenuOpen = false;
-	let dropdownOpen = false;
-	let mobileDropdownOpen = false;
+	let resourcesDropdownOpen = false;
+	let mobileResourcesDropdownOpen = false;
 
 	function generateInitials(user: any | null) {
 		return !user?.name
@@ -25,12 +25,17 @@
 		mobileMenuOpen = false;
 	}
 
-	function toggleDropdown(){
-		dropdownOpen = !dropdownOpen;
+	function toggleResourcesDropdown(){
+		resourcesDropdownOpen = !resourcesDropdownOpen;
 	}
 
-	function toggleMobileDropdown() {
-		mobileDropdownOpen = !mobileDropdownOpen;
+	function toggleMobileResourcesDropdown() {
+		mobileResourcesDropdownOpen = !mobileResourcesDropdownOpen;
+	}
+
+	function closeDropdowns() {
+		resourcesDropdownOpen = false;
+		mobileResourcesDropdownOpen = false;
 	}
 </script>
 
@@ -40,65 +45,76 @@
 	</svelte:fragment>
 	<svelte:fragment slot="default">
 		<!-- Desktop Navigation -->
-		<div class="hidden md:flex items-center space-x-4">
+		<div class="hidden md:flex items-center space-x-4 lg:space-x-6">
 			{#if $currentUser}
 				{#if $currentUser.is_tutee}
-					<a href="/tutoring" class="hover:text-primary-500 transition-colors py-2">Tutoring</a>
+					<a href="/tutoring" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">Tutoring</a>
 				{:else}
-					<a href="/events" class="hover:text-primary-500 transition-colors py-2">Events</a>
-					<a href="/tutoring" class="hover:text-primary-500 transition-colors py-2">Tutor</a>
+					<a href="/events" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">Events</a>
+					<a href="/tutoring" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">Tutor</a>
 				{/if}
 				{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
-					<a href="/admin" class="hover:text-primary-500 transition-colors py-2">Admin</a>
+					<a href="/admin" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">Admin</a>
 				{/if}
 			{/if}
-			<a href="/studyguides" class="hover:text-primary-500 transition-colors py-2">
-				<span class="hidden lg:inline">Study </span>Guides
-			</a>
-			<a href="/cramcentral" class="hover:text-primary-500 transition-colors py-2">
-				Cram <span class="hidden lg:inline">Central</span>
-			</a>
-			<a href="/faq" class="hover:text-primary-500 transition-colors py-2">FAQ</a>
-			<a href="/annual-report" class="hover:text-primary-500 transition-colors py-2">
-				Annual <span class="hidden lg:inline">Report</span>
-			</a>
-			{#if !$currentUser || ($currentUser && $currentUser.is_tutee)}
-				<a href="/apply" class="hover:text-primary-500 transition-colors py-2">
-					Apply <span class="hidden lg:inline">to ARISTA</span>
-				</a>
-			{/if}
-			<!-- Desktop Dropdown that's not showing and idk why-->
+			
+			<!-- Resources Dropdown -->
 			<div class="relative">
 				<button
-					on:click={toggleDropdown}
-					class="hover:text-primary-500 transition-colors flex items-center gap-1 py-2"
+					on:click={toggleResourcesDropdown}
+					class="hover:text-primary-500 transition-colors flex items-center gap-1 py-2 font-medium h-10"
+					aria-expanded={resourcesDropdownOpen}
+					aria-haspopup="true"
 				>
-					Dropdown
+					Resources
+					<svg class="w-4 h-4 transition-transform duration-200 {resourcesDropdownOpen ? 'rotate-180' : ''}" 
+						 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+					</svg>
 				</button>
-				{#if dropdownOpen}
-					<div class="absolute left-0 bg-surface-100-800-token shadow-lg rounded-md border border-surface-300-600-token mt-2 py-2 min-w-[160px] z-50">
-						<a href="#" class="block px-4 py-2 hover:bg-surface-200-700-token transition-colors">
-							Option A
+				{#if resourcesDropdownOpen}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<!-- svelte-ignore a11y-no-static-element-interactions -->
+					<div 
+						class="fixed inset-0 z-40" 
+						on:click={closeDropdowns}
+					></div>
+					<div class="absolute left-0 top-full bg-surface-100-800-token shadow-lg rounded-lg border border-surface-300-600-token mt-1 py-2 min-w-[200px] z-50">
+						<a href="/studyguides" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
+							<div class="font-medium">Study Guides</div>
+							<div class="text-sm text-surface-600-300-token">Academic resources</div>
 						</a>
-						<a href="#" class="block px-4 py-2 hover:bg-surface-200-700-token transition-colors">
-							Option B
+						<a href="/cramcentral" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
+							<div class="font-medium">Cram Central</div>
+							<div class="text-sm text-surface-600-300-token">Test preparation</div>
 						</a>
-						<a href="#" class="block px-4 py-2 hover:bg-surface-200-700-token transition-colors">
-							Option C
+						<a href="/faq" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
+							<div class="font-medium">FAQ</div>
+							<div class="text-sm text-surface-600-300-token">Common questions</div>
+						</a>
+						<a href="/annual-report" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
+							<div class="font-medium">Annual Report</div>
+							<div class="text-sm text-surface-600-300-token">Yearly overview</div>
 						</a>
 					</div>
 				{/if}
 			</div>
+			
+			{#if !$currentUser || ($currentUser && $currentUser.is_tutee)}
+				<a href="/apply" class="hover:text-primary-500 transition-colors py-2 font-medium flex items-center h-10">
+					Apply <span class="hidden xl:inline">to ARISTA</span>
+				</a>
+			{/if}
 		</div>
 	</svelte:fragment>
 	<svelte:fragment slot="trail">
 		<!-- Desktop User Actions -->
 		<div class="hidden md:flex items-center space-x-4">
 			{#if !$currentUser}
-				<a href="/register" class="hover:text-primary-500 transition-colors py-2">Register</a>
-				<a href="/login" class="hover:text-primary-500 transition-colors py-2">Login</a>
+				<a href="/register" class="hover:text-primary-500 transition-colors py-2 flex items-center h-10">Register</a>
+				<a href="/login" class="hover:text-primary-500 transition-colors py-2 flex items-center h-10">Login</a>
 			{:else}
-				<a href="/settings" class="py-2">
+				<a href="/settings" class="py-2 flex items-center h-10">
 					<Avatar initials={generateInitials($currentUser)} background="bg-primary-500" class="w-8" />
 				</a>
 			{/if}
@@ -196,64 +212,48 @@
 						</a>
 					{/if}
 				{/if}
-				<a
-					href="/studyguides"
-					class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
-					on:click={closeMobileMenu}
-				>
-					Study Guides
-				</a>
-				<a
-					href="/cramcentral"
-					class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
-					on:click={closeMobileMenu}
-				>
-					Cram Central
-				</a>
-				<a
-					href="/faq"
-					class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
-					on:click={closeMobileMenu}
-				>
-					FAQ
-				</a>
-				<a
-					href="/annual-report"
-					class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
-					on:click={closeMobileMenu}
-				>
-					Annual Report
-				</a>
-				<!-- Mobile Dropdown-->
+				<!-- Mobile Resources Dropdown -->
 				<div>
 					<button
-						on:click={toggleMobileDropdown}
-						class="w-full text-left py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors flex justify-between items-center"
+						on:click={toggleMobileResourcesDropdown}
+						class="w-full text-left py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors flex justify-between items-center font-medium"
+						aria-expanded={mobileResourcesDropdownOpen}
 					>
-						<span>Dropdown</span>
+						<span>Resources</span>
+						<svg class="w-4 h-4 transition-transform duration-200 {mobileResourcesDropdownOpen ? 'rotate-180' : ''}" 
+							 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+						</svg>
 					</button>
-					{#if mobileDropdownOpen}
+					{#if mobileResourcesDropdownOpen}
 						<div class="pl-3 mt-1 space-y-1">
 							<a
-								href="/link1"
-								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors text-sm"
+								href="/studyguides"
+								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
 								on:click={closeMobileMenu}
 							>
-								Option A
+								Study Guides
 							</a>
 							<a
-								href="/link2"
-								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors text-sm"
+								href="/cramcentral"
+								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
 								on:click={closeMobileMenu}
 							>
-								Option B
+								Cram Central
 							</a>
 							<a
-								href="/link3"
-								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors text-sm"
+								href="/faq"
+								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
 								on:click={closeMobileMenu}
 							>
-								Option C
+								FAQ
+							</a>
+							<a
+								href="/annual-report"
+								class="block py-2.5 px-3 rounded-md hover:bg-surface-200-700-token transition-colors"
+								on:click={closeMobileMenu}
+							>
+								Annual Report
 							</a>
 						</div>
 					{/if}
