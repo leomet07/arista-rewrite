@@ -399,7 +399,7 @@
     "viewRule": "@request.auth.id != \"\" && (@request.auth.id = tutor.id || @request.auth.id = tutee.id)",
     "createRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false",
     "updateRule": null,
-    "deleteRule": null,
+    "deleteRule": "@request.auth.id != \"\" && (@request.auth.id = tutor.id || @request.auth.id = tutee.id)",
     "options": {}
   },
   {
