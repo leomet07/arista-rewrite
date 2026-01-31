@@ -81,6 +81,38 @@ export const actions: Actions = {
 
 		return { requestTutoringForm };
 	},
+	delete_tutoring_request: async ({ locals, url }) => {
+		if (!locals?.user?.id) {
+			error(401, "User not logged in.");
+		}
+
+		if (!locals?.user?.is_tutee) {
+			error(401, "Only tutees can delete tutoring requests.");
+		}
+
+		const tutoring_request_id = url.searchParams.get("id");
+		if (!tutoring_request_id) {
+			error(400, "A tutoring request ID must be passed in as a parameter to delete it.");
+		}
+
+		try {
+			const tutoringRequest = structuredClone(
+				(await locals.pb.collection("tutoringRequests").getOne(tutoring_request_id)) as unknown
+			) as RecievedTutoringRequest;
+
+			if (String(tutoringRequest.tutee) !== String(locals.user.id)) {
+				error(401, "Users can only delete their own tutoring requests.");
+			}
+
+			if (tutoringRequest.isClaimed) {
+				error(400, "This tutoring request has already been claimed.");
+			}
+
+			await locals.pb.collection("tutoringRequests").delete(tutoring_request_id);
+		} catch (error: unknown) {
+			console.error(error);
+		}
+	},
 	claim_tutoring_request: async ({ locals, request, params, url }) => {
 		console.log(request, params, url);
 		if (!locals?.user?.id) {
@@ -116,6 +148,47 @@ export const actions: Actions = {
 				.collection("tutoringRequests")
 				
 				.update(tutoring_request_id, { isClaimed: true });
+		} catch (error: unknown) {
+			console.error(error);
+		}
+	},
+	cancel_tutoring_session: async ({ locals, url }) => {
+		if (!locals?.user?.id) {
+			error(401, "User not logged in.");
+		}
+
+		const tutoring_session_id = url.searchParams.get("id");
+		if (!tutoring_session_id) {
+			error(400, "A tutoring session ID must be passed in as a parameter to cancel it.");
+		}
+
+		try {
+			const tutoringSession = structuredClone(
+				(await locals.pb.collection("tutoringSessions").getOne(tutoring_session_id)) as unknown
+			) as RecievedTutoringSession;
+
+			const isTutee = String(tutoringSession.tutee) === String(locals.user.id);
+			const isTutor = String(tutoringSession.tutor) === String(locals.user.id);
+
+			if (!isTutee && !isTutor) {
+				error(401, "Only the tutor or tutee can cancel this tutoring session.");
+			}
+
+			if (tutoringSession.isComplete) {
+				error(400, "Completed sessions cannot be cancelled.");
+			}
+
+			await locals.pb.collection("tutoringSessions").delete(tutoring_session_id);
+
+			if (tutoringSession.tutoringRequest) {
+				if (isTutor) {
+					await locals.pb
+						.collection("tutoringRequests")
+						.update(tutoringSession.tutoringRequest, { isClaimed: false });
+				} else {
+					await locals.pb.collection("tutoringRequests").delete(tutoringSession.tutoringRequest);
+				}
+			}
 		} catch (error: unknown) {
 			console.error(error);
 		}

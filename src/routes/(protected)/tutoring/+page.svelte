@@ -143,6 +143,14 @@
 								>
 							</form>
 						{/if}
+						<form
+							method="POST"
+							class="mt-2"
+							action={"?/cancel_tutoring_session&id=" + tutoringSession.id}
+							use:enhance
+						>
+							<button type="submit" class="btn variant-filled-error">Cancel Request</button>
+						</form>
 					</div>
 				{/each}
 			</div>
@@ -217,6 +225,14 @@
 							<p>{tutoringRequest.teacher}</p>
 							<p>{tutoringRequest.general_time}</p>
 							<p>Is Claimed? {tutoringRequest.isClaimed}</p>
+							<form
+								method="POST"
+								class="mt-2"
+								action={"?/delete_tutoring_request&id=" + tutoringRequest.id}
+								use:enhance
+							>
+								<button type="submit" class="btn variant-filled-error">Delete Request</button>
+							</form>
 						</div>
 					{/each}
 				</div>
