@@ -17,6 +17,8 @@
 	// Separate requests into priority (2+ days old) and recent
 	let priorityRequests: RecievedTutoringRequest[];
 	let recentRequests: RecievedTutoringRequest[];
+	let claimingIds = new Set<string>();
+	let cancelingSessionIds = new Set<string>();
 
 
 	$:{
@@ -64,6 +66,66 @@
 	"Music & Art & Health": "Music/Art/Health",
 	};
 
+	function setClaiming(id: string, isClaiming: boolean) {
+		const next = new Set(claimingIds);
+		if (isClaiming) {
+			next.add(id);
+		} else {
+			next.delete(id);
+		}
+		claimingIds = next;
+	}
+
+	function claimEnhance(id: string) {
+		return async ({ cancel }: { cancel: () => void }) => {
+			if (claimingIds.has(id)) {
+				cancel();
+				return;
+			}
+			setClaiming(id, true);
+			return async ({ result, update }: { result: { type: string }; update: () => Promise<void> }) => {
+				try {
+					await update();
+					if (result.type === "success") {
+						await invalidateAll();
+					}
+				} finally {
+					setClaiming(id, false);
+				}
+			};
+		};
+	}
+
+	function setCancelingSession(id: string, isCanceling: boolean) {
+		const next = new Set(cancelingSessionIds);
+		if (isCanceling) {
+			next.add(id);
+		} else {
+			next.delete(id);
+		}
+		cancelingSessionIds = next;
+	}
+
+	function cancelEnhance(id: string) {
+		return async ({ cancel }: { cancel: () => void }) => {
+			if (cancelingSessionIds.has(id)) {
+				cancel();
+				return;
+			}
+			setCancelingSession(id, true);
+			return async ({ result, update }: { result: { type: string }; update: () => Promise<void> }) => {
+				try {
+					await update();
+					if (result.type === "success") {
+						await invalidateAll();
+					}
+				} finally {
+					setCancelingSession(id, false);
+				}
+			};
+		};
+	}
+
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
@@ -97,7 +159,7 @@
 				</p>
 			{/if}
 			<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2 mt-4">
-				{#each data.tutoringSessions as tutoringSession}
+				{#each data.tutoringSessions as tutoringSession (tutoringSession.id)}
 					<div class="card p-4">
 						{#if $currentUser?.is_tutee}
 							<h3 class="h3">
@@ -147,9 +209,16 @@
 							method="POST"
 							class="mt-2"
 							action={"?/cancel_tutoring_session&id=" + tutoringSession.id}
-							use:enhance
+							use:enhance={cancelEnhance(tutoringSession.id)}
 						>
-							<button type="submit" class="btn variant-filled-error">Cancel Request</button>
+							<button
+								type="submit"
+								class="btn variant-filled-error"
+								disabled={cancelingSessionIds.has(tutoringSession.id)}
+								aria-busy={cancelingSessionIds.has(tutoringSession.id)}
+							>
+								{cancelingSessionIds.has(tutoringSession.id) ? "Canceling..." : "Cancel Request"}
+							</button>
 						</form>
 					</div>
 				{/each}
@@ -270,7 +339,7 @@
 				<h3 class="h3 text-warning-500">Priority Requests (2+ days old):</h3>
 				<p class="text-warning-700 dark:text-warning-300 mb-4">These requests need urgent attention!</p>
 				<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
-					{#each [...priorityRequests].reverse() as tutoringRequest}
+					{#each [...priorityRequests].reverse() as tutoringRequest (tutoringRequest.id)}
 						<div class="relative card p-4 variant-soft-warning">
 							<h3 class="h3">{tutoringRequest.class}</h3>
 							<span class="absolute top-2 right-2 border border-surface-400 dark:border-surface-600 text-sm font-semibold px-2 py-1 rounded-full bg-surface-100 dark:bg-surface-800">
@@ -285,9 +354,16 @@
 							<form
 								method="POST"
 								action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
-								use:enhance
+								use:enhance={claimEnhance(tutoringRequest.id)}
 							>
-								<button type="submit" class="mt-2 btn variant-filled-warning">Claim Priority Request</button>
+								<button
+									type="submit"
+									class="mt-2 btn variant-filled-warning"
+									disabled={claimingIds.has(tutoringRequest.id)}
+									aria-busy={claimingIds.has(tutoringRequest.id)}
+								>
+									{claimingIds.has(tutoringRequest.id) ? "Claiming..." : "Claim Priority Request"}
+								</button>
 							</form>
 						</div>
 					{/each}
@@ -306,7 +382,7 @@
 			{/if}
 			{#if recentRequests.length > 0}
 				<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2 mt-4">
-					{#each recentRequests as tutoringRequest}
+					{#each recentRequests as tutoringRequest (tutoringRequest.id)}
 						<div class="relative card p-4">
 							<h3 class="h3">{tutoringRequest.class}</h3>
 							<span class="absolute top-2 right-2 border border-surface-400 dark:border-surface-600 text-sm font-semibold px-2 py-1 rounded-full bg-surface-100 dark:bg-surface-800">
@@ -321,9 +397,16 @@
 							<form
 								method="POST"
 								action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
-								use:enhance
+								use:enhance={claimEnhance(tutoringRequest.id)}
 							>
-								<button type="submit" class="mt-2 btn variant-filled">Claim Request</button>
+								<button
+									type="submit"
+									class="mt-2 btn variant-filled"
+									disabled={claimingIds.has(tutoringRequest.id)}
+									aria-busy={claimingIds.has(tutoringRequest.id)}
+								>
+									{claimingIds.has(tutoringRequest.id) ? "Claiming..." : "Claim Request"}
+								</button>
 							</form>
 						</div>
 					{/each}
