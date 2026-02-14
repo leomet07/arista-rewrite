@@ -4,6 +4,7 @@
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";
 	import type { RecievedTutoringRequest } from "$lib/db_types";
+	import { isOnCommittee } from "$lib/isOnCommittee";
 	import { currentUser } from "$lib/pocketbase";
 	import type { PageData } from "./$types";
 	import { superForm } from "sveltekit-superforms";
@@ -17,7 +18,9 @@
 	// Separate requests into priority (2+ days old) and recent
 	let priorityRequests: RecievedTutoringRequest[];
 	let recentRequests: RecievedTutoringRequest[];
+	let canDeleteTutoringRequests = false;
 	let claimingIds = new Set<string>();
+	let deletingRequestIds = new Set<string>();
 	let cancelingSessionIds = new Set<string>();
 
 
@@ -36,6 +39,9 @@
 	
 		;
 	}
+
+	$: canDeleteTutoringRequests =
+		isOnCommittee($currentUser, "operations") || isOnCommittee($currentUser, "admin");
 
 	async function finishTutoringSession(event: Event) {
 		const formEl = event.target as HTMLFormElement;
@@ -121,6 +127,36 @@
 					}
 				} finally {
 					setCancelingSession(id, false);
+				}
+			};
+		};
+	}
+
+	function setDeletingRequest(id: string, isDeleting: boolean) {
+		const next = new Set(deletingRequestIds);
+		if (isDeleting) {
+			next.add(id);
+		} else {
+			next.delete(id);
+		}
+		deletingRequestIds = next;
+	}
+
+	function deleteRequestEnhance(id: string) {
+		return async ({ cancel }: { cancel: () => void }) => {
+			if (deletingRequestIds.has(id)) {
+				cancel();
+				return;
+			}
+			setDeletingRequest(id, true);
+			return async ({ result, update }: { result: { type: string }; update: () => Promise<void> }) => {
+				try {
+					await update();
+					if (result.type === "success") {
+						await invalidateAll();
+					}
+				} finally {
+					setDeletingRequest(id, false);
 				}
 			};
 		};
@@ -339,8 +375,8 @@
 				<h3 class="h3 text-warning-500">Priority Requests (2+ days old):</h3>
 				<p class="text-warning-700 dark:text-warning-300 mb-4">These requests need urgent attention!</p>
 				<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2">
-					{#each [...priorityRequests].reverse() as tutoringRequest (tutoringRequest.id)}
-						<div class="relative card p-4 variant-soft-warning">
+						{#each [...priorityRequests].reverse() as tutoringRequest (tutoringRequest.id)}
+							<div class="relative card p-4 variant-soft-warning flex flex-col">
 							<h3 class="h3">{tutoringRequest.class}</h3>
 							<span class="absolute top-2 right-2 border border-surface-400 dark:border-surface-600 text-sm font-semibold px-2 py-1 rounded-full bg-surface-100 dark:bg-surface-800">
 								{subjectShortNames[tutoringRequest.subject] ?? tutoringRequest.subject}
@@ -351,20 +387,57 @@
 							<p class="text-sm text-surface-600 dark:text-surface-400">
 								Requested: {new Date(tutoringRequest.created).toLocaleDateString()}
 							</p>
-							<form
-								method="POST"
-								action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
-								use:enhance={claimEnhance(tutoringRequest.id)}
-							>
-								<button
-									type="submit"
-									class="mt-2 btn variant-filled-warning"
-									disabled={claimingIds.has(tutoringRequest.id)}
-									aria-busy={claimingIds.has(tutoringRequest.id)}
-								>
-									{claimingIds.has(tutoringRequest.id) ? "Claiming..." : "Claim Priority Request"}
-								</button>
-							</form>
+								<div class="mt-auto pt-2 flex items-center justify-between gap-2">
+									<form
+										method="POST"
+										action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
+										use:enhance={claimEnhance(tutoringRequest.id)}
+									>
+										<button
+											type="submit"
+											class="btn variant-filled-warning"
+											disabled={claimingIds.has(tutoringRequest.id)}
+											aria-busy={claimingIds.has(tutoringRequest.id)}
+										>
+											{claimingIds.has(tutoringRequest.id) ? "Claiming..." : "Claim Priority Request"}
+										</button>
+									</form>
+									{#if canDeleteTutoringRequests}
+										<form
+											method="POST"
+											class="ml-auto"
+											action={"?/delete_tutoring_request&id=" + tutoringRequest.id}
+											use:enhance={deleteRequestEnhance(tutoringRequest.id)}
+										>
+											<button
+												type="submit"
+												class="btn variant-filled-error px-3 py-2 min-w-0"
+												aria-label="Delete Request"
+												title={deletingRequestIds.has(tutoringRequest.id) ? "Deleting Request..." : "Delete Request"}
+												disabled={deletingRequestIds.has(tutoringRequest.id)}
+												aria-busy={deletingRequestIds.has(tutoringRequest.id)}
+											>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-4 w-4"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													aria-hidden="true"
+												>
+													<path d="M3 6h18" />
+													<path d="M8 6V4h8v2" />
+													<path d="M19 6l-1 14H6L5 6" />
+													<path d="M10 11v6" />
+													<path d="M14 11v6" />
+												</svg>
+											</button>
+										</form>
+									{/if}
+								</div>
 						</div>
 					{/each}
 				</div>
@@ -382,8 +455,8 @@
 			{/if}
 			{#if recentRequests.length > 0}
 				<div class="grid gap-4 xl:grid-cols-3 md:grid-cols-2 mt-4">
-					{#each recentRequests as tutoringRequest (tutoringRequest.id)}
-						<div class="relative card p-4">
+						{#each recentRequests as tutoringRequest (tutoringRequest.id)}
+							<div class="relative card p-4 flex flex-col">
 							<h3 class="h3">{tutoringRequest.class}</h3>
 							<span class="absolute top-2 right-2 border border-surface-400 dark:border-surface-600 text-sm font-semibold px-2 py-1 rounded-full bg-surface-100 dark:bg-surface-800">
 								{tutoringRequest.subject}
@@ -394,20 +467,57 @@
 							<p class="text-sm text-surface-600 dark:text-surface-400">
 								Requested: {new Date(tutoringRequest.created).toLocaleDateString()}
 							</p>
-							<form
-								method="POST"
-								action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
-								use:enhance={claimEnhance(tutoringRequest.id)}
-							>
-								<button
-									type="submit"
-									class="mt-2 btn variant-filled"
-									disabled={claimingIds.has(tutoringRequest.id)}
-									aria-busy={claimingIds.has(tutoringRequest.id)}
-								>
-									{claimingIds.has(tutoringRequest.id) ? "Claiming..." : "Claim Request"}
-								</button>
-							</form>
+								<div class="mt-auto pt-2 flex items-center justify-between gap-2">
+									<form
+										method="POST"
+										action={"?/claim_tutoring_request&id=" + tutoringRequest.id}
+										use:enhance={claimEnhance(tutoringRequest.id)}
+									>
+										<button
+											type="submit"
+											class="btn variant-filled"
+											disabled={claimingIds.has(tutoringRequest.id)}
+											aria-busy={claimingIds.has(tutoringRequest.id)}
+										>
+											{claimingIds.has(tutoringRequest.id) ? "Claiming..." : "Claim Request"}
+										</button>
+									</form>
+									{#if canDeleteTutoringRequests}
+										<form
+											method="POST"
+											class="ml-auto"
+											action={"?/delete_tutoring_request&id=" + tutoringRequest.id}
+											use:enhance={deleteRequestEnhance(tutoringRequest.id)}
+										>
+											<button
+												type="submit"
+												class="btn variant-filled-error px-3 py-2 min-w-0"
+												aria-label="Delete Request"
+												title={deletingRequestIds.has(tutoringRequest.id) ? "Deleting Request..." : "Delete Request"}
+												disabled={deletingRequestIds.has(tutoringRequest.id)}
+												aria-busy={deletingRequestIds.has(tutoringRequest.id)}
+											>
+												<svg
+													xmlns="http://www.w3.org/2000/svg"
+													class="h-4 w-4"
+													viewBox="0 0 24 24"
+													fill="none"
+													stroke="currentColor"
+													stroke-width="2"
+													stroke-linecap="round"
+													stroke-linejoin="round"
+													aria-hidden="true"
+												>
+													<path d="M3 6h18" />
+													<path d="M8 6V4h8v2" />
+													<path d="M19 6l-1 14H6L5 6" />
+													<path d="M10 11v6" />
+													<path d="M14 11v6" />
+												</svg>
+											</button>
+										</form>
+									{/if}
+								</div>
 						</div>
 					{/each}
 				</div>

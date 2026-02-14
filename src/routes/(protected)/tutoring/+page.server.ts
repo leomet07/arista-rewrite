@@ -7,9 +7,11 @@ import {
 	type RecievedTutoringSession,
 	type ExpandedTutoringSession,
 	type RecievedPublicUserData,
+	type RecievedUser,
 	TutoringSessionSchema
 } from "$lib/db_types";
 import handleError from "$lib/handleError";
+import { isOnCommittee } from "$lib/isOnCommittee";
 import { z } from "zod";
 import { zod } from 'sveltekit-superforms/adapters';
 
@@ -18,6 +20,10 @@ let FinishTutoringSessionSchema = z.object({
 	durationInHours: z.string().refine(v => { let n = Number(v); return !isNaN(n) && v?.length > 0; }, { message: "Invalid number. Please enter something similar to: 1, 2, 3, etc." })
 });
 const claimLocks = new Set<string>();
+
+function canDeleteTutoringRequest(user: RecievedUser | undefined): boolean {
+	return isOnCommittee(user, "operations") || isOnCommittee(user, "admin");
+}
 
 export const load = async ({ locals, request }) => {
 	// Server API:
@@ -87,10 +93,6 @@ export const actions: Actions = {
 			error(401, "User not logged in.");
 		}
 
-		if (!locals?.user?.is_tutee) {
-			error(401, "Only tutees can delete tutoring requests.");
-		}
-
 		const tutoring_request_id = url.searchParams.get("id");
 		if (!tutoring_request_id) {
 			error(400, "A tutoring request ID must be passed in as a parameter to delete it.");
@@ -101,8 +103,13 @@ export const actions: Actions = {
 				(await locals.pb.collection("tutoringRequests").getOne(tutoring_request_id)) as unknown
 			) as RecievedTutoringRequest;
 
-			if (String(tutoringRequest.tutee) !== String(locals.user.id)) {
-				error(401, "Users can only delete their own tutoring requests.");
+			const user = locals.user as RecievedUser;
+			const isRequestOwner =
+				Boolean(user?.is_tutee) && String(tutoringRequest.tutee) === String(user.id);
+			const canCommitteeDelete = canDeleteTutoringRequest(user);
+
+			if (!isRequestOwner && !canCommitteeDelete) {
+				error(401, "Only the request owner, operations, or admin members can delete tutoring requests.");
 			}
 
 			if (tutoringRequest.isClaimed) {
