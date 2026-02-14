@@ -113,8 +113,8 @@
     "listRule": "@request.auth.id != \"\" ",
     "viewRule": "@request.auth.id != \"\" ",
     "createRule": "@request.auth.id != \"\" && @request.auth.is_tutee = true",
-    "updateRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false && @request.data.isClaimed:isset = true && @request.data.tutee:isset = false && @request.data.topic:isset = false && @request.data.class:isset = false && @request.data.subject.isset = false && @request.data.teacher:isset = false && @request.data.general_time:isset = false  && @request.data.id:isset = false ",
-    "deleteRule": "@request.auth.id != \"\" && @request.auth.id = tutee.id",
+    "updateRule": "@request.auth.id != \"\" && @request.auth.is_tutee = false && @request.data.isClaimed:isset = true && @request.data.tutee:isset = false && @request.data.topic:isset = false && @request.data.class:isset = false && @request.data.subject:isset = false && @request.data.teacher:isset = false && @request.data.general_time:isset = false  && @request.data.id:isset = false ",
+    "deleteRule": "@request.auth.id != \"\" && (@request.auth.id = tutee.id || @request.auth.committees ?~ \"operations\" || @request.auth.committees ?~ \"admin\")",
     "options": {}
   },
     {
