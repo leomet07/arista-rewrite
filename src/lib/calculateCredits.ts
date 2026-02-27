@@ -20,6 +20,7 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 	if (user.is_tutee) {
 		throw new Error("Cannot calculate required credits for a user who is not an ARISTA member.");
 	}
+
 	let creditMap: Record<RecievedCredit["type"], number> = {
 		event: 0,
 		tutoring: 0,
@@ -114,6 +115,14 @@ export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]
 		return "Error : Cannot calculate credits for an ARISTA member who isn't a current sophomore/junior/senior" as any as number;
 		// throw new Error("Cannot calculate credits for an ARISTA member who isn't a current sophomore/junior/senior");
 	}
+
+	const usesChoiceMode = user?.choice === true || user?.priority === true;
+	if (usesChoiceMode) {
+		const oldEvent = creditMap.event;
+		creditMap.event = creditMap.tutoring;
+		creditMap.tutoring = oldEvent;
+	}
+
 	return creditMap[type];
 }
 
