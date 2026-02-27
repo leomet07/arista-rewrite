@@ -15,6 +15,24 @@ const SettingsPageSchema = z
         message: "Passwords don't match",
         path: ["confirm"]
     });
+
+const ChoiceModeSchema = z.object({
+    choice: z.union([z.literal("true"), z.literal("false")])
+});
+
+function extractPbErrorMessage(error: unknown): string {
+    if (typeof error === "object" && error !== null) {
+        const maybeError = error as { response?: { message?: string; data?: unknown; }; message?: string; };
+        if (maybeError.response?.message) {
+            return maybeError.response.message;
+        }
+        if (typeof maybeError.message === "string" && maybeError.message.length > 0) {
+            return maybeError.message;
+        }
+    }
+    return "PocketBase update failed.";
+}
+
 export const load = async () => {
     // Server API:
     const form = await superValidate(zod(SettingsPageSchema));
@@ -46,6 +64,55 @@ export const actions: Actions = {
             return handleError(error, form);
         }
         return { form };
+    },
+    toggle_choice: async ({ locals, request }) => {
+        if (!locals?.user?.id) {
+            error(401, "User not logged in.");
+        }
+        if (locals.user.is_tutee) {
+            return fail(403, { choiceError: "Tutee accounts do not have credit requirements." });
+        }
+
+        const rawFormData = Object.fromEntries(await request.formData());
+        const parsed = ChoiceModeSchema.safeParse(rawFormData);
+        if (!parsed.success) {
+            return fail(400, { choiceError: "Invalid requirement mode value." });
+        }
+
+        const choiceValue = parsed.data.choice === "true";
+
+        const updatePayloads: Array<Record<string, boolean>> = [
+            // Keep both fields aligned when both exist.
+            { choice: choiceValue, priority: choiceValue },
+            { choice: choiceValue },
+            { priority: choiceValue }
+        ];
+        let didUpdate = false;
+        let updateError: unknown;
+        for (const payload of updatePayloads) {
+            try {
+                await locals.pb.collection("users").update(locals.user.id, payload);
+                didUpdate = true;
+                break;
+            } catch (err) {
+                updateError = err;
+            }
+        }
+        if (!didUpdate) {
+            return fail(400, {
+                choiceError: `Failed to update credit requirement mode. ${extractPbErrorMessage(updateError)}`
+            });
+        }
+
+        try {
+            await locals.pb.collection("users").authRefresh({ requestKey: null });
+        } catch (refreshError) {
+            return fail(400, {
+                choiceError: `Saved mode, but failed to refresh auth state. ${extractPbErrorMessage(refreshError)}`
+            });
+        }
+
+        return { choiceUpdated: true };
     },
     delete_account: async ({ locals, request }) => {
         const form = await superValidate(request, zod(SettingsPageSchema));

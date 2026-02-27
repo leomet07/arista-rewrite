@@ -1,13 +1,15 @@
 <script lang="ts">
 	import type { PageData } from "./$types";
 	import { goto, invalidateAll } from "$app/navigation";
+	import { page } from "$app/stores";
 	import { superForm } from "sveltekit-superforms";
+	import { get } from "svelte/store";
 	import { pb, currentUser } from "$lib/pocketbase";
+	import { calculateRequiredCredits } from "$lib/calculateCredits";
 	import { enhance, deserialize, applyAction } from "$app/forms";
 	import ErrorComponent from "$lib/components/ErrorComponent.svelte";
 	import InputField from "$lib/components/InputField.svelte";
-	import { type ModalSettings } from "@skeletonlabs/skeleton";
-	import { getModalStore } from "@skeletonlabs/skeleton";
+	import { type ModalSettings, getModalStore, SlideToggle } from "@skeletonlabs/skeleton";
 	import type { ActionResult } from "@sveltejs/kit";
 
 	const modalStore = getModalStore();
@@ -29,6 +31,41 @@
 	export let data: PageData;
 	const formObj = superForm(data.form);
 	const { form, errors, constraints } = formObj;
+
+	function resolveChoiceMode(user: { choice?: unknown; priority?: unknown } | null | undefined): boolean {
+		return user?.choice === true || user?.priority === true;
+	}
+
+	let choiceForm: HTMLFormElement | null = null;
+	let choiceMode = false;
+	let isChoiceSubmitting = false;
+	let currentChoiceUserId: string | null = null;
+	$: {
+		const user = $currentUser;
+		const userId = user?.id ?? null;
+		if (userId !== currentChoiceUserId) {
+			currentChoiceUserId = userId;
+			choiceMode = resolveChoiceMode(user);
+		}
+	}
+	$: choiceActionResult = ($page.form ?? {}) as {
+		choiceUpdated?: boolean;
+		choiceError?: string;
+	};
+
+	function syncChoiceModeFromStore() {
+		choiceMode = resolveChoiceMode(get(currentUser));
+	}
+
+	function submitChoiceForm() {
+		if (!choiceForm || isChoiceSubmitting) {
+			return;
+		}
+		isChoiceSubmitting = true;
+		setTimeout(() => {
+			choiceForm?.requestSubmit();
+		}, 0);
+	}
 
 	async function handleDeleteAccount(
 		event: SubmitEvent & { currentTarget: EventTarget & HTMLFormElement }
@@ -92,6 +129,57 @@
 				Note: If you ARE an ARISTA member but your account type
 				isn't, <span class="underline">do not delete your account, contact support.</span>
 			</p>
+				{/if}
+			{#if !$currentUser?.is_tutee}
+					<form
+						bind:this={choiceForm}
+						method="POST"
+						action="?/toggle_choice"
+					class="card p-4 my-4 space-y-3"
+					use:enhance={() => {
+						return async ({ result }) => {
+							try {
+								await applyAction(result);
+								pb.authStore.loadFromCookie(document.cookie);
+								await invalidateAll();
+								pb.authStore.loadFromCookie(document.cookie);
+								syncChoiceModeFromStore();
+							} finally {
+								isChoiceSubmitting = false;
+							}
+						};
+					}}
+					>
+						<h4 class="h4">Credit Requirement Mode</h4>
+						<p class="text-sm">
+							Swap tutoring and event requirements.
+						</p>
+					{#if choiceActionResult.choiceUpdated}
+						<p class="text-sm text-success-600 dark:text-success-500">Requirement mode saved.</p>
+					{/if}
+					{#if choiceActionResult.choiceError}
+						<p class="text-sm text-error-600 dark:text-error-500">{choiceActionResult.choiceError}</p>
+					{/if}
+					<input type="hidden" name="choice" value={choiceMode ? "true" : "false"} />
+						<SlideToggle
+							name="choiceModeToggle"
+							bind:checked={choiceMode}
+							active="bg-primary-500 dark:bg-primary-500"
+							on:click={submitChoiceForm}
+						>
+							{choiceMode ? "More Tutoring Required" : "More Events Required"}
+						</SlideToggle>
+					<p class="text-xs opacity-80">
+						Standard: {calculateRequiredCredits({ ...$currentUser, choice: false, priority: false }, "event")} event /
+						{calculateRequiredCredits({ ...$currentUser, choice: false, priority: false }, "tutoring")} tutoring /
+						{calculateRequiredCredits({ ...$currentUser, choice: false, priority: false }, "other")} other
+					</p>
+					<p class="text-xs opacity-80">
+						Alternative: {calculateRequiredCredits({ ...$currentUser, choice: true, priority: true }, "event")} event /
+						{calculateRequiredCredits({ ...$currentUser, choice: true, priority: true }, "tutoring")} tutoring /
+						{calculateRequiredCredits({ ...$currentUser, choice: true, priority: true }, "other")} other
+					</p>
+					</form>
 				{/if}
 			<form method="POST" on:submit|preventDefault={handleDeleteAccount} action="?/delete_account">
 				<button type="submit" class="btn variant-filled-error">Delete My Account</button>
