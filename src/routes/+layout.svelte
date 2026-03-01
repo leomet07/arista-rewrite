@@ -5,6 +5,7 @@
 	import { AppShell, Modal } from "@skeletonlabs/skeleton";
 	import { initializeStores } from "@skeletonlabs/skeleton";
 	import { navigating } from "$app/stores";
+	import Footer from "$lib/components/Footer.svelte";
 
 	initializeStores();
 </script>
@@ -29,4 +30,7 @@
 	</svelte:fragment>
 	<!-- Page Route Content -->
 	<slot />
+	<svelte:fragment slot="footer">
+		<Footer />
+	</svelte:fragment>
 </AppShell>
