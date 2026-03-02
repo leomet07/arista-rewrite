@@ -63,8 +63,17 @@
 			id: event.id,
 			title: event.signupStatus ? "[Sign-Ups Closed] " + event.name + " (" + event.signed_up.length + "/" + event.intendedVolunteers + " Volunteers)"  : event.name + " (" + event.signed_up.length + "/" + event.intendedVolunteers + " Volunteers)",
 			start: event.start_time,
-			end: event.end_time
-		};
+			end: event.end_time,
+			backgroundColor: 
+				event.place === "In Stuy" ? "#A78BFA" :
+  				event.place === "Queens" ? "#60A5FA" :
+				event.place === "Manhattan" ? "#34D399" :
+				event.place === "Brooklyn" ? "#F472B6" :
+				event.place === "Bronx" ? "#FBBF24" :
+				event.place === "Staten Island" ? "#F87171" :
+				event.place === "Other" ? "#9CA3AF" :
+  				"#CBD5E1"
+};
 	}
 </script>
 
