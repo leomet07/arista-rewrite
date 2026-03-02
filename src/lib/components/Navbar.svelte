@@ -85,6 +85,10 @@
 							<div class="font-medium">Study Guides</div>
 							<div class="text-sm text-surface-600-300-token">Academic resources</div>
 						</a>
+						<a href="/freshman-resources" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
+							<div class="font-medium">Freshman Resources</div>
+							<div class="text-sm text-surface-600-300-token">Guides for new students</div>
+						</a>
 						<a href="/cramcentral" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
 							<div class="font-medium">Cram Central</div>
 							<div class="text-sm text-surface-600-300-token">Test preparation</div>
@@ -235,6 +239,14 @@
 					</button>
 					{#if mobileResourcesDropdownOpen}
 						<div class="pl-3 mt-1 space-y-1">
+							<a
+								href="/freshman-resources"
+								class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
+								on:click={closeMobileMenu}
+							>
+								Freshman Resources
+							</a>
+
 							<a
 								href="/studyguides"
 								class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
