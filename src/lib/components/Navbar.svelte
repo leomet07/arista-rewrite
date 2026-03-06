@@ -52,6 +52,7 @@
 				{:else}
 					<a href="/events" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Events</a>
 					<a href="/tutoring" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Tutor</a>
+					<a href="/leaderboard" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Leaderboard</a>
 				{/if}
 				{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
 					<a href="/admin" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Admin</a>
@@ -200,6 +201,13 @@
 							on:click={closeMobileMenu}
 						>
 							Tutor
+						</a>
+						<a
+							href="/leaderboard"
+							class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
+							on:click={closeMobileMenu}
+						>
+							Leaderboard
 						</a>
 					{/if}
 					{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
