@@ -52,6 +52,7 @@
 				{:else}
 					<a href="/events" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Events</a>
 					<a href="/tutoring" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Tutor</a>
+					<a href="/leaderboard" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Leaderboard</a>
 				{/if}
 				{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
 					<a href="/admin" class="hover:text-primary-500 hover:bg-surface-200-700-token transition-colors py-2 px-2 rounded-md font-medium flex items-center h-10">Admin</a>
@@ -83,6 +84,10 @@
 						<a href="/studyguides" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
 							<div class="font-medium">Study Guides</div>
 							<div class="text-sm text-surface-600-300-token">Academic resources</div>
+						</a>
+						<a href="/freshman-resources" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
+							<div class="font-medium">Freshman Resources</div>
+							<div class="text-sm text-surface-600-300-token">Guides for new students</div>
 						</a>
 						<a href="/cramcentral" class="block px-4 py-3 hover:bg-surface-200-700-token transition-colors" on:click={closeDropdowns}>
 							<div class="font-medium">Cram Central</div>
@@ -201,6 +206,13 @@
 						>
 							Tutor
 						</a>
+						<a
+							href="/leaderboard"
+							class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
+							on:click={closeMobileMenu}
+						>
+							Leaderboard
+						</a>
 					{/if}
 					{#if isOnCommittee($currentUser, "admin") || isOnCommittee($currentUser, "operations")}
 					<a
@@ -227,6 +239,14 @@
 					</button>
 					{#if mobileResourcesDropdownOpen}
 						<div class="pl-3 mt-1 space-y-1">
+							<a
+								href="/freshman-resources"
+								class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
+								on:click={closeMobileMenu}
+							>
+								Freshman Resources
+							</a>
+
 							<a
 								href="/studyguides"
 								class="block py-2.5 px-2 rounded-md hover:bg-surface-200-700-token transition-colors"
