@@ -21,7 +21,17 @@
 
 <main class="container mx-auto py-8 px-2 space-y-8">
 	<h1 class="h1">Events General Calendar</h1>
-
+	<div class="card p-4 bg-primary-50-900-token">
+			<h3 class="h3 mb-2">Tutoring Tips & Instructions</h3>
+			<p class="mb-3">Don't know where to start? View our official events directory for more information.</p>
+			<a 
+				href="https://www.canva.com/design/DAG9Fz8WyO4/Wj8azYS_ufU2iJyHW_LALQ/view?utm_content=DAG9Fz8WyO4&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h8ec6258fd7" 
+				target="_blank" 
+				class="btn variant-filled-primary"
+			>
+				View Guide (Canva)
+			</a>
+		</div>
 	<EventsCalendar events={data.events} />
 
 	<section class="pb-16">
