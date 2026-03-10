@@ -21,7 +21,6 @@
 
 <main class="container mx-auto py-8 px-2 space-y-8">
 	<h1 class="h1">Events General Calendar</h1>
-	
 
 	<EventsCalendar events={data.events} />
 
