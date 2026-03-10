@@ -114,6 +114,23 @@
 		</select>
 	</div>
 
+	<div class="flex flex-wrap gap-x-4 gap-y-1 text-xs items-center">
+		{#each [
+			{ place: "In Stuy", color: "#A78BFA" },
+			{ place: "Queens", color: "#60A5FA" },
+			{ place: "Manhattan", color: "#34D399" },
+			{ place: "Brooklyn", color: "#F472B6" },
+			{ place: "Bronx", color: "#FBBF24" },
+			{ place: "Staten Island", color: "#F87171" },
+			{ place: "Other", color: "#9CA3AF" },
+		] as { place, color }}
+			<div class="flex items-center gap-1">
+				<span class="inline-block w-3 h-3 rounded-full" style="background-color: {color}"></span>
+				<span>{place}</span>
+			</div>
+		{/each}
+	</div>
+
 </div>
 
 <div class={!$modeCurrent ? "ec-dark" : ""}>
