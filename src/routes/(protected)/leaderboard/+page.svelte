@@ -1,70 +1,78 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	
-	interface LeaderboardEntry {
-		rank: number;
-		name: string;
-		hours: number;
-	}
+    import { calculateCreditsByDate } from "$lib/calculateCredits";
+    import type { RecievedUser, RecievedCredit } from "$lib/db_types";
 
-	let leaderboard: LeaderboardEntry[] = [];
-	let loading = true;
-	let error = '';
+    export let data: { users: RecievedUser[]; allCredits: RecievedCredit[] };
 
-	onMount(async () => {
-		try {
-			const response = await fetch('/api/leaderboard');
-			if (response.ok) {
-				leaderboard = await response.json();
-			} else {
-				error = 'Failed to load leaderboard';
-			}
-		} catch (e) {
-			error = 'Error loading leaderboard';
-			console.error(e);
-		} finally {
-			loading = false;
-		}
-	});
+    const SEMESTER_START = new Date("2026-02-01T00:00:00");
+
+    let creditType: "event" | "tutoring" = "tutoring";
+
+    $: leaderboard = data.users
+        .map((user) => {
+            const userCredits = data.allCredits.filter((c) => c.user === user.id);
+            
+            const total = calculateCreditsByDate(userCredits, creditType, SEMESTER_START);
+
+            return {
+                name: user.name,
+                value: total
+            };
+        })
+        .filter((entry) => entry.value > 0)
+        .sort((a, b) => b.value - a.value);
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
-	<div class="text-center space-y-2">
-		<h1 class="h1 text-primary-500">Top Tutors This Semester</h1>
-	</div>
+    <div class="text-center space-y-4">
+        <div class="space-y-1">
+            <h1 class="h1 text-primary-500">
+                {creditType === 'tutoring' ? 'Top Tutors' : 'Top Volunteers'}
+            </h1>
+            <p class="text-sm opacity-50 uppercase tracking-widest">Since Feb 2026</p>
+        </div>
 
-	{#if loading}
-		<div class="card p-8 text-center max-w-3xl mx-auto">
-			<div class="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-			<p class="text-lg">Loading leaderboard...</p>
-		</div>
-	{:else if error}
-		<div class="card p-8 variant-filled-error max-w-3xl mx-auto">
-			<p class="text-lg">{error}</p>
-		</div>
-	{:else if leaderboard.length === 0}
-		<div class="card p-8 text-center max-w-3xl mx-auto">
-			<p class="text-lg text-surface-600 dark:text-surface-400">
-				No tutoring data yet this semester. Be the first to tutor!
-			</p>
-		</div>
-	{:else}
-		<div class="max-w-3xl mx-auto space-y-3">
-			{#each leaderboard as entry}
-				<div class="card p-4 flex items-center justify-between hover:variant-soft-primary transition-all">
-					<div class="flex items-center gap-4">
-						<span class="text-primary-500 font-bold text-lg">#{entry.rank}</span>
-						<span class="text-lg">{entry.name}</span>
-					</div>
-					<span class="text-primary-500 font-semibold text-lg">{entry.hours}h</span>
-				</div>
-			{/each}
-		</div>
-	{/if}
+        <div class="radio-group p-1 bg-surface-200-700-token inline-flex rounded-container-token">
+            <button
+                class="btn btn-sm {creditType === 'tutoring' ? 'variant-filled-primary' : 'hover:variant-soft'}"
+                on:click={() => creditType = 'tutoring'}
+            >
+                Tutors
+            </button>
+            <button
+                class="btn btn-sm {creditType === 'event' ? 'variant-filled-primary' : 'hover:variant-soft'}"
+                on:click={() => creditType = 'event'}
+            >
+                Volunteers
+            </button>
+        </div>
+    </div>
+
+    {#if leaderboard.length === 0}
+        <div class="card p-8 text-center max-w-3xl mx-auto">
+            <p class="text-lg text-surface-600 dark:text-surface-400">
+                No data recorded for this semester yet.
+            </p>
+        </div>
+    {:else}
+        <div class="max-w-3xl mx-auto space-y-3">
+            {#each leaderboard as entry, i}
+                <div class="card p-4 flex items-center justify-between hover:variant-soft-primary transition-all">
+                    <div class="flex items-center gap-4">
+                        <span class="text-primary-500 font-bold text-lg w-8">#{i + 1}</span>
+                        <span class="text-lg">{entry.name}</span>
+                    </div>
+                    <span class="text-primary-500 font-semibold text-lg">
+                        {entry.value}{creditType === 'tutoring' ? ' hours tutored' : ' hours volunteered'}
+                    </span>
+                </div>
+            {/each}
+        </div>
+    {/if}
 </main>
 
 <style>
-	.card:hover {
-		transform: translateY(-2px);
-	}
+    .card:hover {
+        transform: translateY(-2px);
+    }
 </style>

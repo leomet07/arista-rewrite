@@ -16,6 +16,21 @@ export function calculateCredits(
 	return total;
 }
 
+export function calculateCreditsByDate(
+    credits: RecievedCredit[] | ExpandedCredit[] | undefined,
+    type: RecievedCredit["type"],
+    sinceDate: Date 
+): number {
+    if (!credits) return 0;
+
+    return credits
+        .filter(c => {
+            const createdDate = new Date(c.created);
+            return c.type === type && createdDate >= sinceDate;
+        })
+        .reduce((sum, c) => sum + c.credits, 0);
+}
+
 export function calculateRequiredCredits(user: any, type: RecievedCredit["type"]): number {
 	if (user.is_tutee) {
 		throw new Error("Cannot calculate required credits for a user who is not an ARISTA member.");
