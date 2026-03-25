@@ -20,7 +20,8 @@
             };
         })
         .filter((entry) => entry.value > 0)
-        .sort((a, b) => b.value - a.value);
+        .sort((a, b) => b.value - a.value)
+		.slice(0, 20); // Show top 20
 </script>
 
 <main class="container mx-auto p-8 space-y-8">
