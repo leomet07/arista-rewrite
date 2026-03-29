@@ -69,7 +69,7 @@
 <main class="container mx-auto p-8 space-y-8">
 	<hgroup>
 		<h1 class="h1">Apply to ARISTA</h1>
-		<p>Welcome to the ARISTA application. Applications are due Monday, May 5th at 11:59PM EST.</p>
+		<p>Welcome to the ARISTA application. Applications are due Wednesday, April 8th at 11:59PM EST.</p>
 	</hgroup>
 
 	<ErrorComponent errors={$errors} />
@@ -96,9 +96,6 @@
 					only maximums, not minimums.
 				</p>
 			</hgroup>
-			<div class="mb-4">
-				<ECSelector />
-			</div>
 			<form
 				bind:this={formEl}
 				method="POST"
@@ -107,47 +104,24 @@
 				use:enhance
 			>
 				<TextArea form={formObj} field="q1" placeholder="">
-					<p>Why do you want to be a member of ARISTA?</p>
+					<p>Identify the 3 most impactful ECs and your weekly commitment to them.</p>
 				</TextArea>
 
 				<div>
-					<h4 class="h4">
-						For question 2, please choose <span class="underline">ONE</span> prompt to answer. Indicate
-						which prompt you are answering at the start of your response.
-					</h4>
 					<TextArea form={formObj} field="q2" placeholder="">
 						<p>
-							a) Describe a way that you are involved in your community (your neighborhood, NYC,
-							Stuyvesant, etc.) that has been meaningful to you. What did you learn from the
-							experience?
-						</p>
-						<span class="font-bold">OR</span>
-						<p>
-							b) If you have not previously been engaged in your community, what impact would you
-							like to have in the future? And how do you hope ARISTA will help those endeavors?
+							What is a social issue you care deeply about? How have you been impacted and engaged with it? (250 words maximum)
 						</p>
 					</TextArea>
 				</div>
 
 				<div>
-					<h4 class="h4">
-						For question 3, please choose <span class="underline">ONE</span> prompt to answer. Indicate
-						which prompt you are answering at the start of your response.
-					</h4>
 					<TextArea form={formObj} field="q3" placeholder="">
 						<p>
-							a) Choose a quote that resonates with you. Explain how it demonstrates your values,
-							beliefs, or experiences in the world. Feel free to explore your creativity in
-							answering this.
-						</p>
-						<span class="font-bold">OR</span>
-						<p>
-							b) Describe a significant challenge you’ve faced. How did you handle it, and what did
-							you learn from the experience?
+							The four pillars of ARISTA are: scholarship, leadership, service,and  character. In 25 words or less, identify a moment in your life where you have each pillar. (100 words maximum)
 						</p>
 					</TextArea>
 				</div>
-
 				<input type="submit" class="btn variant-filled" value="Save Application" />
 			</form>
 			<form class="mt-4" method="POST" on:submit|preventDefault={handleSubmitApplication}>
